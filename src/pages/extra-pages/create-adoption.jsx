@@ -3,7 +3,7 @@ import { Card, Form, Input, InputNumber, Button, Upload, message, Typography } f
 import { PlusOutlined } from '@ant-design/icons';
 import HomeHeader from 'menu-items/header';
 import axios from 'axios';
-import API_CONFIG from '../../config/api';
+import { API_CONFIG } from '../../config/api';
 
 const { Title } = Typography;
 const { TextArea } = Input;
