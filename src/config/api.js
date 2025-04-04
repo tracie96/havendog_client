@@ -18,4 +18,22 @@ const API_CONFIG = {
   }
 };
 
-export default API_CONFIG;
+// Add error handling for API calls
+const handleApiError = (error) => {
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    console.error('API Error:', error.response.data);
+    return error.response.data;
+  } else if (error.request) {
+    // The request was made but no response was received
+    console.error('Network Error:', error.request);
+    return { message: 'Network error. Please check your connection.' };
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.error('Error:', error.message);
+    return { message: 'An unexpected error occurred.' };
+  }
+};
+
+export { API_CONFIG, handleApiError };

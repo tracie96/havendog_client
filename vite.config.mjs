@@ -36,5 +36,18 @@ export default defineConfig({
     open: true,
     // this sets a default port to 3000
     port: 3001
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          antd: ['antd', '@ant-design/icons']
+        }
+      }
+    }
   }
 });
