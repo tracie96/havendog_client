@@ -147,7 +147,7 @@ const Register = () => {
             <Form.Item name="userType" label="User Type" rules={[{ required: true, message: 'Please select your user type!' }]}>
               <Select size="large">
                 <Option value="petOwner">Pet Owner</Option>
-                <Option value="veterinarian">Veterinarian</Option>
+                <Option value="veterinarian" disabled={true}>Veterinarian - Coming Soon</Option>
               </Select>
             </Form.Item>
           </Col>
