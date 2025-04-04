@@ -76,9 +76,9 @@ function HomeHeader() {
                           Up For Adoption <i className="ti-angle-down"></i>
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link to="/create-adoption">Create Adoption Listing</Link>
-                      </li>
+                      </li> */}
 
                       <li>
                         <Link to="/contact">Contact</Link>
