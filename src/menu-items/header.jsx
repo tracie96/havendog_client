@@ -47,7 +47,7 @@ function HomeHeader() {
               <div className="col-xl-3 col-lg-3">
                 <div className="logo">
                   <Link to="/">
-                    <img src={LogoImage} alt="Logo" width={150} />
+                    <img src={"https://res.cloudinary.com/tracysoft/image/upload/v1743752991/logo_fbifdp.svg"} alt="Logo" width={150} />
                   </Link>
                 </div>
               </div>
