@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Typography, Button, Form, Input, message, Space } from 'antd';
 import axios from 'axios';
+import { API_CONFIG } from '../../config/api';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
 
@@ -17,7 +18,7 @@ const PetDetails = () => {
   useEffect(() => {
     const fetchPet = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/adoptions/${id}`);
+        const response = await axios.get(`${API_CONFIG.baseURL}/adoptions/${id}`);
         setPet(response.data);
       } catch (error) {
         console.error('Error fetching pet:', error);
@@ -32,7 +33,7 @@ const PetDetails = () => {
 
   const handleSubmit = async (values) => {
     try {
-      await axios.post('http://localhost:5000/api/interests', {
+      await axios.post(`${API_CONFIG.baseURL}/interests`, {
         petId: id,
         interestedUser: {
           name: values.name,

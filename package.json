@@ -11,6 +11,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "netlify-build": "yarn install && yarn add -D terser && yarn build",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
@@ -108,6 +109,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.2.5",
     "react-error-overlay": "6.0.11",
+    "terser": "^5.39.0",
     "vite-plugin-compression2": "^1.3.3"
   }
 }

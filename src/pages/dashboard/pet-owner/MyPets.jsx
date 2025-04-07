@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, List, Avatar, Button, Modal, Form, Input, Select, DatePicker, message } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_CONFIG } from '../../../config/api';
 
 const { Option } = Select;
 
@@ -20,7 +21,7 @@ const MyPets = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token'); // Assuming you store the JWT token in localStorage
-      const response = await axios.get('http://localhost:5000/api/auth/pets', {
+      const response = await axios.get(`${API_CONFIG.baseURL}/auth/pets`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -58,7 +59,7 @@ const MyPets = () => {
   const handleDeletePet = async (petId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/auth/pets/${petId}`, {
+      await axios.delete(`${API_CONFIG.baseURL}/auth/pets/${petId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -75,14 +76,14 @@ const MyPets = () => {
     try {
       const token = localStorage.getItem('token');
       if (editingPet) {
-        await axios.put(`http://localhost:5000/api/auth/pets/${editingPet._id}`, values, {
+        await axios.put(`${API_CONFIG.baseURL}/auth/pets/${editingPet._id}`, values, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         message.success('Pet updated successfully');
       } else {
-        await axios.post('http://localhost:5000/api/auth/pets', values, {
+        await axios.post(`${API_CONFIG.baseURL}/auth/pets`, values, {
           headers: {
             Authorization: `Bearer ${token}`
           }

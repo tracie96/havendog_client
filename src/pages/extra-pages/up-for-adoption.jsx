@@ -5,6 +5,7 @@ import axios from 'axios';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
 import { useNavigate } from 'react-router-dom';
+import { API_CONFIG } from '../../config/api';
 
 const { Title, Text } = Typography;
 
@@ -16,7 +17,7 @@ const UpForAdoption = () => {
   useEffect(() => {
     const fetchPets = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/adoptions');
+        const response = await axios.get(`${API_CONFIG.baseURL}/adoptions`);
         if (response.data && Array.isArray(response.data)) {
           setPets(response.data);
         }

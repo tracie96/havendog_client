@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Select, Button, Upload, message, DatePicker } from 'antd';
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { API_CONFIG } from '../../../config/api';
 
 const { Option } = Select;
 
@@ -60,7 +61,7 @@ const AddPet = () => {
         specialNeeds: []
       };
 
-      const response = await fetch('http://localhost:5000/api/auth/pets', {
+      const response = await fetch(`${API_CONFIG.baseURL}/auth/pets`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

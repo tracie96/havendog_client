@@ -3,6 +3,7 @@ import { Card, Form, Input, InputNumber, Button, Upload, message, Typography } f
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import HomeHeader from 'menu-items/header';
 import axios from 'axios';
+import { API_CONFIG } from '../../config/api';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -18,7 +19,7 @@ const CreateAdoption = () => {
       const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
 
       const response = await axios.post(
-        'http://localhost:5000/api/adoptions',
+        `${API_CONFIG.baseURL}/adoptions`,
         {
           ...values,
           imageUrl: imageUrl || values.imageUrl
@@ -44,7 +45,7 @@ const CreateAdoption = () => {
 
   const uploadProps = {
     name: 'file',
-    action: 'http://localhost:5000/api/upload', // Replace with your actual upload endpoint
+    action: `${API_CONFIG.baseURL}/upload`,
     headers: {
       authorization: `Bearer ${localStorage.getItem('token')}`
     },
