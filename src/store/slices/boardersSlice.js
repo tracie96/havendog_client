@@ -1,11 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_CONFIG } from '../../config/api';
+import { API_CONFIG, handleApiError, createApiHelper } from '../../config/api';
 
 // Create axios instance with base URL
 const api = axios.create({
-  baseURL: API_CONFIG.baseURL
+  baseURL: API_CONFIG.baseURL,
+  timeout: API_CONFIG.timeout
 });
+
+// Create API helper with retry functionality
+const apiHelper = createApiHelper(api);
 
 // Set token in axios headers
 const setAuthToken = (token) => {
@@ -25,48 +29,74 @@ if (token) {
 // Async thunks for boarder operations
 export const fetchBoarders = createAsyncThunk('boarders/fetchBoarders', async ({ searchTerm = '', petType = '', sortBy = '' }, { rejectWithValue }) => {
   try {
-    const response = await api.get(API_CONFIG.endpoints.boarders, {
+    const config = {
+      method: 'get',
+      url: API_CONFIG.endpoints.boarders,
       params: { search: searchTerm, petType, sort: sortBy }
-    });
+    };
+    
+    const response = await apiHelper.retryRequest(config);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data || { message: 'Failed to fetch pet boarders' });
+    return rejectWithValue(handleApiError(error));
   }
 });
 
 export const fetchBoardingRequests = createAsyncThunk('boarders/fetchBoardingRequests', async (_, { rejectWithValue }) => {
   try {
-    const response = await api.get(`${API_CONFIG.endpoints.boarders}/requests`);
+    const config = {
+      method: 'get',
+      url: `${API_CONFIG.endpoints.boarders}/requests`
+    };
+    
+    const response = await apiHelper.retryRequest(config);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data || { message: 'Failed to fetch boarding requests' });
+    return rejectWithValue(handleApiError(error));
   }
 });
 
 export const updateBoardingRequest = createAsyncThunk('boarders/updateBoardingRequest', async ({ requestId, status }, { rejectWithValue }) => {
   try {
-    const response = await api.put(`${API_CONFIG.endpoints.boarders}/requests/${requestId}`, { status });
+    const config = {
+      method: 'put',
+      url: `${API_CONFIG.endpoints.boarders}/requests/${requestId}`,
+      data: { status }
+    };
+    
+    const response = await apiHelper.retryRequest(config);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data || { message: 'Failed to update boarding request' });
+    return rejectWithValue(handleApiError(error));
   }
 });
 
 export const bookBoarding = createAsyncThunk('boarders/bookBoarding', async (bookingData, { rejectWithValue }) => {
   try {
-    const response = await api.post(API_CONFIG.endpoints.boardingBookings, bookingData);
+    const config = {
+      method: 'post',
+      url: API_CONFIG.endpoints.boardingBookings,
+      data: bookingData
+    };
+    
+    const response = await apiHelper.retryRequest(config);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data || { message: 'Failed to book boarding' });
+    return rejectWithValue(handleApiError(error));
   }
 });
 
 export const fetchBoardedPets = createAsyncThunk('boarders/fetchBoardedPets', async (_, { rejectWithValue }) => {
   try {
-    const response = await api.get(`${API_CONFIG.endpoints.boarders}/pets`);
+    const config = {
+      method: 'get',
+      url: `${API_CONFIG.endpoints.boarders}/pets`
+    };
+    
+    const response = await apiHelper.retryRequest(config);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.data || { message: 'Failed to fetch boarded pets' });
+    return rejectWithValue(handleApiError(error));
   }
 });
 
@@ -75,7 +105,8 @@ const initialState = {
   boardingRequests: [],
   boardedPets: [],
   loading: false,
-  error: null
+  error: null,
+  connectionIssue: false
 };
 
 const boardersSlice = createSlice({
@@ -84,6 +115,7 @@ const boardersSlice = createSlice({
   reducers: {
     clearError: (state) => {
       state.error = null;
+      state.connectionIssue = false;
     }
   },
   extraReducers: (builder) => {
@@ -92,6 +124,7 @@ const boardersSlice = createSlice({
       .addCase(fetchBoarders.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.connectionIssue = false;
       })
       .addCase(fetchBoarders.fulfilled, (state, action) => {
         state.loading = false;
@@ -100,11 +133,13 @@ const boardersSlice = createSlice({
       .addCase(fetchBoarders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || 'Failed to fetch pet boarders';
+        state.connectionIssue = action.payload?.isConnectionIssue || false;
       })
       // Fetch Boarding Requests
       .addCase(fetchBoardingRequests.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.connectionIssue = false;
       })
       .addCase(fetchBoardingRequests.fulfilled, (state, action) => {
         state.loading = false;
@@ -113,11 +148,13 @@ const boardersSlice = createSlice({
       .addCase(fetchBoardingRequests.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || 'Failed to fetch boarding requests';
+        state.connectionIssue = action.payload?.isConnectionIssue || false;
       })
       // Update Boarding Request
       .addCase(updateBoardingRequest.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.connectionIssue = false;
       })
       .addCase(updateBoardingRequest.fulfilled, (state, action) => {
         state.loading = false;
@@ -128,11 +165,13 @@ const boardersSlice = createSlice({
       .addCase(updateBoardingRequest.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || 'Failed to update boarding request';
+        state.connectionIssue = action.payload?.isConnectionIssue || false;
       })
       // Book Boarding
       .addCase(bookBoarding.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.connectionIssue = false;
       })
       .addCase(bookBoarding.fulfilled, (state) => {
         state.loading = false;
@@ -140,11 +179,13 @@ const boardersSlice = createSlice({
       .addCase(bookBoarding.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || 'Failed to book boarding';
+        state.connectionIssue = action.payload?.isConnectionIssue || false;
       })
       // Fetch Boarded Pets
       .addCase(fetchBoardedPets.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.connectionIssue = false;
       })
       .addCase(fetchBoardedPets.fulfilled, (state, action) => {
         state.loading = false;
@@ -153,6 +194,7 @@ const boardersSlice = createSlice({
       .addCase(fetchBoardedPets.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || 'Failed to fetch boarded pets';
+        state.connectionIssue = action.payload?.isConnectionIssue || false;
       });
   }
 });
