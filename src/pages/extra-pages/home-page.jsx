@@ -1,15 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'animate.css/animate.min.css';
 import './home.css';
 import HeaderImage from '../../assets/images/img/banner/dog.png';
-import PetCare from '../../assets/images/img/about/pet_care.png';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
+import axios from 'axios';
+import {API_CONFIG} from '../../config/api';
 
 function HomePage() {
+  const [adoptionData, setAdoptionData] = useState([]);
+
+  useEffect(() => {
+    fetchAdoptionData();
+  }, []);
+
+  const fetchAdoptionData = async () => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
+      setAdoptionData(response.data);
+    } catch (error) {
+      console.error('Error fetching adoption data:', error);
+    }
+  };
+
+  // Helper function to get counts
+  const getPetCounts = () => {
+    const dogCount = adoptionData.length; // All pets from API are currently dogs
+    const catCount = 0; // Currently no cats in the API
+    const shelterCount = 0; // Set shelter count to 0
+    
+    return { dogCount, catCount, shelterCount };
+  };
+  
+  const { dogCount, catCount, shelterCount = 0 } = getPetCounts();
+
   return (
     <>
       <HomeHeader />
@@ -96,7 +123,7 @@ function HomePage() {
                   </h3>
                   <p>
                     At Haven Pet Home and Animal Care Foundation, we understand the unique needs of our beloved animal companions. Whether
-                    you're seeking pet sitting services, veterinary recommendations, or exploring pet adoption options, our dedicated team
+                    you&apos;re seeking pet sitting services, veterinary recommendations, or exploring pet adoption options, our dedicated team
                     is here to provide you with comprehensive and compassionate solutions. We promise to treat your animals with the utmost
                     care, ensuring their well-being and happiness.
                   </p>
@@ -108,7 +135,7 @@ function HomePage() {
                 <div className="checklist" style={{ marginTop: 10 }}>
                   <ul className="checkmark-list">
                     <li className="m-2">✔ Experienced and trusted animal care professionals.</li>
-                    <li className="m-2">✔ Personalized services tailored to your pet's needs.</li>
+                    <li className="m-2">✔ Personalized services tailored to your pet&apos;s needs.</li>
                     <li className="m-2">✔ Comprehensive animal care solutions, all in one place.</li>
                     <li className="m-2">✔ Dedicated to promoting responsible pet ownership.</li>
                     <li className="m-2">✔ Committed to the well-being of all animals.</li>
@@ -225,10 +252,9 @@ function HomePage() {
                     Us
                   </h3>
                   <p>
-                    Lorem ipsum dolor sit , consectetur adipiscing elit, sed do iusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Quis ipsum suspendisse ultrices.
+                    Give a loving home to an animal in need. Our adoption process connects pets with caring families after thorough health checks and rehabilitation. Each adoption helps us rescue more animals from challenging situations.
                   </p>
-                  <a href="contact.html" className="boxed-btn3">
+                  <a href="/up-for-adoption" className="boxed-btn3">
                     See Our Pets up for Adoption
                   </a>
                 </div>
@@ -241,7 +267,7 @@ function HomePage() {
                     <div className="single_adapt text-center">
                       <img src="img/adapt_icon/1.png" alt="" />
                       <div className="adapt_content">
-                        <h3 className="counter">0</h3>
+                        <h3 className="counter">{dogCount}</h3>
                         <p>Dogs Available</p>
                       </div>
                     </div>
@@ -251,7 +277,7 @@ function HomePage() {
                       <img src="img/adapt_icon/3.png" alt="" />
                       <div className="adapt_content">
                         <h3>
-                          <span className="counter">0</span>
+                          <span className="counter">{catCount}</span>
                         </h3>
                         <p>Cats Available</p>
                       </div>
@@ -260,7 +286,7 @@ function HomePage() {
                       <img src="img/adapt_icon/2.png" alt="" />
                       <div className="adapt_content">
                         <h3>
-                          <span className="counter">0</span>
+                          <span className="counter">{shelterCount}</span>
                         </h3>
                         <p>Shelters Available</p>
                       </div>
@@ -273,20 +299,20 @@ function HomePage() {
         </div>
       </div>
 
-      <div class="contact_anipat slider_bg_1">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-8">
-              <div class="contact_text text-center">
-                <div class="section_title text-center">
+      <div className="contact_anipat slider_bg_1">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-8">
+              <div className="contact_text text-center">
+                <div className="section_title text-center">
                   <h3>Why go with Us?</h3>
                   <p>
-                    Every donation makes a difference, and we're dedicated 24/7 to ensuring your support reaches stray pets in need across
+                    Every donation makes a difference, and we&apos;re dedicated 24/7 to ensuring your support reaches stray pets in need across
                     Nigeria.
                   </p>
                 </div>
-                <div class="contact_btn d-flex align-items-center justify-content-center">
-                  <a href="contact.html" class="boxed-btn4">
+                <div className="contact_btn d-flex align-items-center justify-content-center">
+                  <a href="contact.html" className="boxed-btn4">
                     Donate
                   </a>
                   <p>

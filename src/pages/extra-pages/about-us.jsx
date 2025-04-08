@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PetCare from '../../assets/images/img/dog-cat.jpg';
 import PetCare_ from '../../assets/images/img/dog-2.jpg';
 import fahida from '../../assets/images/users/fahidaspassport.jpg';
@@ -8,8 +8,36 @@ import HomeHeader from 'menu-items/header';
 import { CheckCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import HomeFooter from './footer';
+import axios from 'axios';
+import API_CONFIG from '../../config/api';
 
 const AboutUs = () => {
+  const [adoptionData, setAdoptionData] = useState([]);
+
+  useEffect(() => {
+    fetchAdoptionData();
+  }, []);
+
+  const fetchAdoptionData = async () => {
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
+      setAdoptionData(response.data);
+    } catch (error) {
+      console.error('Error fetching adoption data:', error);
+    }
+  };
+
+  // Helper function to get counts
+  const getPetCounts = () => {
+    const dogCount = adoptionData.length; // All pets from API are currently dogs
+    const catCount = 0; // Currently no cats in the API
+    const shelterCount = Array.from(new Set(adoptionData.map(pet => pet.location || ''))).length || 3;
+    
+    return { dogCount, catCount, shelterCount };
+  };
+  
+  const { dogCount, catCount, shelterCount } = getPetCounts();
+
   return (
     <>
       <HomeHeader />
@@ -118,7 +146,7 @@ const AboutUs = () => {
                     <div className="single_adapt text-center">
                       <MdOutlinePets color="#FF0080" fontSize={50} />
                       <div className="adapt_content">
-                        <h3 className="counter">0</h3>
+                        <h3 className="counter">{catCount}</h3>
                         <p>Cats Available</p>
                       </div>
                     </div>
@@ -128,20 +156,18 @@ const AboutUs = () => {
                       <MdOutlinePets color="#FF0080" fontSize={50} />
                       <div className="adapt_content">
                         <h3>
-                          <span className="counter">0</span>
+                          <span className="counter">{dogCount}</span>
                         </h3>
                         <p>Dogs Available</p>
                       </div>
                     </div>
-                    {/* <div className="single_adapt text-center">
+                    <div className="single_adapt text-center">
                       <MdOutlinePets />
                       <div className="adapt_content">
-                        <h3>
-                          <span className="counter">0</span>
-                        </h3>
-                        <p>Pets Available</p>
+                        <h3 className="counter">{shelterCount}</h3>
+                        <p>Shelters</p>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -150,17 +176,16 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <div class="container box_1170">
-        <div class="section-top-border">
-          <div class="row">
-            <div class="col-md-3">
+      <div className="container box_1170">
+        <div className="section-top-border">
+          <div className="row">
+            <div className="col-md-3">
               <div className="thumb">
-                <img aria-hidden="true" loading="lazy" decoding="async" src={fahida} class="img-fluid" alt="Fahida Emetumah" />
+                <img aria-hidden="true" loading="lazy" decoding="async" src={fahida} className="img-fluid" alt="Fahida Emetumah" />
               </div>
             </div>
-            <div class="col-md-9 mt-sm-20">
+            <div className="col-md-9 mt-sm-20">
               <div className="mt-4">
-                <h3 className="text-white text-xl font-semibold"></h3>
                 <p className="text-gray-400">Co-Founder</p>
                 <h2 className="text-2xl font-semibold">Meet Fahida</h2>
               </div>
@@ -177,9 +202,9 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-        <div class="section-top-border text-right">
-          <div class="row">
-            <div class="col-md-9">
+        <div className="section-top-border text-right">
+          <div className="row">
+            <div className="col-md-9">
               <div className="mt-4">
                 <p className="text-gray-400 text-right">Co-Founder</p>
                 <h2 className="text-2xl font-semibold text-right">Meet Tracy</h2>
@@ -192,13 +217,13 @@ const AboutUs = () => {
               </p>
               <p className="text-gray-300 mt-3">
                 Her innovative approach to animal welfare and ability to build strong partnerships have been instrumental in expanding the
-                reach and impact of our organization. Tracy’s leadership continues to drive our mission forward, inspiring others to create
+                reach and impact of our organization. Tracy&apos;s leadership continues to drive our mission forward, inspiring others to create
                 a world where every animal is treated with kindness and respect.
               </p>
             </div>
-            <div class="col-md-3">
-              <div class="thumb">
-                <img aria-hidden="true" loading="lazy" decoding="async" src={tracy} class="img-fluid" alt="Tracy Anele" />
+            <div className="col-md-3">
+              <div className="thumb">
+                <img aria-hidden="true" loading="lazy" decoding="async" src={tracy} className="img-fluid" alt="Tracy Anele" />
               </div>
             </div>
           </div>
@@ -228,64 +253,64 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-      <div class="service_area">
-        <div class="container">
-          <div class="row justify-content-center ">
-            <div class="col-lg-7 col-md-10">
-              <div class="section_title text-center mb-95">
+      <div className="service_area">
+        <div className="container">
+          <div className="row justify-content-center ">
+            <div className="col-lg-7 col-md-10">
+              <div className="section_title text-center mb-95">
                 <h3>Our Core Values</h3>
               </div>
             </div>
           </div>
-          <div class="row justify-content-center">
-            <div class="col-lg-3 col-md-3">
-              <div class="single_service">
-                <div class=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div class="">
+          <div className="row justify-content-center">
+            <div className="col-lg-3 col-md-3">
+              <div className="single_service">
+                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
+                  <div className="">
                     <MdOutlinePets color="#FF0080" fontSize={50} />
                   </div>
                 </div>
-                <div class="service_content text-center">
+                <div className="service_content text-center">
                   <h3>Compassion</h3>
                   <p>We treat every animal with kindness, empathy, and respect.</p>
                 </div>
               </div>
             </div>
 
-            <div class="col-lg-3 col-md-3">
-              <div class="single_service active">
-                <div class=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div class="">
+            <div className="col-lg-3 col-md-3">
+              <div className="single_service active">
+                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
+                  <div className="">
                     <MdOutlinePets color="#FF0080" fontSize={50} />
                   </div>
                 </div>
-                <div class="service_content text-center">
+                <div className="service_content text-center">
                   <h3>Dedication</h3>
                   <p> We strive to educate the community about responsible pet ownership and the importance of animal welfare.</p>
                 </div>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3">
-              <div class="single_service">
-                <div class=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div class="">
+            <div className="col-lg-3 col-md-3">
+              <div className="single_service">
+                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
+                  <div className="">
                     <MdOutlinePets color="#FF0080" fontSize={50} />
                   </div>
                 </div>
-                <div class="service_content text-center">
+                <div className="service_content text-center">
                   <h3>Education</h3>
                   <p>We work closely with other animal welfare organizations, veterinarians, and the community to achieve our goals.</p>
                 </div>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3">
-              <div class="single_service">
-                <div class=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div class="">
+            <div className="col-lg-3 col-md-3">
+              <div className="single_service">
+                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
+                  <div className="">
                     <MdOutlinePets color="#FF0080" fontSize={50} />
                   </div>
                 </div>
-                <div class="service_content text-center">
+                <div className="service_content text-center">
                   <h3>Collaboration</h3>
                   <p>We work closely with other animal welfare organizations, veterinarians, and the community to achieve our goals.</p>
                 </div>

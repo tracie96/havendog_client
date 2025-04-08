@@ -13,7 +13,13 @@ const UpForAdoption = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const truncateText = (text, maxWords) => {
+    const words = text.split(' ');
+    if (words.length > maxWords) {
+      return words.slice(0, maxWords).join(' ') + '...';
+    }
+    return text;
+  };
   useEffect(() => {
     const fetchPets = async () => {
       try {
@@ -64,7 +70,7 @@ const UpForAdoption = () => {
                           {pet.breed}
                         </Text>
                         <Text>Age: {pet.age}</Text>
-                        <Text>{pet.description}</Text>
+                        <Text>{truncateText(pet.description, 30)}</Text>
                         <Button type="primary" block>
                           Learn More
                         </Button>

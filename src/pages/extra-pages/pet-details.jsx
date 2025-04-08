@@ -87,9 +87,9 @@ const PetDetails = () => {
                     <Text>
                       <strong>Description:</strong> {pet.description}
                     </Text>
-                    <Text type="secondary">
+                    {/* <Text type="secondary">
                       Posted by: {pet.postedBy?.firstName} {pet.postedBy?.lastName}
-                    </Text>
+                    </Text> */}
                   </Space>
                 }
               />
