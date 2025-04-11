@@ -151,7 +151,7 @@ function HomePage() {
 
       <div className="service_area">
         <div className="container">
-          <div className="row justify-content-center ">
+          <div className="row justify-content-center">
             <div className="col-lg-7 col-md-10">
               <div className="section_title text-center mb-95">
                 <p>Services for every dog</p>
@@ -160,80 +160,82 @@ function HomePage() {
             </div>
           </div>
           <div className="row justify-content-center">
-            <ul className="cs-card-group">
-              <li className="cs-item hidden" data-effect="slideIn">
-                <div href="/" className="cs-link">
-                  <h3 className="cs-h3">
-                    <span className="cs-span">Animal Sitting</span> Services
-                  </h3>
+            <div className="col-12">
+              <div className="row g-4">
+                <div className="col-lg-3 col-md-6 col-sm-6">
+                  <div className="cs-item hidden" data-effect="slideIn">
+                    <div href="/" className="cs-link">
+                      <h3 className="cs-h3">
+                        <span className="cs-span">Animal Sitting</span> Services
+                      </h3>
+                    </div>
+                    <div className="cs-background">
+                      <img
+                        decoding="async"
+                        src="https://images.pexels.com/photos/6994718/pexels-photo-6994718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="pet sitting"
+                        className="img-fluid"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="cs-background">
-                  {/* Mobile and Tablet Image */}
-                  <img
-                    decoding="async"
-                    src="https://images.pexels.com/photos/6994718/pexels-photo-6994718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="pet sitting"
-                    width="305"
-                    height="305"
-                    aria-hidden="true"
-                  />
+                <div className="col-lg-3 col-md-6 col-sm-6">
+                  <div className="cs-item hidden" data-effect="slideIn">
+                    <div href="/" className="cs-link">
+                      <h3 className="cs-h3">
+                        <span className="cs-span">Veterinary</span> Recommendations
+                      </h3>
+                    </div>
+                    <div className="cs-background">
+                      <img
+                        decoding="async"
+                        src="https://images.pexels.com/photos/6259885/pexels-photo-6259885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        alt="veterinary recommendations"
+                        className="img-fluid"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </li>
-              <li className="cs-item hidden" data-effect="slideIn">
-                <div href="/" className="cs-link">
-                  <h3 className="cs-h3">
-                    <span className="cs-span">Veterinary</span> Recommendations
-                  </h3>
+                <div className="col-lg-3 col-md-6 col-sm-6">
+                  <div className="cs-item hidden" data-effect="slideIn">
+                    <div href="/" className="cs-link">
+                      <h3 className="cs-h3">
+                        <span className="cs-span">Pet</span> Adoption
+                      </h3>
+                    </div>
+                    <div className="cs-background">
+                      <img
+                        decoding="async"
+                        src="https://images.unsplash.com/photo-1444212477490-ca407925329e?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="pet adoption"
+                        className="img-fluid"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="cs-background">
-                  {/* Mobile and Tablet Image */}
-                  <img
-                    decoding="async"
-                    src="https://images.pexels.com/photos/6259885/pexels-photo-6259885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="veterinary recommendations"
-                    width="305"
-                    height="305"
-                    aria-hidden="true"
-                  />
+                <div className="col-lg-3 col-md-6 col-sm-6">
+                  <div className="cs-item hidden" data-effect="slideIn">
+                    <div href="/" className="cs-link">
+                      <h3 className="cs-h3">
+                        <span className="cs-span">Pet</span> Education
+                      </h3>
+                    </div>
+                    <div className="cs-background">
+                      <img
+                        decoding="async"
+                        src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="pet education"
+                        className="img-fluid"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </li>
-              <li className="cs-item hidden" data-effect="slideIn">
-                <div href="/" className="cs-link">
-                  <h3 className="cs-h3">
-                    <span className="cs-span">Pet</span> Adoption
-                  </h3>
-                </div>
-                <div className="cs-background">
-                  {/* Mobile and Tablet Image */}
-                  <img
-                    decoding="async"
-                    src="https://images.unsplash.com/photo-1444212477490-ca407925329e?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="pet adoption"
-                    width="305"
-                    height="305"
-                    aria-hidden="true"
-                  />
-                </div>
-              </li>
-              <li className="cs-item hidden" data-effect="slideIn">
-                <div href="/" className="cs-link">
-                  <h3 className="cs-h3">
-                    <span className="cs-span">Pet</span> Education
-                  </h3>
-                </div>
-                <div className="cs-background">
-                  {/* Mobile and Tablet Image */}
-                  <img
-                    decoding="async"
-                    src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="pet education"
-                    width="305"
-                    height="305"
-                    aria-hidden="true"
-                  />
-                </div>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
