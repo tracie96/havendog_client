@@ -46,22 +46,23 @@ function HomePage() {
         <div className="single_slider slider_bg_1 d-flex align-items-center">
           <div className="container">
             <div className="row">
-              <div className="col-lg-5 col-md-6">
+              <div className="col-12 col-lg-5 col-md-6">
                 <div className="slider_text">
-                  <h3>
+                  <h3 className="mb-3">
                     Haven Pet Home and <br /> <span>Animal Care Foundation</span>
                   </h3>
-                  <p>Rescue, Rehabilitate, Rehome: Giving Animals a Second Chance.</p>
-                  <br />
+                  <p className="mb-4">Rescue, Rehabilitate, Rehome: Giving Animals a Second Chance.</p>
                   <a href="contact.html" className="boxed-btn4">
                     Get Started
                   </a>
                 </div>
               </div>
+              <div className="col-12 col-lg-7 col-md-6 d-none d-lg-block">
+                <div className="dog_thumb">
+                  <img src={HeaderImage} alt="Dog" className="img-fluid" />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="dog_thumb d-none d-lg-block">
-            <img src={HeaderImage} alt="" />
           </div>
         </div>
       </div>
