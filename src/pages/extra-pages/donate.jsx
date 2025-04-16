@@ -58,7 +58,7 @@ const DonatePage = () => {
         <h2>Donate to help animals in Nigeria</h2>
         <p>
           You can be confident that your contribution to Haven Pet Home and Animal Care Foundation will go directly toward helping animals—by
-          ending cruel experiments, supporting investigations to expose abuse on large-scale farms, preventing animals from being harmed o .
+          ending cruel experiments, supporting investigations to expose abuse on large-scale farms, preventing animals from being harmed.
         </p>
         <Stack spacing={2}>
           <Stack direction="row" spacing={2}>
