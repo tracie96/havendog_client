@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { PaystackButton } from 'react-paystack';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
-import { Stack, InputLabel, OutlinedInput, Button } from '@mui/material';
+import { Stack, InputLabel, OutlinedInput, Button, Modal, Box, Typography, IconButton } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
 import { style } from '@mui/system';
 
 const DonatePage = () => {
@@ -10,6 +12,7 @@ const DonatePage = () => {
   const [values, setValues] = useState({ email: '', amount: '', firstname: '', lastname: '' });
   const [touched, setTouched] = useState({});
   const [errors, setErrors] = useState({});
+  const [openModal, setOpenModal] = useState(true);
 
   console.log('publicKey:', publicKey);
 
@@ -20,7 +23,7 @@ const DonatePage = () => {
     text: 'Donate Now',
     onSuccess: (response) => {
       console.log('Payment successful:', response);
-      alert('Thank you for your generous donation! Your support helps us continue our mission of helping animals in need.');
+      setOpenModal(true);
       // Clear all form fields
       setValues({ email: '', amount: '', firstname: '', lastname: '' });
       setTouched({});
@@ -49,6 +52,10 @@ const DonatePage = () => {
 
   const isFormValid = () => {
     return values.email && values.amount > 0 && !errors.email && !errors.amount;
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -151,6 +158,60 @@ const DonatePage = () => {
           )}
         </Stack>
       </div>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="donation-success-modal"
+        aria-describedby="donation-success-message"
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 2,
+          textAlign: 'center'
+        }}>
+          <IconButton
+            onClick={handleCloseModal}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <CheckCircleIcon 
+            color="success" 
+            sx={{ 
+              fontSize: 60,
+              mb: 2
+            }} 
+          />
+          <Typography variant="h5" component="h2" gutterBottom>
+            Thank You!
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            Your generous donation has been received successfully.
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Your support helps us continue our mission of helping animals in need.
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCloseModal}
+            sx={{ mt: 3 }}
+          >
+            Close
+          </Button>
+        </Box>
+      </Modal>
       <HomeFooter />
     </>
   );
