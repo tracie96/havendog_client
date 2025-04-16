@@ -11,7 +11,6 @@ const MyPets = Loadable(lazy(() => import('pages/dashboard/pet-owner/MyPets')));
 const AddPet = Loadable(lazy(() => import('pages/dashboard/pet-owner/AddPet')));
 const AvailableVets = Loadable(lazy(() => import('pages/dashboard/pet-owner/AvailableVets')));
 const PetBoarders = Loadable(lazy(() => import('pages/dashboard/pet-owner/PetBoarders')));
-// const UpForAdoption = Loadable(lazy(() => import('pages/dashboard/pet-owner/UpForAdoption')));
 const MyBookings = Loadable(lazy(() => import('pages/dashboard/pet-owner/MyBookings')));
 // const Payments = Loadable(lazy(() => import('pages/dashboard/pet-owner/Payments')));
 // const Notifications = Loadable(lazy(() => import('pages/dashboard/pet-owner/Notifications')));
@@ -48,10 +47,6 @@ const MainRoutes = {
           path: 'boarders',
           element: <PetBoarders />
         },
-        // {
-        //   path: 'adoption',
-        //   element: <UpForAdoption />
-        // },
         {
           path: 'bookings',
           element: <MyBookings />

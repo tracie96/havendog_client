@@ -8,6 +8,7 @@ import DonatePage from 'pages/extra-pages/donate';
 import CreateAdoption from 'pages/extra-pages/create-adoption';
 import UpForAdoption from 'pages/extra-pages/up-for-adoption';
 import PetDetails from 'pages/extra-pages/pet-details';
+import AdoptionRequests from 'pages/extra-pages/adoption-requests';
 
 // Lazy load pages
 const AuthLogin = Loadable(lazy(() => import('pages/authentication/login')));
@@ -55,6 +56,10 @@ const AppRoutes = [
   {
     path: 'donate',
     element: <DonatePage />
+  },
+  {
+    path: 'adoption-requests',
+    element: <AdoptionRequests />
   }
 ];
 

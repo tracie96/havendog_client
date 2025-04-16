@@ -6,7 +6,8 @@ import {
   CalendarOutlined,
   MessageOutlined,
   CreditCardOutlined,
-  BellOutlined
+  BellOutlined,
+  FileTextOutlined
 } from '@ant-design/icons';
 
 const icons = {
@@ -17,7 +18,8 @@ const icons = {
   CalendarOutlined,
   MessageOutlined,
   CreditCardOutlined,
-  BellOutlined
+  BellOutlined,
+  FileTextOutlined
 };
 
 const petOwnerMenu = {
@@ -55,6 +57,14 @@ const petOwnerMenu = {
       type: 'item',
       url: '/dashboard/pet-owner/boarders',
       icon: icons.TeamOutlined,
+      breadcrumbs: false
+    },
+    {
+      id: 'adoption-requests',
+      title: 'Adoption Requests',
+      type: 'item',
+      url: '/dashboard/pet-owner/adoption-requests',
+      icon: icons.FileTextOutlined,
       breadcrumbs: false
     },
     {
