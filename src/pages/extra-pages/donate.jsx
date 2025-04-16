@@ -20,7 +20,11 @@ const DonatePage = () => {
     text: 'Donate Now',
     onSuccess: (response) => {
       console.log('Payment successful:', response);
-      alert('Thank you for your donation!');
+      alert('Thank you for your generous donation! Your support helps us continue our mission of helping animals in need.');
+      // Clear all form fields
+      setValues({ email: '', amount: '', firstname: '', lastname: '' });
+      setTouched({});
+      setErrors({});
     },
     onClose: () => {
       console.log('Payment window closed');
