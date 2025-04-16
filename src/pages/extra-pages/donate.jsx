@@ -28,11 +28,23 @@ const DonatePage = () => {
   };
 
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+    
+    // Basic validation
+    if (name === 'email') {
+      setErrors({ ...errors, email: !value.includes('@') ? 'Please enter a valid email' : '' });
+    } else if (name === 'amount') {
+      setErrors({ ...errors, amount: value <= 0 ? 'Amount must be greater than 0' : '' });
+    }
   };
 
   const handleBlur = (e) => {
     setTouched({ ...touched, [e.target.name]: true });
+  };
+
+  const isFormValid = () => {
+    return values.email && values.amount > 0 && !errors.email && !errors.amount;
   };
 
   return (
@@ -41,7 +53,7 @@ const DonatePage = () => {
       <div style={{ textAlign: 'center', padding: '50px', maxWidth: '700px', margin: 'auto' }}>
         <h2>Donate to help animals in Nigeria</h2>
         <p>
-          You can be confident that your contribution to Haven Animal And Pet Care Foundation will go directly toward helping animals—by
+          You can be confident that your contribution to Haven Pet Home and Animal Care Foundation will go directly toward helping animals—by
           ending cruel experiments, supporting investigations to expose abuse on large-scale farms, preventing animals from being harmed o .
         </p>
         <Stack spacing={2}>
@@ -112,7 +124,7 @@ const DonatePage = () => {
             />
           </Stack>
 
-          {values.email && values.amount > 0 ? (
+          {isFormValid() ? (
             <PaystackButton
               className="paystack-button"
               {...paystackProps}
@@ -130,7 +142,7 @@ const DonatePage = () => {
             />
           ) : (
             <Button variant="contained" color="secondary" disabled fullWidth>
-              Please enter email and amount
+              Please enter valid email and amount
             </Button>
           )}
         </Stack>
