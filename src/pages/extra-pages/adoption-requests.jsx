@@ -21,7 +21,7 @@ const AdoptionRequests = () => {
   const fetchAdoptionRequests = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_CONFIG.baseURL}/adoptions/requests`, {
+      const response = await axios.get(`${API_CONFIG.baseURL}/interests`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
