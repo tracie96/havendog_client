@@ -9,7 +9,7 @@ import { CheckCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import HomeFooter from './footer';
 import axios from 'axios';
-import {d} from '../../config/api';
+import {API_CONFIG, d} from '../../config/api';
 
 const AboutUs = () => {
   const [adoptionData, setAdoptionData] = useState([]);

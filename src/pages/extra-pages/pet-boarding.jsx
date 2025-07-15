@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Grid, Paper, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Container, Typography, TextField, Button, Grid, Paper, Box, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { API_CONFIG } from 'config/api';
+import axios from 'axios';
 
 const Input = styled('input')({
   display: 'none',
@@ -29,6 +31,12 @@ const PetBoarding = () => {
   const [petImages, setPetImages] = useState([]); // Optional pet images
   const [petCard, setPetCard] = useState(null); // Optional vaccination card
   const [vaccinationRecords, setVaccinationRecords] = useState(null); // Optional medical records
+  const [message, setMessage] = useState({ open: false, severity: 'success', text: '' });
+
+  const handleCloseMessage = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setMessage({ ...message, open: false });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,48 +65,131 @@ const PetBoarding = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    const submissionData = {
-      owner: {
-        name: formData.ownerName,
-        email: formData.ownerEmail,
-        phone: formData.ownerPhone,
-      },
-      pet: {
-        name: formData.petName,
-        age: formData.petAge,
-        breed: formData.petBreed,
-        allergies: formData.allergies || null,
-        medications: formData.medications || null,
-        feedingInstructions: formData.feedingSchedule || null,
-        specialInstructions: formData.specialInstructions,
-      },
-      emergency_contact: formData.emergencyContactName && formData.emergencyContactPhone ? {
-        name: formData.emergencyContactName,
-        phone: formData.emergencyContactPhone,
-      } : null,
-      veterinarian: formData.veterinarianName && formData.veterinarianPhone ? {
-        name: formData.veterinarianName,
-        phone: formData.veterinarianPhone,
-      } : null,
-      boarding: {
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-      },
-      documents: {
-        petImages: petImages.length > 0 ? petImages : null,
-        vaccinationCard: petCard || null,
-        medicalRecords: vaccinationRecords || null
+    try {
+      // Show loading message
+      setMessage({
+        open: true,
+        severity: 'info',
+        text: 'Submitting your boarding request. This may take a moment...'
+      });
+
+      // Upload files to Cloudinary
+      const uploadToCloudinary = async (file) => {
+        if (!file) return null;
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'havendogs');
+
+        const response = await axios.post(
+          'https://api.cloudinary.com/v1_1/tracysoft/image/upload',
+          formData
+        );
+        return response.data.secure_url;
+      };
+
+      const uploadMultipleFiles = async (files) => {
+        if (!files || files.length === 0) return null;
+        const uploadPromises = Array.from(files).map(file => uploadToCloudinary(file));
+        return Promise.all(uploadPromises);
+      };
+
+      const [petImageUrls, vaccinationCardUrl, medicalRecordsUrl] = await Promise.all([
+        uploadMultipleFiles(petImages),
+        uploadToCloudinary(petCard),
+        uploadToCloudinary(vaccinationRecords)
+      ]);
+
+      const submissionData = {
+        owner: {
+          name: formData.ownerName,
+          email: formData.ownerEmail,
+          phone: formData.ownerPhone,
+        },
+        pet: {
+          name: formData.petName,
+          age: Number(formData.petAge),
+          breed: formData.petBreed,
+          allergies: formData.allergies || undefined,
+          medications: formData.medications || undefined,
+          feedingInstructions: formData.feedingSchedule || undefined,
+          specialInstructions: formData.specialInstructions || undefined
+        },
+        emergency_contact: formData.emergencyContactName && formData.emergencyContactPhone ? {
+          name: formData.emergencyContactName,
+          phone: formData.emergencyContactPhone,
+        } : undefined,
+        veterinarian: formData.veterinarianName && formData.veterinarianPhone ? {
+          name: formData.veterinarianName,
+          phone: formData.veterinarianPhone,
+        } : undefined,
+        boarding: {
+          startDate: formData.startDate,
+          endDate: formData.endDate,
+        },
+        documents: {
+          petImages: petImageUrls,
+          vaccinationCard: vaccinationCardUrl,
+          medicalRecords: medicalRecordsUrl
+        }
+      };
+
+      const response = await axios.post(`${API_CONFIG.baseURL}/boarding`, submissionData);
+      
+      if (response.status === 200 || response.status === 201) {
+        setFormData({
+          ownerName: '',
+          ownerEmail: '',
+          ownerPhone: '',
+          petName: '',
+          petAge: '',
+          petBreed: '',
+          allergies: '',
+          medications: '',
+          feedingSchedule: '',
+          specialInstructions: '',
+          emergencyContactName: '',
+          emergencyContactPhone: '',
+          startDate: '',
+          endDate: '',
+          veterinarianName: '',
+          veterinarianPhone: '',
+        });
+        setPetImages([]);
+        setPetCard(null);
+        setVaccinationRecords(null);
+        
+        setMessage({
+          open: true,
+          severity: 'success',
+          text: 'Your boarding request has been submitted successfully! We will review your request and contact you shortly.'
+        });
       }
-    };
-    console.log('Form Data:', submissionData);
-    // Add your form submission logic here
+    } catch (error) {
+      console.error('Error submitting boarding request:', error);
+      setMessage({
+        open: true,
+        severity: 'error',
+        text: error.response?.data?.message || 
+              'There was an error submitting your boarding request. Please check your information and try again. If the problem persists, please contact support.'
+      });
+    }
   };
 
   return (
     <Container maxWidth="md" sx={{ py: 8 }}>
+      <Snackbar 
+        open={message.open} 
+        autoHideDuration={6000} 
+        onClose={handleCloseMessage}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseMessage} severity={message.severity} sx={{ width: '100%' }}>
+          {message.text}
+        </Alert>
+      </Snackbar>
+
       <Paper elevation={3} sx={{ p: 4 }}>
         <Typography variant="h4" gutterBottom align="center" color="primary">
           Pet Boarding Request
@@ -268,6 +359,39 @@ const PetBoarding = () => {
                 name="veterinarianPhone"
                 value={formData.veterinarianPhone}
                 onChange={handleInputChange}
+              />
+            </Grid>
+
+            {/* Boarding Dates */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                Boarding Dates
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                label="Start Date"
+                name="startDate"
+                type="date"
+                value={formData.startDate}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ min: new Date().toISOString().split('T')[0] }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                label="End Date"
+                name="endDate"
+                type="date"
+                value={formData.endDate}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ min: formData.startDate || new Date().toISOString().split('T')[0] }}
               />
             </Grid>
 
