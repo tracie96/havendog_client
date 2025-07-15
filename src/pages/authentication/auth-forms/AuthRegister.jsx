@@ -215,8 +215,8 @@ const Register = () => {
                   </Form.Item>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item name={['petOwnerInfo', 'veterinarian']} label="Current Veterinarian Service Provider">
-                    <Input size="large" placeholder="Current veterinarian (if any)" />
+                  <Form.Item name={['petOwnerInfo', 'veterinarian']} label="Personal Veterinarian">
+                    <Input size="large" placeholder="Your personal veterinarian's name and contact (optional)" />
                   </Form.Item>
                 </Col>
               </Row>

@@ -57,6 +57,7 @@ const AddPet = () => {
         weight: values.weight,
         pictures: pictures,
         medicalHistory: medicalHistory,
+        veterinarian: values.veterinarian || null,
         vaccinations: [],
         specialNeeds: []
       };
@@ -123,6 +124,10 @@ const AddPet = () => {
 
         <Form.Item name="weight" label="Weight (kg)" rules={[{ required: true, message: "Please input your pet's weight!" }]}>
           <Input type="number" size="large" />
+        </Form.Item>
+
+        <Form.Item name="veterinarian" label="Personal Veterinarian">
+          <Input size="large" placeholder="Your personal veterinarian's name and contact (optional)" />
         </Form.Item>
 
         <Form.List name="medicalHistory">

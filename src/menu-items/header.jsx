@@ -95,12 +95,17 @@ function HomeHeader() {
                       </li>
                       <li>
                         <Link to="/donate">
-                          Donate <i className="ti-angle-down"></i>
+                          Donate
                         </Link>
                       </li>
                       <li>
                         <Link to="/up-for-adoption">
-                          Up For Adoption <i className="ti-angle-down"></i>
+                          Up For Adoption
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/pet-boarding">
+                          Pet Boarding
                         </Link>
                       </li>
                       {/* <li>
@@ -160,6 +165,9 @@ function HomeHeader() {
               </li>
               <li>
                 <Link to="/up-for-adoption" onClick={closeMobileMenu}>Up For Adoption</Link>
+              </li>
+              <li>
+                <Link to="/pet-boarding" onClick={closeMobileMenu}>Pet Boarding</Link>
               </li>
               <li>
                 <Link to="/contact" onClick={closeMobileMenu}>Contact</Link>
