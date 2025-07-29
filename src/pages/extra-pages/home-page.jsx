@@ -51,10 +51,15 @@ function HomePage() {
                   <h3 className="mb-3">
                     Haven Pet Home and <br /> <span>Animal Care Foundation</span>
                   </h3>
-                  <p className="mb-4">Rescue, Rehabilitate, Rehome: Giving Animals a Second Chance.</p>
-                  <a href="contact.html" className="boxed-btn4">
-                    Get Started
-                  </a>
+                  <p className="mb-4">Rescue, Rehabilitate, Rehome: Giving Animals a Second Chance. Professional pet boarding services available.</p>
+                  <div className="d-flex flex-wrap gap-3">
+                    <a href="/up-for-adoption" className="boxed-btn4">
+                      Adopt Now
+                    </a>
+                    <a href="/pet-boarding" className="boxed-btn4">
+                      Board Your Pet
+                    </a>
+                  </div>
                 </div>
               </div>
               <div className="col-12 col-lg-7 col-md-6 d-none d-lg-block">
