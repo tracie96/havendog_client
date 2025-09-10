@@ -89,29 +89,17 @@ function HomeHeader() {
                         <Link to="/about-us">About</Link>
                       </li>
                       <li>
-                        <Link to="/blog">
-                          Blog <i className="ti-angle-down"></i>
-                        </Link>
+                        <Link to="/blog">Blog</Link>
                       </li>
                       <li>
-                        <Link to="/donate">
-                          Donate
-                        </Link>
+                        <Link to="/donate">Donate</Link>
                       </li>
                       <li>
-                        <Link to="/up-for-adoption">
-                          Up For Adoption
-                        </Link>
+                        <Link to="/up-for-adoption">Adoption</Link>
                       </li>
                       <li>
-                        <Link to="/pet-boarding-landing">
-                          Pet Boarding
-                        </Link>
+                        <Link to="/pet-boarding">Boarding</Link>
                       </li>
-                      {/* <li>
-                        <Link to="/create-adoption">Create Adoption Listing</Link>
-                      </li> */}
-
                       <li>
                         <Link to="/contact">Contact</Link>
                       </li>
@@ -164,10 +152,10 @@ function HomeHeader() {
                 <Link to="/donate" onClick={closeMobileMenu}>Donate</Link>
               </li>
               <li>
-                <Link to="/up-for-adoption" onClick={closeMobileMenu}>Up For Adoption</Link>
+                <Link to="/up-for-adoption" onClick={closeMobileMenu}>Adoption</Link>
               </li>
               <li>
-                <Link to="/pet-boarding" onClick={closeMobileMenu}>Pet Boarding</Link>
+                <Link to="/pet-boarding" onClick={closeMobileMenu}>Boarding</Link>
               </li>
               <li>
                 <Link to="/contact" onClick={closeMobileMenu}>Contact</Link>
@@ -255,9 +243,51 @@ function HomeHeader() {
           padding: 8px 0;
         }
 
+        /* Small desktop screens (1024px - 1200px) */
+        @media (max-width: 1200px) and (min-width: 992px) {
+          .main-menu ul#navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+          }
+          
+          .main-menu ul#navigation li {
+            margin: 0 5px;
+          }
+          
+          .main-menu ul#navigation li a {
+            font-size: 14px;
+            padding: 8px 6px;
+            white-space: nowrap;
+          }
+          
+          .logo img {
+            width: 130px;
+          }
+        }
+
+        /* Tablet screens (768px - 991px) */
+        @media (max-width: 991px) {
+          .main-menu {
+            display: none !important;
+          }
+          
+          .mobile-menu-wrapper {
+            display: block !important;
+          }
+        }
+
         @media (max-width: 768px) {
           .logo img {
             width: 120px;
+          }
+          
+          .header-top_area {
+            padding: 8px 0;
+          }
+          
+          .header-top_area .container {
+            padding: 0 15px;
           }
         }
 
@@ -265,6 +295,45 @@ function HomeHeader() {
           .logo img {
             width: 100px;
           }
+          
+          .header-top_area {
+            padding: 5px 0;
+          }
+          
+          .short_contact_list ul li {
+            font-size: 12px;
+          }
+        }
+
+        /* Ensure proper spacing and alignment */
+        .main-header-area {
+          padding: 15px 0;
+        }
+        
+        .main-menu ul#navigation {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+        }
+        
+        .main-menu ul#navigation li {
+          margin: 0 8px;
+        }
+        
+        .main-menu ul#navigation li a {
+          color: #333;
+          text-decoration: none;
+          font-weight: 500;
+          padding: 10px 12px;
+          display: block;
+          transition: color 0.3s ease;
+        }
+        
+        .main-menu ul#navigation li a:hover {
+          color: #a80c5c;
         }
       `}</style>
     </header>
