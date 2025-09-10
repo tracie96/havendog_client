@@ -104,7 +104,7 @@ function HomeHeader() {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/pet-boarding">
+                        <Link to="/pet-boarding-landing">
                           Pet Boarding
                         </Link>
                       </li>

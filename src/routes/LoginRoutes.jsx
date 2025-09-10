@@ -9,6 +9,7 @@ import CreateAdoption from 'pages/extra-pages/create-adoption';
 import UpForAdoption from 'pages/extra-pages/up-for-adoption';
 import PetDetails from 'pages/extra-pages/pet-details';
 import AdoptionRequests from 'pages/extra-pages/adoption-requests';
+import PetBoardingLanding from 'pages/extra-pages/pet-boarding-landing';
 import PetBoarding from 'pages/extra-pages/pet-boarding';
 
 const AuthLogin = Loadable(lazy(() => import('pages/authentication/login')));
@@ -63,7 +64,16 @@ const AppRoutes = [
   },
   {
     path: 'pet-boarding',
-    element: <PetBoarding />
+    children: [
+      {
+        index: true,
+        element: <PetBoardingLanding />
+      },
+      {
+        path: 'form',
+        element: <PetBoarding />
+      }
+    ]
   }
 ];
 

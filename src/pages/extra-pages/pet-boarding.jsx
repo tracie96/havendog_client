@@ -1,14 +1,75 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Grid, Paper, Box, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material';
+import { Container, Typography, TextField, Button, Grid, Paper, Box, Snackbar, Alert, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { API_CONFIG } from 'config/api';
 import axios from 'axios';
+import { Pets, ArrowBack } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const Input = styled('input')({
   display: 'none',
 });
 
+const PinkGradientBox = styled(Box)(({ theme }) => ({
+  background: 'linear-gradient(0deg, #a80c5c 0%, #a80c5c 99%)',
+  borderRadius: theme.spacing(3),
+  padding: theme.spacing(3),
+  marginBottom: theme.spacing(3),
+  position: 'relative',
+  overflow: 'hidden',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: -30,
+    right: -30,
+    width: 60,
+    height: 60,
+    background: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '50%',
+  }
+}));
+
+const PlayfulPaper = styled(Paper)(({ theme }) => ({
+  borderRadius: theme.spacing(3),
+  background: 'linear-gradient(145deg, #ffffff 0%, #fef7f7 100%)',
+  border: '2px solid #f5d1e0',
+  boxShadow: '0 8px 32px rgba(168, 12, 92, 0.2)',
+}));
+
+const PlayfulButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(0deg, #a80c5c 0%, #a80c5c 99%)',
+  borderRadius: theme.spacing(2),
+  padding: theme.spacing(1.5, 3),
+  fontSize: '1rem',
+  fontWeight: 'bold',
+  textTransform: 'none',
+  boxShadow: '0 4px 15px rgba(168, 12, 92, 0.4)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    background: 'linear-gradient(0deg, #8a0a4a 0%, #e8c1d0 99%)',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 6px 20px rgba(168, 12, 92, 0.5)',
+  }
+}));
+
+const PinkTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: theme.spacing(2),
+    '&:hover .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#a80c5c',
+    },
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#a80c5c',
+      borderWidth: 2,
+    },
+  },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: '#a80c5c',
+  },
+}));
+
 const PetBoarding = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     ownerName: '',
     ownerEmail: '',
@@ -178,7 +239,7 @@ const PetBoarding = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 8 }}>
+    <Container maxWidth="md" sx={{ py: 4 }}>
       <Snackbar 
         open={message.open} 
         autoHideDuration={6000} 
@@ -190,24 +251,96 @@ const PetBoarding = () => {
         </Alert>
       </Snackbar>
 
-      <Paper elevation={3} sx={{ p: 4 }}>
-        <Typography variant="h4" gutterBottom align="center" color="primary">
-          Pet Boarding Request
-        </Typography>
-        <Typography variant="body1" paragraph align="center">
+      {/* Navigation */}
+      <Box sx={{ mb: 3, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+        <Button
+          startIcon={<ArrowBack />}
+          onClick={() => navigate('/')}
+          sx={{ 
+            color: '#a80c5c',
+            fontWeight: 'bold',
+            mb: 2,
+            '&:hover': {
+              backgroundColor: 'rgba(168, 12, 92, 0.1)'
+            }
+          }}
+        >
+          Back to Website
+        </Button>
+        <Button
+          startIcon={<ArrowBack />}
+          onClick={() => navigate('/pet-boarding')}
+          sx={{ 
+            color: '#a80c5c',
+            fontWeight: 'bold',
+            mb: 2,
+            '&:hover': {
+              backgroundColor: 'rgba(168, 12, 92, 0.1)'
+            }
+          }}
+        >
+          Back to Pet Boarding
+        </Button>
+      </Box>
+
+      <PinkGradientBox>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+          <Avatar
+            sx={{
+              width: 60,
+              height: 60,
+              background: 'rgba(255,255,255,0.2)',
+              border: '3px solid rgba(255,255,255,0.3)',
+              mr: 2
+            }}
+          >
+            <Pets sx={{ fontSize: '2rem', color: 'white' }} />
+          </Avatar>
+          <Typography 
+            variant="h3" 
+            component="h1"
+            sx={{ 
+              fontWeight: 'bold', 
+              color: 'white',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.1)'
+            }}
+          >
+            Pet Boarding Request
+          </Typography>
+        </Box>
+        <Typography 
+          variant="h6" 
+          align="center" 
+          sx={{ 
+            color: 'rgba(255,255,255,0.9)',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
+          }}
+        >
           Please fill out the form below to request pet boarding services. All fields marked with * are required.
         </Typography>
+      </PinkGradientBox>
+
+      <PlayfulPaper elevation={0} sx={{ p: 4 }}>
 
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             {/* Owner Information */}
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Owner Information
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1
+                }}
+              >
+                👤 Owner Information
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="Owner Name"
@@ -217,7 +350,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="Email"
@@ -228,7 +361,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="Phone Number"
@@ -240,12 +373,22 @@ const PetBoarding = () => {
 
             {/* Pet Information */}
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Pet Information
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1,
+                  mt: 3
+                }}
+              >
+                🐾 Pet Information
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="Pet Name"
@@ -255,7 +398,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="Pet Age"
@@ -265,7 +408,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="Breed"
@@ -275,7 +418,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <PinkTextField
                 fullWidth
                 label="Allergies (Optional)"
                 name="allergies"
@@ -287,7 +430,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <PinkTextField
                 fullWidth
                 label="Current Medications (Optional)"
                 name="medications"
@@ -300,7 +443,7 @@ const PetBoarding = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <TextField
+              <PinkTextField
                 fullWidth
                 label="Feeding Instructions (Optional)"
                 name="feedingSchedule"
@@ -314,12 +457,22 @@ const PetBoarding = () => {
 
             {/* Emergency Contact */}
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Emergency Contact (Optional)
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1,
+                  mt: 3
+                }}
+              >
+                🚨 Emergency Contact (Optional)
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 fullWidth
                 label="Emergency Contact Name"
                 name="emergencyContactName"
@@ -328,7 +481,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 fullWidth
                 label="Emergency Contact Phone"
                 name="emergencyContactPhone"
@@ -339,12 +492,22 @@ const PetBoarding = () => {
 
             {/* Veterinarian Information */}
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Personal Veterinarian (Optional)
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1,
+                  mt: 3
+                }}
+              >
+                🩺 Personal Veterinarian (Optional)
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 fullWidth
                 label="Veterinarian Name"
                 name="veterinarianName"
@@ -353,7 +516,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 fullWidth
                 label="Veterinarian Phone"
                 name="veterinarianPhone"
@@ -364,12 +527,22 @@ const PetBoarding = () => {
 
             {/* Boarding Dates */}
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Boarding Dates
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1,
+                  mt: 3
+                }}
+              >
+                📅 Boarding Dates
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="Start Date"
@@ -382,7 +555,7 @@ const PetBoarding = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <PinkTextField
                 required
                 fullWidth
                 label="End Date"
@@ -397,8 +570,18 @@ const PetBoarding = () => {
 
             {/* Document Uploads */}
             <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                Documents (Optional)
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1,
+                  mt: 3
+                }}
+              >
+                📄 Documents (Optional)
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -415,9 +598,9 @@ const PetBoarding = () => {
                     onChange={handlePetImagesUpload}
                     style={{ display: 'none' }}
                   />
-                  <Button variant="contained" component="span">
-                    Upload Pet Images
-                  </Button>
+                  <PlayfulButton variant="contained" component="span">
+                    📸 Upload Pet Images
+                  </PlayfulButton>
                 </label>
                 {petImages.length > 0 && (
                   <Typography variant="body2" sx={{ mt: 1 }}>
@@ -442,9 +625,9 @@ const PetBoarding = () => {
                     onChange={handlePetCardUpload}
                     style={{ display: 'none' }}
                   />
-                  <Button variant="contained" component="span">
-                    Upload Vaccination Card
-                  </Button>
+                  <PlayfulButton variant="contained" component="span">
+                    💉 Upload Vaccination Card
+                  </PlayfulButton>
                 </label>
                 {petCard && (
                   <Typography variant="body2" sx={{ mt: 1 }}>
@@ -469,9 +652,9 @@ const PetBoarding = () => {
                     onChange={handleVaccinationRecordsUpload}
                     style={{ display: 'none' }}
                   />
-                  <Button variant="contained" component="span">
-                    Upload Medical Records
-                  </Button>
+                  <PlayfulButton variant="contained" component="span">
+                    🏥 Upload Medical Records
+                  </PlayfulButton>
                 </label>
                 {vaccinationRecords && (
                   <Typography variant="body2" sx={{ mt: 1 }}>
@@ -486,20 +669,19 @@ const PetBoarding = () => {
 
             {/* Submit Button */}
             <Grid item xs={12}>
-              <Button
+              <PlayfulButton
                 type="submit"
                 variant="contained"
-                color="primary"
                 size="large"
                 fullWidth
-                sx={{ mt: 3 }}
+                sx={{ mt: 4, py: 2, fontSize: '1.2rem' }}
               >
-                Submit Boarding Request
-              </Button>
+                🚀 Submit Boarding Request
+              </PlayfulButton>
             </Grid>
           </Grid>
         </form>
-      </Paper>
+      </PlayfulPaper>
     </Container>
   );
 };
