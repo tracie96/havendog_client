@@ -46,7 +46,7 @@ export default function HomeFooter() {
                       <i className="fa fa-envelope me-2"></i>info@havenpethome.com
                     </a>
                   </li>
-                  <li><i className="fa fa-map-marker me-2"></i>15A, Ogbunike Street, Lekki Phase 1, Eti-Osa LGA</li>
+                  <li><i className="fa fa-map-marker me-2"></i>Old Federal Secretariat, Ikoyi, Lagos 106104, Lagos</li>
                 </ul>
                 <div className="social_links mt-4">
                   <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
