@@ -6,7 +6,7 @@ import { API_CONFIG } from '../../config/api';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const PetDetails = () => {
   const [pet, setPet] = useState(null);
