@@ -90,7 +90,7 @@ const UpForAdoption = () => {
                 <Col xs={24} sm={12} md={8} lg={6} key={pet._id}>
                   <Card 
                     hoverable 
-                    cover={<img alt={pet.name} src={pet.imageUrl} style={{ height: 200, objectFit: 'cover' }} />}
+                    cover={<img alt={pet.name} src={pet.imageUrl} style={{ height: 400, objectFit: 'cover' }} />}
                     onClick={() => handlePetClick(pet._id)}
                   >
                     <Card.Meta
