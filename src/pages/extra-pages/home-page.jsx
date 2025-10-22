@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -320,11 +321,11 @@ function HomePage() {
                   </p>
                 </div>
                 <div className="contact_btn d-flex align-items-center justify-content-center">
-                  <Link href="/donate" className="boxed-btn4">
+                  <Link to="/donate" className="boxed-btn4">
                     Donate
                   </Link>
                   <p>
-                    Or <a href="#">+234 810-969-0608</a>
+                    Or call us at +234 810-969-0608
                   </p>
                 </div>
               </div>
