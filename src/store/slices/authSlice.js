@@ -30,7 +30,7 @@ if (token) {
 export const registerUser = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
   try {
     console.log('Registration data being sent:', userData);
-    const response = await api.post('/api/auth/register', userData);
+    const response = await api.post('/auth/register', userData);
     const { token, user } = response.data;
 
     // Set token in axios headers and localStorage

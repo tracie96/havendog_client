@@ -26,7 +26,7 @@ const Register = () => {
       console.log('Final Form Values:', finalValues);
 
       // Validate all required fields are present
-      const requiredFields = ['firstName', 'lastName', 'email', 'password', 'userType', 'phoneNumber', 'address'];
+      const requiredFields = ['firstName', 'lastName', 'email', 'password', 'userType', 'address'];
       const missingFields = requiredFields.filter((field) => !finalValues[field]);
 
       if (missingFields.length > 0) {
@@ -42,7 +42,7 @@ const Register = () => {
         email: finalValues.email,
         password: finalValues.password,
         userType: finalValues.userType,
-        phoneNumber: finalValues.phoneNumber,
+        phoneNumber: finalValues?.phoneNumber || '',
         address: finalValues.address,
         ...(finalValues.petOwnerInfo && { petOwnerInfo: finalValues.petOwnerInfo }),
         ...(finalValues.veterinarianInfo && { veterinarianInfo: finalValues.veterinarianInfo })
@@ -127,7 +127,7 @@ const Register = () => {
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
-            <Form.Item name="phoneNumber" label="Phone Number" rules={[{ required: true, message: 'Please input your phone number!' }]}>
+            <Form.Item name="phoneNumber" label="Phone Number">
               <Input size="large" />
             </Form.Item>
           </Col>
