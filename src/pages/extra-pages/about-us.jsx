@@ -106,9 +106,7 @@ const AboutUs = () => {
                           </strong>
                           <br />
                           <span className="text-gray-700">{item.description}</span>
-                          <Link href={item.link} className="" style={{ marginLeft: 5, color: '#FF0080' }}>
-                            Read More
-                          </Link>
+                       
                         </li>
                       ))}
                     </ul>

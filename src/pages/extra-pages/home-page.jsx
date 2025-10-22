@@ -320,9 +320,9 @@ function HomePage() {
                   </p>
                 </div>
                 <div className="contact_btn d-flex align-items-center justify-content-center">
-                  <a href="contact.html" className="boxed-btn4">
+                  <Link href="/donate" className="boxed-btn4">
                     Donate
-                  </a>
+                  </Link>
                   <p>
                     Or <a href="#">+234 810-969-0608</a>
                   </p>
