@@ -94,12 +94,12 @@ const Register = () => {
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={12}>
             <Form.Item name="firstName" label="First Name" rules={[{ required: true, message: 'Please input your first name!' }]}>
-              <Input size="large" />
+              <Input size="large" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
             <Form.Item name="lastName" label="Last Name" rules={[{ required: true, message: 'Please input your last name!' }]}>
-              <Input size="large" />
+              <Input size="large" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col xs={24}>
@@ -111,7 +111,7 @@ const Register = () => {
                 { type: 'email', message: 'Please enter a valid email!' }
               ]}
             >
-              <Input size="large" />
+              <Input size="large" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
@@ -123,17 +123,17 @@ const Register = () => {
                 { min: 6, message: 'Password must be at least 6 characters!' }
               ]}
             >
-              <Input.Password size="large" />
+              <Input.Password size="large" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12}>
             <Form.Item name="phoneNumber" label="Phone Number">
-              <Input size="large" />
+              <Input size="large" style={{ width: '100%' }} />
             </Form.Item>
           </Col>
           <Col xs={24}>
             <Form.Item name="address" label="Address" rules={[{ required: true, message: 'Please input your address!' }]}>
-              <Input.TextArea size="large" rows={3} />
+              <Input.TextArea size="large" rows={3} style={{ width: '100%' }} />
             </Form.Item>
           </Col>
         </Row>
@@ -143,9 +143,9 @@ const Register = () => {
       title: 'User Type',
       content: (
         <Row justify="center">
-          <Col xs={24} sm={16}>
+          <Col xs={24} sm={16} md={12}>
             <Form.Item name="userType" label="User Type" rules={[{ required: true, message: 'Please select your user type!' }]}>
-              <Select size="large">
+              <Select size="large" style={{ width: '100%' }}>
                 <Option value="petOwner">Pet Owner</Option>
                 <Option value="veterinarian" disabled={true}>Veterinarian - Coming Soon</Option>
               </Select>
@@ -167,7 +167,7 @@ const Register = () => {
                     label="Preferred Contact Method"
                     rules={[{ required: true, message: 'Please select your preferred contact method!' }]}
                   >
-                    <Select size="large">
+                    <Select size="large" style={{ width: '100%' }}>
                       <Option value="phone">Phone Call</Option>
                       <Option value="text">Text Message</Option>
                     </Select>
@@ -196,9 +196,9 @@ const Register = () => {
                           ]}
                         >
                           {contactMethod === 'phone' || contactMethod === 'text' ? (
-                            <Input size="large" placeholder="Enter your phone number" />
+                            <Input size="large" placeholder="Enter your phone number" style={{ width: '100%' }} />
                           ) : (
-                            <Input size="large" placeholder="Select contact method first" disabled />
+                            <Input size="large" placeholder="Select contact method first" disabled style={{ width: '100%' }} />
                           )}
                         </Form.Item>
                       );
@@ -211,12 +211,12 @@ const Register = () => {
                     label="Emergency Contact"
                     rules={[{ required: true, message: 'Please input emergency contact information!' }]}
                   >
-                    <Input.TextArea size="large" placeholder="Name and contact information of emergency contact" rows={2} />
+                    <Input.TextArea size="large" placeholder="Name and contact information of emergency contact" rows={2} style={{ width: '100%' }} />
                   </Form.Item>
                 </Col>
                 <Col xs={24}>
                   <Form.Item name={['petOwnerInfo', 'veterinarian']} label="Personal Veterinarian">
-                    <Input size="large" placeholder="Your personal veterinarian's name and contact (optional)" />
+                    <Input size="large" placeholder="Your personal veterinarian's name and contact (optional)" style={{ width: '100%' }} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -228,7 +228,7 @@ const Register = () => {
                     label="Clinic Name"
                     rules={[{ required: true, message: 'Please input your clinic name!' }]}
                   >
-                    <Input size="large" />
+                    <Input size="large" style={{ width: '100%' }} />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12}>
@@ -237,7 +237,7 @@ const Register = () => {
                     label="Specialization"
                     rules={[{ required: true, message: 'Please input your specialization!' }]}
                   >
-                    <Input size="large" />
+                    <Input size="large" style={{ width: '100%' }} />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12}>
@@ -246,7 +246,7 @@ const Register = () => {
                     label="Years of Experience"
                     rules={[{ required: true, message: 'Please input your years of experience!' }]}
                   >
-                    <Input type="number" size="large" />
+                    <Input type="number" size="large" style={{ width: '100%' }} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -258,26 +258,79 @@ const Register = () => {
   ];
 
   return (
-    <Card className="w-full border-none">
-      <div className="steps-container mb-4">
-        <Steps current={currentStep} items={steps.map((item) => ({ title: item.title }))} rootClassName="custom-steps" />
+    <Card 
+      className="w-full border-none" 
+      style={{ 
+        padding: '16px',
+        maxWidth: '100%',
+        margin: '0 auto'
+      }}
+    >
+      <div className="steps-container mb-4" style={{ marginBottom: '20px' }}>
+        <Steps 
+          current={currentStep} 
+          items={steps.map((item) => ({ title: item.title }))} 
+          rootClassName="custom-steps"
+          size="small"
+          responsive={true}
+          style={{
+            fontSize: '12px'
+          }}
+        />
       </div>
 
       <div className="step-content">
-        <Form form={form} layout="vertical" onFinish={onFinish} onValuesChange={() => dispatch(clearError())} initialValues={formValues}>
+        <Form 
+          form={form} 
+          layout="vertical" 
+          onFinish={onFinish} 
+          onValuesChange={() => dispatch(clearError())} 
+          initialValues={formValues}
+          style={{ width: '100%' }}
+        >
           {steps[currentStep].content}
 
-          <div className="button-container">
+          <div 
+            className="button-container" 
+            style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              marginTop: '24px',
+              gap: '12px',
+              flexWrap: 'wrap',
+              width: '100%'
+            }}
+          >
             {currentStep > 0 ? (
-              <Button onClick={handlePrevious} size="large">
+              <Button 
+                onClick={handlePrevious} 
+                size="large"
+                style={{ 
+                  flex: '1',
+                  minWidth: '120px',
+                  height: '48px'
+                }}
+              >
                 Previous
               </Button>
             ) : (
-              <div></div>
+              <div style={{ flex: '1' }}></div>
             )}
 
             {currentStep < steps.length - 1 ? (
-              <Button type="primary" onClick={handleNext} size="large" style={{ backgroundColor: '#FF0080', borderColor: '#FF0080' }}>
+              <Button 
+                type="primary" 
+                onClick={handleNext} 
+                size="large" 
+                style={{ 
+                  backgroundColor: '#FF0080', 
+                  borderColor: '#FF0080',
+                  flex: '1',
+                  minWidth: '120px',
+                  height: '48px'
+                }}
+              >
                 Next
               </Button>
             ) : (
@@ -286,7 +339,13 @@ const Register = () => {
                 htmlType="submit"
                 loading={loading}
                 size="large"
-                style={{ backgroundColor: '#FF0080', borderColor: '#FF0080' }}
+                style={{ 
+                  backgroundColor: '#FF0080', 
+                  borderColor: '#FF0080',
+                  flex: '1',
+                  minWidth: '120px',
+                  height: '48px'
+                }}
               >
                 Register
               </Button>

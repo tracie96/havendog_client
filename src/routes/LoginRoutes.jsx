@@ -6,6 +6,7 @@ import HomePage from 'pages/extra-pages/home-page';
 import BlogSection from 'pages/extra-pages/blog';
 import DonatePage from 'pages/extra-pages/donate';
 import CreateAdoption from 'pages/extra-pages/create-adoption';
+import UpdateAdoption from 'pages/extra-pages/update-adoption';
 import UpForAdoption from 'pages/extra-pages/up-for-adoption';
 import PetDetails from 'pages/extra-pages/pet-details';
 import AdoptionRequests from 'pages/extra-pages/adoption-requests';
@@ -53,6 +54,10 @@ const AppRoutes = [
   {
     path: 'create-adoption',
     element: <CreateAdoption />
+  },
+  {
+    path: 'update-adoption',
+    element: <UpdateAdoption />
   },
   {
     path: 'donate',

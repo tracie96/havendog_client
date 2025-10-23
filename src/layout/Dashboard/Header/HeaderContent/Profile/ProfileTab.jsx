@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import List from '@mui/material/List';
@@ -14,13 +15,23 @@ import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import WalletOutlined from '@ant-design/icons/WalletOutlined';
 
+// redux
+import { logout } from '../../../../../store/slices/authSlice';
+
 // ==============================|| HEADER PROFILE - PROFILE TAB ||============================== //
 
 export default function ProfileTab() {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
   };
 
   return (
@@ -50,7 +61,7 @@ export default function ProfileTab() {
         </ListItemIcon>
         <ListItemText primary="Billing" />
       </ListItemButton>
-      <ListItemButton selected={selectedIndex === 2}>
+      <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
         <ListItemIcon>
           <LogoutOutlined />
         </ListItemIcon>
@@ -60,4 +71,3 @@ export default function ProfileTab() {
   );
 }
 
-ProfileTab.propTypes = { handleLogout: PropTypes.func };
