@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Card, 
   Form, 
@@ -10,9 +10,12 @@ import {
   Row, 
   Col, 
   Space,
-  Divider
+  Divider,
+  List,
+  Avatar,
+  Spin
 } from 'antd';
-import { SaveOutlined, SearchOutlined } from '@ant-design/icons';
+import { SaveOutlined, SearchOutlined, EditOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { API_CONFIG } from '../../config/api';
 import HomeHeader from 'menu-items/header';
@@ -28,6 +31,41 @@ const UpdateAdoption = () => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [adoptionData, setAdoptionData] = useState(null);
   const [adoptionId, setAdoptionId] = useState('');
+  const [allAdoptions, setAllAdoptions] = useState([]);
+  const [fetchingAdoptions, setFetchingAdoptions] = useState(false);
+
+  // Fetch all adoptions on component mount
+  useEffect(() => {
+    fetchAllAdoptions();
+  }, []);
+
+  const fetchAllAdoptions = async () => {
+    setFetchingAdoptions(true);
+    try {
+      const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
+      setAllAdoptions(response.data);
+    } catch (error) {
+      message.error('Failed to fetch adoptions');
+      console.error('Error:', error);
+    } finally {
+      setFetchingAdoptions(false);
+    }
+  };
+
+  const handleSelectAdoption = (adoption) => {
+    setAdoptionData(adoption);
+    setAdoptionId(adoption._id);
+    form.setFieldsValue(adoption);
+    message.success(`Selected ${adoption.name} for editing`);
+    
+    // Scroll to the form section
+    setTimeout(() => {
+      const formElement = document.getElementById('edit-form');
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
 
   const handleSearch = async () => {
     if (!adoptionId.trim()) {
@@ -70,6 +108,7 @@ const UpdateAdoption = () => {
       
       message.success('Adoption information updated successfully');
       setAdoptionData(response.data);
+      handleUpdateSuccess();
     } catch (error) {
       message.error('Failed to update adoption information');
       console.error('Error:', error);
@@ -84,50 +123,77 @@ const UpdateAdoption = () => {
     setAdoptionId('');
   };
 
+  const handleUpdateSuccess = () => {
+    // Refresh the adoptions list after successful update
+    fetchAllAdoptions();
+    setAdoptionData(null);
+    setAdoptionId('');
+    form.resetFields();
+  };
+
   return (
     <>
       <HomeHeader />
       <div className="container p-4">
         <Card>
           <Title level={2}>Update Adoption Information</Title>
-          <p>Update adoption information using the adoption ID</p>
+          <p>Select an adoption from the list below to update its information</p>
           
           <Divider />
           
-          {/* Search Section */}
+          {/* All Adoptions List */}
           <Card size="small" style={{ marginBottom: '24px' }}>
-            <Title level={4}>Search Adoption</Title>
-            <Row gutter={[16, 16]} align="middle">
-              <Col xs={24} sm={12} md={8}>
-                <Input
-                  placeholder="Enter adoption ID (e.g., 64f8a1b2c3d4e5f6a7b8c9d0)"
-                  value={adoptionId}
-                  onChange={(e) => setAdoptionId(e.target.value)}
-                  onPressEnter={handleSearch}
-                />
-              </Col>
-              <Col xs={24} sm={12} md={8}>
-                <Space>
+            <Title level={4}>Available Adoptions</Title>
+            {fetchingAdoptions ? (
+              <div style={{ textAlign: 'center', padding: '20px' }}>
+                <Spin size="large" />
+                <p>Loading adoptions...</p>
+              </div>
+            ) : (
+              <List
+                itemLayout="horizontal"
+                dataSource={allAdoptions}
+                renderItem={(adoption) => (
+                  <List.Item
+                    actions={[
                   <Button
                     type="primary"
-                    icon={<SearchOutlined />}
-                    onClick={handleSearch}
-                    loading={searchLoading}
+                        icon={<EditOutlined />}
+                        onClick={() => handleSelectAdoption(adoption)}
+                        disabled={adoptionData && adoptionData._id === adoption._id}
+                      >
+                        {adoptionData && adoptionData._id === adoption._id ? 'Selected' : 'Select to Edit'}
+                      </Button>
+                    ]}
                   >
-                    Search
-                  </Button>
-                  <Button onClick={handleReset}>
-                    Reset
-                  </Button>
-                </Space>
-              </Col>
-            </Row>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar 
+                          src={adoption.imageUrl} 
+                          size={64}
+                          shape="square"
+                        />
+                      }
+                      title={adoption.name}
+                      description={
+                        <div>
+                          <p><strong>Breed:</strong> {adoption.breed}</p>
+                          <p><strong>Age:</strong> {adoption.age}</p>
+                          <p><strong>Status:</strong> {adoption.status}</p>
+                          <p><strong>Description:</strong> {adoption.description?.substring(0, 100)}...</p>
+                        </div>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
           </Card>
 
           {/* Form Section */}
           {adoptionData && (
-            <Card size="small">
-              <Title level={4}>Update Adoption Information</Title>
+            <Card size="small" style={{ marginTop: '24px' }} id="edit-form">
+              <Title level={4}>Update Adoption Information - {adoptionData.name}</Title>
               <Form
                 form={form}
                 layout="vertical"

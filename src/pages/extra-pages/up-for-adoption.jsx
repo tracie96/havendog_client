@@ -100,7 +100,7 @@ const UpForAdoption = () => {
                           <Text>
                             {pet.breed}
                           </Text>
-                          <Text>Age: {pet.age}</Text>
+                          <Text>Age: {pet.age} Months</Text>
                           <Text>{truncateText(pet.description, 30)}</Text>
                           <Button type="primary" block>
                             Learn More
