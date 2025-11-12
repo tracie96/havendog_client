@@ -106,6 +106,30 @@ const DonatePage = () => {
               Your support helps us <strong style={{ color: '#a80c5c' }}>feed and take care of our shelter dogs</strong>, giving them a second chance at life 
               while we work to find them loving forever homes.
             </Typography>
+            <Box sx={{ mt: 3 }}>
+              <Button
+                component="a"
+                href="https://gofund.me/1275b0cb8"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="contained"
+                sx={{
+                  px: 4,
+                  py: 1.5,
+                  borderRadius: '999px',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  background: 'linear-gradient(0deg, #a80c5c 0%, #f5d1e0 99%)',
+                  boxShadow: '0 4px 15px rgba(168, 12, 92, 0.25)',
+                  '&:hover': {
+                    background: 'linear-gradient(0deg, #8a0a4a 0%, #e8c1d0 99%)',
+                    boxShadow: '0 6px 18px rgba(138, 10, 74, 0.35)'
+                  }
+                }}
+              >
+                Support Us On GoFundMe
+              </Button>
+            </Box>
           </Box>
           <Stack spacing={3}>
             <Stack direction="row" spacing={2}>
