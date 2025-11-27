@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Card, Tag, Button, Modal, message, Typography, Space } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { API_CONFIG } from '../../config/api';
-import HomeHeader from 'menu-items/header';
-import HomeFooter from './footer';
+import { API_CONFIG } from '../../../config/api';
 
 const { Title } = Typography;
 
@@ -40,17 +38,6 @@ const AdoptionRequests = () => {
     setIsModalVisible(true);
   };
 
-  /**
-   * Updates the adoption request status (approved/rejected)
-   * 
-   * NOTE: Email notifications should be sent from the BACKEND when status is updated.
-   * The backend endpoint PUT /api/interests/:id/status should:
-   * 1. Update the request status in the database
-   * 2. Send an email notification via SendGrid to the requester's email
-   * 3. Include appropriate email content based on status (approved/rejected)
-   * 
-   * DO NOT implement SendGrid on the client side - API keys must remain secure on the server.
-   */
   const handleStatusUpdate = async (requestId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
@@ -159,49 +146,46 @@ const AdoptionRequests = () => {
   ];
 
   return (
-    <>
-      <HomeHeader />
-      <div className="container p-4">
-        <Card>
-          <Title level={2}>Adoption Requests</Title>
-          <Table
-            columns={columns}
-            dataSource={requests}
-            loading={loading}
-            rowKey="_id"
-          />
-        </Card>
+    <div style={{ padding: '24px' }}>
+      <Card>
+        <Title level={2}>Pet Interest Requests</Title>
+        <Table
+          columns={columns}
+          dataSource={requests}
+          loading={loading}
+          rowKey="_id"
+        />
+      </Card>
 
-        <Modal
-          title="Request Details"
-          open={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={null}
-          width={600}
-        >
-          {selectedRequest && (
-            <div>
-              <h3>Pet Information</h3>
-              <p><strong>Name:</strong> {selectedRequest.petId?.name}</p>
-              <p><strong>Breed:</strong> {selectedRequest.petId?.breed}</p>
-              
-              <h3>Requester Information</h3>
-              <p><strong>Name:</strong> {selectedRequest.interestedUser?.name}</p>
-              <p><strong>Email:</strong> {selectedRequest.interestedUser?.email}</p>
-              <p><strong>Phone:</strong> {selectedRequest.interestedUser?.phone}</p>
-              
-              <h3>Request Details</h3>
-              <p><strong>Message:</strong></p>
-              <p style={{ whiteSpace: 'pre-wrap' }}>{selectedRequest.message}</p>
-              <p><strong>Date Submitted:</strong> {new Date(selectedRequest.createdAt).toLocaleString()}</p>
-              <p><strong>Status:</strong> <Tag color={selectedRequest.status === 'pending' ? 'orange' : selectedRequest.status === 'approved' ? 'green' : 'red'}>{selectedRequest.status.toUpperCase()}</Tag></p>
-            </div>
-          )}
-        </Modal>
-      </div>
-      <HomeFooter />
-    </>
+      <Modal
+        title="Request Details"
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        width={600}
+      >
+        {selectedRequest && (
+          <div>
+            <h3>Pet Information</h3>
+            <p><strong>Name:</strong> {selectedRequest.petId?.name}</p>
+            <p><strong>Breed:</strong> {selectedRequest.petId?.breed}</p>
+            
+            <h3>Requester Information</h3>
+            <p><strong>Name:</strong> {selectedRequest.interestedUser?.name}</p>
+            <p><strong>Email:</strong> {selectedRequest.interestedUser?.email}</p>
+            <p><strong>Phone:</strong> {selectedRequest.interestedUser?.phone}</p>
+            
+            <h3>Request Details</h3>
+            <p><strong>Message:</strong></p>
+            <p style={{ whiteSpace: 'pre-wrap' }}>{selectedRequest.message}</p>
+            <p><strong>Date Submitted:</strong> {new Date(selectedRequest.createdAt).toLocaleString()}</p>
+            <p><strong>Status:</strong> <Tag color={selectedRequest.status === 'pending' ? 'orange' : selectedRequest.status === 'approved' ? 'green' : 'red'}>{selectedRequest.status.toUpperCase()}</Tag></p>
+          </div>
+        )}
+      </Modal>
+    </div>
   );
 };
 
-export default AdoptionRequests; 
+export default AdoptionRequests;
+

@@ -92,6 +92,24 @@ const getMenuItems = (userType) => {
     }
   ];
 
+  const adminItems = [
+    {
+      key: '/dashboard/admin/create-adoption',
+      label: 'Create Adoption',
+      icon: React.createElement(FaPlus, { size: 20 })
+    },
+    {
+      key: '/dashboard/admin/update-adoption',
+      label: 'Update Adoption',
+      icon: React.createElement(FaFileAlt, { size: 20 })
+    },
+    {
+      key: '/dashboard/admin/adoption-requests',
+      label: 'Pet Interest Requests',
+      icon: React.createElement(FaHeart, { size: 20 })
+    }
+  ];
+
   let items = [...commonItems];
 
   switch (userType) {
@@ -103,6 +121,9 @@ const getMenuItems = (userType) => {
       break;
     case 'boarder':
       items = [...items, ...boarderItems];
+      break;
+    case 'admin':
+      items = [...items, ...adminItems];
       break;
     default:
       break;

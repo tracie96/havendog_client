@@ -26,7 +26,11 @@ const UpForAdoption = () => {
       try {
         const response = await axios.get(`${API_CONFIG.baseURL}/adoptions`);
         if (response.data && Array.isArray(response.data)) {
-          setPets(response.data);
+          // Filter out adopted pets - don't show pets with status "adopted" or isAdopted: true
+          const availablePets = response.data.filter(pet => 
+            pet.status !== 'adopted' && !pet.isAdopted
+          );
+          setPets(availablePets);
         }
       } catch (error) {
         console.error('Error fetching pets:', error);
@@ -37,7 +41,6 @@ const UpForAdoption = () => {
 
     fetchPets();
   }, []);
-
   const handlePetClick = (petId) => {
     navigate(`/pet-details/${petId}`);
   };

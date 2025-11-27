@@ -2,12 +2,20 @@ const isDevelopment = window.location.hostname === 'localhost' && window.locatio
 
 const API_CONFIG = {
   baseURL: isDevelopment ? 'https://havendog-service.onrender.com/api' : 'https://havendog-service.onrender.com/api',
+  //baseURL: isDevelopment ? 'http://localhost:5001/api' : 'http://localhost:5001/api',
+
   timeout: 30000, // 30 seconds timeout for slow connections
   retryAttempts: 3,
   retryDelay: 1000, // 1 second between retries
   endpoints: {
     auth: '/auth',
+    admin: {
+      login: '/auth/admin/login',
+      create: '/auth/admin/create'
+    },
     adoptions: '/adoptions',
+    interests: '/interests',
+    updateInterestStatus: (id) => `/interests/${id}/status`,
     upload: '/upload',
     pets: '/auth/pets',
     vets: '/vets',

@@ -15,6 +15,8 @@ import PetBoarding from 'pages/extra-pages/pet-boarding';
 
 const AuthLogin = Loadable(lazy(() => import('pages/authentication/login')));
 const AuthRegister = Loadable(lazy(() => import('pages/authentication/register')));
+const AdminLogin = Loadable(lazy(() => import('pages/authentication/admin-login')));
+const AdminRegister = Loadable(lazy(() => import('pages/authentication/admin-register')));
 const AboutUs = Loadable(lazy(() => import('pages/extra-pages/about-us')));
 
 const AppRoutes = [
@@ -32,6 +34,14 @@ const AppRoutes = [
       {
         path: 'register',
         element: <AuthRegister />
+      },
+      {
+        path: 'admin/login',
+        element: <AdminLogin />
+      },
+      {
+        path: 'admin/register',
+        element: <AdminRegister />
       }
     ]
   },

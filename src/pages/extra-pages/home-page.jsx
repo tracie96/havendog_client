@@ -21,7 +21,11 @@ function HomePage() {
   const fetchAdoptionData = async () => {
     try {
       const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
-      setAdoptionData(response.data);
+      // Filter out adopted pets - don't show pets with status "adopted" or isAdopted: true
+      const availablePets = response.data.filter(pet => 
+        pet.status !== 'adopted' && !pet.isAdopted
+      );
+      setAdoptionData(availablePets);
     } catch (error) {
       console.error('Error fetching adoption data:', error);
     }
@@ -29,7 +33,7 @@ function HomePage() {
 
   // Helper function to get counts
   const getPetCounts = () => {
-    const dogCount = adoptionData.length; // All pets from API are currently dogs
+    const dogCount = adoptionData.length; // All pets from API are currently dogs (excluding adopted)
     const catCount = 0; // Currently no cats in the API
     const shelterCount = 0; // Set shelter count to 0
     

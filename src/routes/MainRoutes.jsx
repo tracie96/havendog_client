@@ -15,6 +15,11 @@ const MyBookings = Loadable(lazy(() => import('pages/dashboard/pet-owner/MyBooki
 // const Payments = Loadable(lazy(() => import('pages/dashboard/pet-owner/Payments')));
 // const Notifications = Loadable(lazy(() => import('pages/dashboard/pet-owner/Notifications')));
 
+// Admin Components
+const CreateAdoption = Loadable(lazy(() => import('pages/dashboard/admin/CreateAdoption')));
+const UpdateAdoption = Loadable(lazy(() => import('pages/dashboard/admin/UpdateAdoption')));
+const AdoptionRequests = Loadable(lazy(() => import('pages/dashboard/admin/AdoptionRequests')));
+
 
 // render - sample page
 
@@ -73,6 +78,24 @@ const MainRoutes = {
         {
           path: 'default',
           element: <DashboardDefault />
+        }
+      ]
+    },
+    // Admin Routes
+    {
+      path: 'admin',
+      children: [
+        {
+          path: 'create-adoption',
+          element: <CreateAdoption />
+        },
+        {
+          path: 'update-adoption',
+          element: <UpdateAdoption />
+        },
+        {
+          path: 'adoption-requests',
+          element: <AdoptionRequests />
         }
       ]
     }
