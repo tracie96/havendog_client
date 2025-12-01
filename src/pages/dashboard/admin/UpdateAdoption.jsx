@@ -70,7 +70,7 @@ const UpdateAdoption = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `${API_CONFIG.baseURL}/adoption/${adoptionData._id}`,
+        `${API_CONFIG.baseURL}/adoptions/${adoptionData._id}`,
         values,
         {
           headers: {
