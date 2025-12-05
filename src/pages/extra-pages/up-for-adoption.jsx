@@ -21,6 +21,21 @@ const UpForAdoption = () => {
     }
     return text;
   };
+
+  const formatAge = (months) => {
+    if (!months && months !== 0) return 'Age unknown';
+    
+    const years = Math.floor(months / 12);
+    const remainingMonths = months % 12;
+    
+    if (years === 0) {
+      return `${months} ${months === 1 ? 'month' : 'months'}`;
+    } else if (remainingMonths === 0) {
+      return `${years} ${years === 1 ? 'year' : 'years'}`;
+    } else {
+      return `${years} ${years === 1 ? 'year' : 'years'} ${remainingMonths} ${remainingMonths === 1 ? 'month' : 'months'}`;
+    }
+  };
   useEffect(() => {
     const fetchPets = async () => {
       try {
@@ -103,7 +118,7 @@ const UpForAdoption = () => {
                           <Text>
                             {pet.breed}
                           </Text>
-                          <Text>Age: {pet.age} Months</Text>
+                          <Text>Age: {formatAge(pet.age)}</Text>
                           <Text>{truncateText(pet.description, 30)}</Text>
                           <Button type="primary" block>
                             Learn More
