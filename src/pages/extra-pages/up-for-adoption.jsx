@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Typography, Button, Space, Spin } from 'antd';
-import { HeartOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Typography, Button, Space, Spin, Modal, List } from 'antd';
+import { HeartOutlined, InfoCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
@@ -13,6 +13,7 @@ const { Title, Text } = Typography;
 const UpForAdoption = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(true);
   const navigate = useNavigate();
   const truncateText = (text, maxWords) => {
     const words = text.split(' ');
@@ -60,6 +61,49 @@ const UpForAdoption = () => {
     navigate(`/pet-details/${petId}`);
   };
 
+  const tipsForFutureParents = [
+    {
+      title: 'Neutering/Spaying',
+      description: 'Neutering or spaying your pet is required before final adoption. This helps control the pet population and provides health benefits including reduced risk of certain cancers and behavioral improvements.',
+    },
+    {
+      title: 'Veterinary Care',
+      description: 'Schedule a wellness check-up with a veterinarian within the first week of adoption. Ensure your pet is up-to-date on vaccinations and discuss a preventive care plan.',
+    },
+    {
+      title: 'Pet-Proofing Your Home',
+      description: 'Remove toxic plants, secure electrical cords, and ensure windows and doors are secure. Create a safe space where your pet can retreat when needed.',
+    },
+    {
+      title: 'Nutrition & Feeding',
+      description: 'Provide high-quality pet food appropriate for your pet\'s age, size, and health needs. Establish a regular feeding schedule and avoid overfeeding.',
+    },
+    {
+      title: 'Exercise & Mental Stimulation',
+      description: 'Regular exercise is essential for physical and mental health. Provide toys, puzzles, and daily activities to keep your pet engaged and happy.',
+    },
+    {
+      title: 'Training & Socialization',
+      description: 'Start training early with positive reinforcement. Socialize your pet gradually with people, other animals, and new environments to build confidence.',
+    },
+    {
+      title: 'Identification & Microchipping',
+      description: 'Ensure your pet has proper identification tags and consider microchipping. Keep contact information updated in case your pet gets lost.',
+    },
+    {
+      title: 'Grooming & Hygiene',
+      description: 'Establish a regular grooming routine including brushing, nail trimming, and dental care. This helps maintain health and strengthens your bond.',
+    },
+    {
+      title: 'Emergency Preparedness',
+      description: 'Have a pet first-aid kit ready and know the location of the nearest emergency veterinary clinic. Keep important documents and medical records accessible.',
+    },
+    {
+      title: 'Patience & Commitment',
+      description: 'Adjustment periods vary. Be patient as your pet adapts to their new home. Remember, adoption is a lifelong commitment that requires time, love, and resources.',
+    },
+  ];
+
   if (loading) {
     return (
       <>
@@ -94,6 +138,14 @@ const UpForAdoption = () => {
             <HeartOutlined className="mr-2" />
             Pets Up for Adoption
           </Title>
+          <Button 
+            type="default" 
+            icon={<InfoCircleOutlined />} 
+            onClick={() => setModalVisible(true)}
+            style={{ marginBottom: '16px' }}
+          >
+            Tips for Future Parents
+          </Button>
         </div>
 
         <div className="container">
@@ -133,6 +185,67 @@ const UpForAdoption = () => {
           )}
         </div>
       </div>
+      <Modal
+        title={
+          <Space>
+            <InfoCircleOutlined style={{ color: '#1890ff' }} />
+            <span>Important Information for Future Pet Parents</span>
+          </Space>
+        }
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        footer={[
+          <Button key="close" type="primary" onClick={() => setModalVisible(false)}>
+            Got it!
+          </Button>
+        ]}
+        width={700}
+      >
+        <div style={{ marginTop: '20px' }}>
+          <div style={{ 
+            backgroundColor: '#fff7e6', 
+            border: '2px solid #ffa940', 
+            borderRadius: '8px', 
+            padding: '20px', 
+            marginBottom: '24px' 
+          }}>
+            <Title level={4} style={{ color: '#ff4d4f', marginBottom: '16px' }}>
+              ⚠️ Mandatory Requirements:
+            </Title>
+            <div style={{ marginBottom: '12px' }}>
+              <Text strong style={{ fontSize: '16px', color: '#d4380d' }}>
+                1. Neutering/Spaying is COMPULSORY with our vets before handout is completed.
+              </Text>
+            </div>
+            <div style={{ marginBottom: '12px' }}>
+              <Text strong style={{ fontSize: '16px', color: '#d4380d' }}>
+                2. Only applicants located in Lagos are allowed to adopt.
+              </Text>
+            </div>
+            <div>
+              <Text strong style={{ fontSize: '16px', color: '#d4380d' }}>
+                3. Our pets must NOT sleep outside of the house or in a cage outside.
+              </Text>
+            </div>
+          </div>
+          <div style={{ marginTop: '24px' }}>
+            <Title level={4}>Essential Tips for Future Pet Parents:</Title>
+            <List
+              itemLayout="vertical"
+              dataSource={tipsForFutureParents}
+              renderItem={(item, index) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={<CheckCircleOutlined style={{ color: '#52c41a', fontSize: '20px' }} />}
+                    title={<Text strong>{item.title}</Text>}
+                    description={<Text>{item.description}</Text>}
+                  />
+                </List.Item>
+              )}
+            />
+          </div>
+        </div>
+      </Modal>
       <HomeFooter />
     </>
   );

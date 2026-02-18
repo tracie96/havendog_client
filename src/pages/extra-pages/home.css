@@ -14,7 +14,12 @@
   -ms-flex-pack: start;
   justify-content: start;
 }
-
+.ant-collapse{
+font-family: 'Montserrat';
+}
+.ant-form-item .ant-form-item-label >label{
+  font-family: 'Montserrat';  
+}
 /* line 13, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_extend.scss */
 .overlay::before {
   background-image: -moz-linear-gradient(170deg, rgba(34, 34, 34, 0) 0%, black 100%);
