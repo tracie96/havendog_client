@@ -19,6 +19,8 @@ const MyBookings = Loadable(lazy(() => import('pages/dashboard/pet-owner/MyBooki
 const CreateAdoption = Loadable(lazy(() => import('pages/dashboard/admin/CreateAdoption')));
 const UpdateAdoption = Loadable(lazy(() => import('pages/dashboard/admin/UpdateAdoption')));
 const AdoptionRequests = Loadable(lazy(() => import('pages/dashboard/admin/AdoptionRequests')));
+const CreateBoarding = Loadable(lazy(() => import('pages/dashboard/admin/CreateBoarding')));
+const Boarders = Loadable(lazy(() => import('pages/dashboard/admin/Boarders')));
 
 
 // render - sample page
@@ -96,6 +98,14 @@ const MainRoutes = {
         {
           path: 'adoption-requests',
           element: <AdoptionRequests />
+        },
+        {
+          path: 'create-boarding',
+          element: <CreateBoarding />
+        },
+        {
+          path: 'boarders',
+          element: <Boarders />
         }
       ]
     }

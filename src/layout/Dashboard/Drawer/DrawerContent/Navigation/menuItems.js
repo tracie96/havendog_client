@@ -107,6 +107,16 @@ const getMenuItems = (userType) => {
       key: '/dashboard/admin/adoption-requests',
       label: 'Pet Interest Requests',
       icon: React.createElement(FaHeart, { size: 20 })
+    },
+    {
+      key: '/dashboard/admin/create-boarding',
+      label: 'Create Boarding',
+      icon: React.createElement(FaPlus, { size: 20 })
+    },
+    {
+      key: '/dashboard/admin/boarders',
+      label: 'View Boarders',
+      icon: React.createElement(FaClipboardList, { size: 20 })
     }
   ];
 
