@@ -14,15 +14,18 @@ const CreateBoarding = () => {
       setLoading(true);
       const token = localStorage.getItem('token');
       const payload = {
+        dogName: values.dogName || undefined,
         nameOfBreed: values.nameOfBreed,
         ownerInformation: {
           name: values.ownerName,
-          email: values.ownerEmail,
+          email: values.ownerEmail || undefined,
           phone: values.ownerPhone
         },
         priceAgreed: values.priceAgreed,
         checkInDate: (values.checkInDate?.toDate?.() || values.checkInDate).toISOString(),
-        checkoutDate: (values.checkoutDate?.toDate?.() || values.checkoutDate).toISOString()
+        ...(values.checkoutDate && {
+          checkoutDate: (values.checkoutDate?.toDate?.() || values.checkoutDate).toISOString()
+        })
       };
 
       await axios.post(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.boarders}`, payload, {
@@ -52,6 +55,9 @@ const CreateBoarding = () => {
           onFinish={onFinish}
           style={{ maxWidth: '600px' }}
         >
+          <Form.Item name="dogName" label="Dog name">
+            <Input size="large" placeholder="e.g. Max" />
+          </Form.Item>
           <Form.Item
             name="nameOfBreed"
             label="Name of breed"
@@ -71,10 +77,7 @@ const CreateBoarding = () => {
           <Form.Item
             name="ownerEmail"
             label="Owner email"
-            rules={[
-              { required: true, message: 'Please enter owner email!' },
-              { type: 'email', message: 'Please enter a valid email!' }
-            ]}
+            rules={[{ type: 'email', message: 'Please enter a valid email!' }]}
           >
             <Input size="large" type="email" placeholder="email@example.com" />
           </Form.Item>
@@ -88,7 +91,7 @@ const CreateBoarding = () => {
 
           <Form.Item
             name="priceAgreed"
-            label="Price agreed on"
+            label="Price agreed/day"
             rules={[{ required: true, message: 'Please enter agreed price!' }]}
           >
             <InputNumber
@@ -108,11 +111,7 @@ const CreateBoarding = () => {
           >
             <DatePicker size="large" style={{ width: '100%' }} />
           </Form.Item>
-          <Form.Item
-            name="checkoutDate"
-            label="Check-out date"
-            rules={[{ required: true, message: 'Please select check-out date!' }]}
-          >
+          <Form.Item name="checkoutDate" label="Check-out date">
             <DatePicker size="large" style={{ width: '100%' }} />
           </Form.Item>
 

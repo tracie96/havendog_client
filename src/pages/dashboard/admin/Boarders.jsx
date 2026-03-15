@@ -32,6 +32,12 @@ const Boarders = () => {
 
   const columns = [
     {
+      title: 'Dog name',
+      dataIndex: 'dogName',
+      key: 'dogName',
+      render: (val) => val ?? '—'
+    },
+    {
       title: 'Breed',
       dataIndex: 'nameOfBreed',
       key: 'nameOfBreed'
@@ -52,7 +58,7 @@ const Boarders = () => {
       render: (_, record) => record.ownerInformation?.phone ?? '—'
     },
     {
-      title: 'Price agreed',
+      title: 'Price agreed/day',
       dataIndex: 'priceAgreed',
       key: 'priceAgreed',
       render: (val) => (val != null ? `$${Number(val).toFixed(2)}` : '—')
