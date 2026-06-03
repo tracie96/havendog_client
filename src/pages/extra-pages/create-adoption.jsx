@@ -118,8 +118,8 @@ const CreateAdoption = () => {
                 <Input />
               </Form.Item>
 
-              <Form.Item name="age" label="Age (years)" rules={[{ required: true, message: 'Please enter the age' }]}>
-                <InputNumber min={0} max={20} />
+              <Form.Item name="age" label="Age (in months)" rules={[{ required: true, message: 'Please enter the age in months' }]}>
+                <InputNumber min={0} placeholder="e.g. 36 for 36 months" style={{ width: '100%' }} />
               </Form.Item>
 
               <Form.Item name="location" label="Location" rules={[{ required: true, message: 'Please enter the location' }]}>

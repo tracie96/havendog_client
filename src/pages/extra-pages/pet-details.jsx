@@ -5,6 +5,7 @@ import axios from 'axios';
 import { API_CONFIG } from '../../config/api';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
+import { formatPetAge } from '../../utils/formatPetAge';
 
 const { Panel } = Collapse;
 
@@ -16,21 +17,6 @@ const PetDetails = () => {
   const [form] = Form.useForm();
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const formatAge = (months) => {
-    if (!months && months !== 0) return 'Age unknown';
-    
-    const years = Math.floor(months / 12);
-    const remainingMonths = months % 12;
-    
-    if (years === 0) {
-      return `${months} ${months === 1 ? 'month' : 'months'}`;
-    } else if (remainingMonths === 0) {
-      return `${years} ${years === 1 ? 'year' : 'years'}`;
-    } else {
-      return `${years} ${years === 1 ? 'year' : 'years'} ${remainingMonths} ${remainingMonths === 1 ? 'month' : 'months'}`;
-    }
-  };
 
   useEffect(() => {
     const fetchPet = async () => {
@@ -91,7 +77,7 @@ const PetDetails = () => {
                       <strong>Breed:</strong> {pet.breed}
                     </Text>
                     <Text>
-                      <strong>Age:</strong> {formatAge(pet.age)}
+                      <strong>Age:</strong> {formatPetAge(pet.age)}
                     </Text>
                     <Text>
                       <strong>Location:</strong> {pet.location}

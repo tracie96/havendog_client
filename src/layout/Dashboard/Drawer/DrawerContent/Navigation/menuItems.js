@@ -9,7 +9,8 @@ import {
   FaUsers,
   FaUserFriends,
   FaClipboardList,
-  FaPlus
+  FaPlus,
+  FaCheckCircle
 } from 'react-icons/fa';
 
 const getMenuItems = (userType) => {
@@ -117,6 +118,11 @@ const getMenuItems = (userType) => {
       key: '/dashboard/admin/boarders',
       label: 'View Boarders',
       icon: React.createElement(FaClipboardList, { size: 20 })
+    },
+    {
+      key: '/dashboard/admin/adopted-dogs',
+      label: 'Adopted Dogs',
+      icon: React.createElement(FaCheckCircle, { size: 20 })
     }
   ];
 

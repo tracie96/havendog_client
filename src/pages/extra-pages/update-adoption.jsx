@@ -18,6 +18,7 @@ import {
 import { SaveOutlined, SearchOutlined, EditOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { API_CONFIG } from '../../config/api';
+import { formatPetAge } from '../../utils/formatPetAge';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
 
@@ -27,6 +28,7 @@ const { TextArea } = Input;
 
 const UpdateAdoption = () => {
   const [form] = Form.useForm();
+  const status = Form.useWatch('status', form);
   const [loading, setLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
   const [adoptionData, setAdoptionData] = useState(null);
@@ -110,7 +112,8 @@ const UpdateAdoption = () => {
       setAdoptionData(response.data);
       handleUpdateSuccess();
     } catch (error) {
-      message.error('Failed to update adoption information');
+      const errorMessage = error.response?.data?.message || 'Failed to update adoption information';
+      message.error(errorMessage);
       console.error('Error:', error);
     } finally {
       setLoading(false);
@@ -178,7 +181,7 @@ const UpdateAdoption = () => {
                       description={
                         <div>
                           <p><strong>Breed:</strong> {adoption.breed}</p>
-                          <p><strong>Age:</strong> {adoption.age}</p>
+                          <p><strong>Age:</strong> {formatPetAge(adoption.age)}</p>
                           <p><strong>Status:</strong> {adoption.status}</p>
                           <p><strong>Description:</strong> {adoption.description?.substring(0, 100)}...</p>
                         </div>
@@ -224,10 +227,10 @@ const UpdateAdoption = () => {
                   <Col xs={24} sm={12}>
                     <Form.Item
                       name="age"
-                      label="Age"
-                      rules={[{ required: true, message: 'Please enter age' }]}
+                      label="Age (in months)"
+                      rules={[{ required: true, message: 'Please enter age in months' }]}
                     >
-                      <Input type="number" placeholder="Enter age" />
+                      <Input type="number" min={0} placeholder="e.g. 36 for 36 months" />
                     </Form.Item>
                   </Col>
                   
@@ -281,6 +284,29 @@ const UpdateAdoption = () => {
                       </Select>
                     </Form.Item>
                   </Col>
+
+                  {status === 'adopted' && (
+                    <>
+                      <Col xs={24} sm={12}>
+                        <Form.Item
+                          name="adopterName"
+                          label="Adopter Name"
+                          rules={[{ required: true, message: 'Please enter the adopter\'s name' }]}
+                        >
+                          <Input placeholder="Full name of who adopted this pet" />
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} sm={12}>
+                        <Form.Item
+                          name="adopterPhone"
+                          label="Adopter Phone Number"
+                          rules={[{ required: true, message: 'Please enter the adopter\'s phone number' }]}
+                        >
+                          <Input placeholder="Phone number of who adopted this pet" />
+                        </Form.Item>
+                      </Col>
+                    </>
+                  )}
                 </Row>
                 
                 <Divider />

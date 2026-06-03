@@ -21,6 +21,7 @@ const UpdateAdoption = Loadable(lazy(() => import('pages/dashboard/admin/UpdateA
 const AdoptionRequests = Loadable(lazy(() => import('pages/dashboard/admin/AdoptionRequests')));
 const CreateBoarding = Loadable(lazy(() => import('pages/dashboard/admin/CreateBoarding')));
 const Boarders = Loadable(lazy(() => import('pages/dashboard/admin/Boarders')));
+const AdoptedDogs = Loadable(lazy(() => import('pages/dashboard/admin/AdoptedDogs')));
 
 
 // render - sample page
@@ -98,14 +99,6 @@ const MainRoutes = {
         {
           path: 'adoption-requests',
           element: <AdoptionRequests />
-        },
-        {
-          path: 'create-boarding',
-          element: <CreateBoarding />
-        },
-        {
-          path: 'boarders',
-          element: <Boarders />
         }
       ]
     }
