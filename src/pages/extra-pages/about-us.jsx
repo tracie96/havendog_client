@@ -9,7 +9,7 @@ import { CheckCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import HomeFooter from './footer';
 import axios from 'axios';
-import {API_CONFIG, d} from '../../config/api';
+import { API_CONFIG } from '../../config/api';
 
 const AboutUs = () => {
   const [adoptionData, setAdoptionData] = useState([]);
@@ -131,9 +131,9 @@ const AboutUs = () => {
                     Lorem ipsum dolor sit, consectetur adipiscing elit, sed do iusmod tempor incididunt ut labore et dolore magna aliqua.
                     Quis ipsum suspendisse ultrices.
                   </p>
-                  <a href="contact.html" className="boxed-btn3">
+                  <Link to="/contact-us" className="boxed-btn3">
                     Contact Us
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

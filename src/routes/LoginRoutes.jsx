@@ -18,6 +18,7 @@ const AuthRegister = Loadable(lazy(() => import('pages/authentication/register')
 const AdminLogin = Loadable(lazy(() => import('pages/authentication/admin-login')));
 const AdminRegister = Loadable(lazy(() => import('pages/authentication/admin-register')));
 const AboutUs = Loadable(lazy(() => import('pages/extra-pages/about-us')));
+const ContactUs = Loadable(lazy(() => import('pages/extra-pages/contact-us')));
 
 const AppRoutes = [
   {
@@ -48,6 +49,10 @@ const AppRoutes = [
   {
     path: 'about-us',
     element: <AboutUs />
+  },
+  {
+    path: 'contact-us',
+    element: <ContactUs />
   },
   {
     path: 'blog',

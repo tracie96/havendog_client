@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Input, Button, message } from 'antd';
 import { MailOutlined, PhoneOutlined, EnvironmentOutlined, SendOutlined } from '@ant-design/icons';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+import './home.css';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
 import './contact-us.css';
@@ -8,6 +11,10 @@ import './contact-us.css';
 const ContactUs = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const onFinish = (values) => {
     setLoading(true);
@@ -48,8 +55,7 @@ const ContactUs = () => {
               <div className="contact_info_box shadow p-4 text-center">
                 <PhoneOutlined style={{ fontSize: '36px', color: '#ff6b81', marginBottom: '15px' }} />
                 <h4>Phone Number</h4>
-                <p>+234 810-969-0608</p>
-                <p>+234 811-222-3333</p>
+                <p><a href="tel:+2348109690608">+234 810-969-0608</a></p>
               </div>
             </div>
             
@@ -57,8 +63,7 @@ const ContactUs = () => {
               <div className="contact_info_box shadow p-4 text-center">
                 <MailOutlined style={{ fontSize: '36px', color: '#ff6b81', marginBottom: '15px' }} />
                 <h4>Email Address</h4>
-                <p>info@havenpethome.com</p>
-                <p>support@havenpethome.com</p>
+                <p><a href="mailto:info@havenpethome.com">info@havenpethome.com</a></p>
               </div>
             </div>
             
@@ -66,7 +71,7 @@ const ContactUs = () => {
               <div className="contact_info_box shadow p-4 text-center">
                 <EnvironmentOutlined style={{ fontSize: '36px', color: '#ff6b81', marginBottom: '15px' }} />
                 <h4>Our Location</h4>
-                <p>15A, Ogbunike Street, Lekki Phase 1, Eti-Osa LGA</p>
+                <p>Old Federal Secretariat, Ikoyi, Lagos 106104, Lagos</p>
               </div>
             </div>
           </div>

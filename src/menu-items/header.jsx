@@ -101,11 +101,9 @@ function HomeHeader() {
                         <Link to="/pet-boarding">Boarding</Link>
                       </li>
                       <li>
-                        <Link to="/contact">Contact</Link>
+                        <Link to="/contact-us">Contact</Link>
                       </li>
-                      <li>
-                        <Link to="/login">Login</Link>
-                      </li>
+                    
                     </ul>
                   </nav>
                 </div>
@@ -158,7 +156,7 @@ function HomeHeader() {
                 <Link to="/pet-boarding" onClick={closeMobileMenu}>Boarding</Link>
               </li>
               <li>
-                <Link to="/contact" onClick={closeMobileMenu}>Contact</Link>
+                <Link to="/contact-us" onClick={closeMobileMenu}>Contact</Link>
               </li>
               <li>
                 <Link to="/login" onClick={closeMobileMenu}>Login</Link>

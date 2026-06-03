@@ -31,7 +31,7 @@ export default function HomeFooter() {
                   <li><Link to="/about-us">About Us</Link></li>
                   <li><Link to="/contact-us">Contact Us</Link></li>
                   <li><Link to="/donate">Donate</Link></li>
-                  <li><Link to="/adoption">Pet Adoption</Link></li>
+                  <li><Link to="/up-for-adoption">Pet Adoption</Link></li>
                 </ul>
               </div>
             </div>
@@ -49,18 +49,13 @@ export default function HomeFooter() {
                   <li><i className="fa fa-map-marker me-2"></i>Old Federal Secretariat, Ikoyi, Lagos 106104, Lagos</li>
                 </ul>
                 <div className="social_links mt-4">
-                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                  <a href="https://facebook.com/havenpethome_ng" target="_blank" rel="noopener noreferrer">
                     <FacebookOutlined className="social-icon" />
                   </a>
-                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.instagram.com/havenpethome_ng/" target="_blank" rel="noopener noreferrer">
                     <InstagramOutlined className="social-icon" />
                   </a>
-                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                    <TwitterOutlined className="social-icon" />
-                  </a>
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                    <LinkedinOutlined className="social-icon" />
-                  </a>
+               
                 </div>
               </div>
             </div>
@@ -69,11 +64,9 @@ export default function HomeFooter() {
               <div className="footer_widget">
                 <h3 className="footer_title">Our Services</h3>
                 <ul className="links">
-                  <li><Link to="/services/pet-insurance">Pet Insurance</Link></li>
-                  <li><Link to="/services/pet-surgeries">Pet Surgeries</Link></li>
-                  <li><Link to="/services/pet-adoption">Pet Adoption</Link></li>
-                  <li><Link to="/services/pet-sitting">Pet Sitting</Link></li>
-                  <li><Link to="/services/pet-training">Pet Training</Link></li>
+             
+                  <li><Link to="/up-for-adoption">Pet Adoption</Link></li>
+                
                 </ul>
               </div>
             </div>
