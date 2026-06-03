@@ -99,6 +99,18 @@ const MainRoutes = {
         {
           path: 'adoption-requests',
           element: <AdoptionRequests />
+        },
+        {
+          path: 'create-boarding',
+          element: <CreateBoarding />
+        },
+        {
+          path: 'boarders',
+          element: <Boarders />
+        },
+        {
+          path: 'adopted-dogs',
+          element: <AdoptedDogs />
         }
       ]
     }
