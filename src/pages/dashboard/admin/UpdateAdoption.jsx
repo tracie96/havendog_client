@@ -13,9 +13,10 @@ import {
   Divider,
   List,
   Avatar,
-  Spin
+  Spin,
+  Upload
 } from 'antd';
-import { SaveOutlined, EditOutlined } from '@ant-design/icons';
+import { SaveOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { API_CONFIG } from '../../../config/api';
 import { formatPetAge } from '../../../utils/formatPetAge';
@@ -31,6 +32,33 @@ const UpdateAdoption = () => {
   const [adoptionData, setAdoptionData] = useState(null);
   const [allAdoptions, setAllAdoptions] = useState([]);
   const [fetchingAdoptions, setFetchingAdoptions] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'havendogs');
+
+    try {
+      const response = await axios.post('https://api.cloudinary.com/v1_1/tracysoft/image/upload', formData);
+      return response.data.secure_url;
+    } catch (error) {
+      message.error('Failed to upload image');
+      throw error;
+    }
+  };
+
+  const handleImageUpload = async (file) => {
+    try {
+      const url = await uploadToCloudinary(file);
+      setImageUrl(url);
+      form.setFieldsValue({ imageUrl: url });
+      message.success('Image uploaded successfully');
+      return false;
+    } catch (error) {
+      return false;
+    }
+  };
 
   useEffect(() => {
     fetchAllAdoptions();
@@ -51,6 +79,7 @@ const UpdateAdoption = () => {
 
   const handleSelectAdoption = (adoption) => {
     setAdoptionData(adoption);
+    setImageUrl(adoption.imageUrl || '');
     form.setFieldsValue(adoption);
     message.success(`Selected ${adoption.name} for editing`);
     
@@ -73,7 +102,7 @@ const UpdateAdoption = () => {
       const token = localStorage.getItem('token');
       const response = await axios.put(
         `${API_CONFIG.baseURL}/adoptions/${adoptionData._id}`,
-        values,
+        { ...values, imageUrl: imageUrl || values.imageUrl },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,6 +126,7 @@ const UpdateAdoption = () => {
   const handleReset = () => {
     form.resetFields();
     setAdoptionData(null);
+    setImageUrl('');
   };
 
   return (
@@ -211,13 +241,25 @@ const UpdateAdoption = () => {
                 <Col xs={24}>
                   <Form.Item
                     name="imageUrl"
-                    label="Image URL"
-                    rules={[
-                      { required: true, message: 'Please enter image URL' },
-                      { type: 'url', message: 'Please enter a valid URL' }
-                    ]}
+                    label="Pet Image"
+                    rules={[{ required: true, message: 'Please upload a pet image' }]}
                   >
-                    <Input placeholder="Enter image URL" />
+                    <Upload
+                      beforeUpload={handleImageUpload}
+                      listType="picture-card"
+                      maxCount={1}
+                      showUploadList={false}
+                      accept="image/*"
+                    >
+                      {imageUrl ? (
+                        <img src={imageUrl} alt="pet" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <div>
+                          <PlusOutlined />
+                          <div style={{ marginTop: 8 }}>Upload</div>
+                        </div>
+                      )}
+                    </Upload>
                   </Form.Item>
                 </Col>
                 
