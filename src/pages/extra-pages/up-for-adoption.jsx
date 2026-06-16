@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Typography, Button, Space, Spin, Modal, List, Tag, Tabs } from 'antd';
+import { Card, Row, Col, Typography, Button, Space, Spin, Modal, List, Tag, Segmented } from 'antd';
 import { HeartOutlined, InfoCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import HomeHeader from 'menu-items/header';
@@ -16,6 +16,7 @@ const UpForAdoption = () => {
   const [adoptedPets, setAdoptedPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(true);
+  const [activeTab, setActiveTab] = useState('available');
   const navigate = useNavigate();
   const truncateText = (text, maxWords) => {
     const words = text.split(' ');
@@ -110,47 +111,23 @@ const UpForAdoption = () => {
     );
   };
 
-  const tabItems = [
-    {
-      key: 'available',
-      label: (
-        <span>
-          <HeartOutlined /> Available ({availablePets.length})
-        </span>
-      ),
-      children: renderPetGrid(
-        availablePets,
-        false,
-        'No pets available for adoption at the moment',
-        'Check back later for new pets!'
-      ),
-    },
-    {
-      key: 'adopted',
-      label: (
-        <span>
-          <CheckCircleOutlined /> Adopted ({adoptedPets.length})
-        </span>
-      ),
-      children: (
-        <>
-          {adoptedPets.length > 0 && (
-            <div className="text-center mb-4">
-              <Text type="secondary">
-                These wonderful pets have found their forever homes.
-              </Text>
-            </div>
-          )}
-          {renderPetGrid(
-            adoptedPets,
-            true,
-            'No adopted pets to show yet',
-            'Happy tails will appear here once pets find their homes.'
-          )}
-        </>
-      ),
-    },
-  ];
+  const adoptedTabContent = (
+    <>
+      {adoptedPets.length > 0 && (
+        <div className="text-center mb-4">
+          <Text type="secondary">
+            These wonderful pets have found their forever homes.
+          </Text>
+        </div>
+      )}
+      {renderPetGrid(
+        adoptedPets,
+        true,
+        'No adopted pets to show yet',
+        'Happy tails will appear here once pets find their homes.'
+      )}
+    </>
+  );
 
   const tipsForFutureParents = [
     {
@@ -240,13 +217,52 @@ const UpForAdoption = () => {
         </div>
 
         <div className="container">
-          <Tabs
-            defaultActiveKey="available"
-            centered
-            size="large"
-            items={tabItems}
-            style={{ marginBottom: 24 }}
-          />
+          <div style={{ maxWidth: 520, margin: '0 auto 28px', textAlign: 'center' }}>
+            <Text type="secondary" style={{ display: 'block', marginBottom: 10, fontSize: 14 }}>
+              Tap to browse pets
+            </Text>
+            <Segmented
+              size="large"
+              value={activeTab}
+              onChange={setActiveTab}
+              block
+              options={[
+                {
+                  value: 'available',
+                  label: (
+                    <Space size={6}>
+                      <HeartOutlined />
+                      <span>Available ({availablePets.length})</span>
+                    </Space>
+                  ),
+                },
+                {
+                  value: 'adopted',
+                  label: (
+                    <Space size={6}>
+                      <CheckCircleOutlined />
+                      <span>Adopted ({adoptedPets.length})</span>
+                    </Space>
+                  ),
+                },
+              ]}
+              style={{
+                padding: 4,
+                background: '#f5f5f5',
+                border: '1px solid #e0e0e0',
+                borderRadius: 12,
+              }}
+            />
+          </div>
+
+          {activeTab === 'available'
+            ? renderPetGrid(
+                availablePets,
+                false,
+                'No pets available for adoption at the moment',
+                'Check back later for new pets!'
+              )
+            : adoptedTabContent}
         </div>
       </div>
       <Modal
