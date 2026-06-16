@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Typography, Button, Space, Spin, Modal, List } from 'antd';
+import { Card, Row, Col, Typography, Button, Space, Spin, Modal, List, Tag, Tabs } from 'antd';
 import { HeartOutlined, InfoCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import HomeHeader from 'menu-items/header';
@@ -12,7 +12,8 @@ import { formatPetAge } from '../../utils/formatPetAge';
 const { Title, Text } = Typography;
 
 const UpForAdoption = () => {
-  const [pets, setPets] = useState([]);
+  const [availablePets, setAvailablePets] = useState([]);
+  const [adoptedPets, setAdoptedPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(true);
   const navigate = useNavigate();
@@ -24,16 +25,15 @@ const UpForAdoption = () => {
     return text;
   };
 
+  const isPetAdopted = (pet) => pet.status === 'adopted' || pet.isAdopted;
+
   useEffect(() => {
     const fetchPets = async () => {
       try {
         const response = await axios.get(`${API_CONFIG.baseURL}/adoptions`);
         if (response.data && Array.isArray(response.data)) {
-          // Filter out adopted pets - don't show pets with status "adopted" or isAdopted: true
-          const availablePets = response.data.filter(pet => 
-            pet.status !== 'adopted' && !pet.isAdopted
-          );
-          setPets(availablePets);
+          setAvailablePets(response.data.filter((pet) => !isPetAdopted(pet)));
+          setAdoptedPets(response.data.filter((pet) => isPetAdopted(pet)));
         }
       } catch (error) {
         console.error('Error fetching pets:', error);
@@ -47,6 +47,110 @@ const UpForAdoption = () => {
   const handlePetClick = (petId) => {
     navigate(`/pet-details/${petId}`);
   };
+
+  const renderPetCard = (pet, adopted = false) => (
+    <Col xs={24} sm={12} md={8} lg={6} key={pet._id}>
+      <Card
+        hoverable
+        cover={
+          <div style={{ position: 'relative' }}>
+            <img
+              alt={pet.name}
+              src={pet.imageUrl}
+              style={{
+                height: 400,
+                objectFit: 'cover',
+                ...(adopted && { filter: 'grayscale(25%)' })
+              }}
+            />
+            {adopted && (
+              <Tag
+                color="success"
+                icon={<CheckCircleOutlined />}
+                style={{ position: 'absolute', top: 12, right: 12, fontSize: 14, padding: '4px 12px' }}
+              >
+                Adopted
+              </Tag>
+            )}
+          </div>
+        }
+        onClick={() => handlePetClick(pet._id)}
+      >
+        <Card.Meta
+          title={pet.name}
+          description={
+            <Space direction="vertical" size="small">
+              <Text>{pet.breed}</Text>
+              <Text>Age: {formatPetAge(pet.age)}</Text>
+              <Text>{truncateText(pet.description, 30)}</Text>
+              <Button type={adopted ? 'default' : 'primary'} block>
+                {adopted ? 'View Pet' : 'Learn More'}
+              </Button>
+            </Space>
+          }
+        />
+      </Card>
+    </Col>
+  );
+
+  const renderPetGrid = (pets, adopted = false, emptyTitle, emptySubtitle) => {
+    if (pets.length === 0) {
+      return (
+        <div className="text-center py-8">
+          <Title level={3}>{emptyTitle}</Title>
+          <Text>{emptySubtitle}</Text>
+        </div>
+      );
+    }
+
+    return (
+      <Row gutter={[24, 24]}>
+        {pets.map((pet) => renderPetCard(pet, adopted))}
+      </Row>
+    );
+  };
+
+  const tabItems = [
+    {
+      key: 'available',
+      label: (
+        <span>
+          <HeartOutlined /> Available ({availablePets.length})
+        </span>
+      ),
+      children: renderPetGrid(
+        availablePets,
+        false,
+        'No pets available for adoption at the moment',
+        'Check back later for new pets!'
+      ),
+    },
+    {
+      key: 'adopted',
+      label: (
+        <span>
+          <CheckCircleOutlined /> Adopted ({adoptedPets.length})
+        </span>
+      ),
+      children: (
+        <>
+          {adoptedPets.length > 0 && (
+            <div className="text-center mb-4">
+              <Text type="secondary">
+                These wonderful pets have found their forever homes.
+              </Text>
+            </div>
+          )}
+          {renderPetGrid(
+            adoptedPets,
+            true,
+            'No adopted pets to show yet',
+            'Happy tails will appear here once pets find their homes.'
+          )}
+        </>
+      ),
+    },
+  ];
 
   const tipsForFutureParents = [
     {
@@ -136,40 +240,13 @@ const UpForAdoption = () => {
         </div>
 
         <div className="container">
-          {pets.length === 0 ? (
-            <div className="text-center py-8">
-              <Title level={3}>No pets available for adoption at the moment</Title>
-              <Text>Check back later for new pets!</Text>
-            </div>
-          ) : (
-            <Row gutter={[24, 24]}>
-              {pets.map((pet) => (
-                <Col xs={24} sm={12} md={8} lg={6} key={pet._id}>
-                  <Card 
-                    hoverable 
-                    cover={<img alt={pet.name} src={pet.imageUrl} style={{ height: 400, objectFit: 'cover' }} />}
-                    onClick={() => handlePetClick(pet._id)}
-                  >
-                    <Card.Meta
-                      title={pet.name}
-                      description={
-                        <Space direction="vertical" size="small">
-                          <Text>
-                            {pet.breed}
-                          </Text>
-                          <Text>Age: {formatPetAge(pet.age)}</Text>
-                          <Text>{truncateText(pet.description, 30)}</Text>
-                          <Button type="primary" block>
-                            Learn More
-                          </Button>
-                        </Space>
-                      }
-                    />
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
+          <Tabs
+            defaultActiveKey="available"
+            centered
+            size="large"
+            items={tabItems}
+            style={{ marginBottom: 24 }}
+          />
         </div>
       </div>
       <Modal

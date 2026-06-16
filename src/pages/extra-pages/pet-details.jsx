@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, Typography, Button, Form, Input, message, Space, Select, Radio, Checkbox, Collapse, Divider } from 'antd';
+import { Card, Typography, Button, Form, Input, message, Space, Select, Radio, Checkbox, Collapse, Divider, Tag } from 'antd';
+import { CheckCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { API_CONFIG } from '../../config/api';
 import HomeHeader from 'menu-items/header';
@@ -56,6 +57,8 @@ const PetDetails = () => {
     return <div>Pet not found</div>;
   }
 
+  const isAdopted = pet.status === 'adopted' || pet.isAdopted;
+
   return (
     <>
       <HomeHeader />
@@ -69,6 +72,11 @@ const PetDetails = () => {
             <Card
               cover={<img alt={pet.name} src={pet.imageUrl} style={{ height: 400, objectFit: 'cover' }} />}
             >
+              {isAdopted && (
+                <Tag color="success" icon={<CheckCircleOutlined />} style={{ marginBottom: 16, fontSize: 14, padding: '4px 12px' }}>
+                  Adopted — This pet has found a forever home
+                </Tag>
+              )}
               <Card.Meta
                 title={pet.name}
                 description={
@@ -95,6 +103,22 @@ const PetDetails = () => {
           </div>
           
           <div className="col-md-6">
+            {isAdopted ? (
+              <Card>
+                <Space direction="vertical" size="middle" style={{ width: '100%', textAlign: 'center', padding: '24px 0' }}>
+                  <CheckCircleOutlined style={{ fontSize: 48, color: '#52c41a' }} />
+                  <Typography.Title level={4} style={{ margin: 0 }}>
+                    This pet has been adopted
+                  </Typography.Title>
+                  <Text type="secondary">
+                    {pet.name} has found a loving forever home. Browse our other pets still looking for families.
+                  </Text>
+                  <Button type="primary" onClick={() => navigate('/up-for-adoption')}>
+                    View Available Pets
+                  </Button>
+                </Space>
+              </Card>
+            ) : (
             <Card title="🐾 Expression of Interest - Adoption Application">
               <Form
                 form={form}
@@ -553,6 +577,7 @@ const PetDetails = () => {
                 </Form.Item>
               </Form>
             </Card>
+            )}
           </div>
         </div>
       </div>
