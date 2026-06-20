@@ -71,7 +71,7 @@ const ContactUs = () => {
               <div className="contact_info_box shadow p-4 text-center">
                 <EnvironmentOutlined style={{ fontSize: '36px', color: '#ff6b81', marginBottom: '15px' }} />
                 <h4>Our Location</h4>
-                <p>Old Federal Secretariat, Ikoyi, Lagos 106104, Lagos</p>
+                <p>First Bank Building, Alagbon, Ikoyi, Lagos</p>
               </div>
             </div>
           </div>
