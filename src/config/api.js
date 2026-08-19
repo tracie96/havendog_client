@@ -20,6 +20,8 @@ const API_CONFIG = {
     pets: '/auth/pets',
     vets: '/vets',
     boarders: '/boarders',
+    boardingRequests: '/boarding',
+    updateBoardingStatus: (id) => `/boarding/${id}/status`,
     bookings: {
       vet: '/bookings/vet',
       boarding: '/bookings/boarding',

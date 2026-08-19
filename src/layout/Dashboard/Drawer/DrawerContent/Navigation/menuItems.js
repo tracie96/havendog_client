@@ -120,6 +120,11 @@ const getMenuItems = (userType) => {
       icon: React.createElement(FaClipboardList, { size: 20 })
     },
     {
+      key: '/dashboard/admin/boarding-requests',
+      label: 'Boarding Requests',
+      icon: React.createElement(FaPaw, { size: 20 })
+    },
+    {
       key: '/dashboard/admin/adopted-dogs',
       label: 'Adopted Dogs',
       icon: React.createElement(FaCheckCircle, { size: 20 })
