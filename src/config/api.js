@@ -25,7 +25,8 @@ const API_CONFIG = {
       boarding: '/bookings/boarding',
       cancel: (id) => `/bookings/${id}/cancel`
     },
-    boardingBookings: '/boarding-bookings'
+    boardingBookings: '/boarding-bookings',
+    surrenders: '/surrenders'
   }
 };
 

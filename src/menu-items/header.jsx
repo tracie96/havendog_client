@@ -101,6 +101,9 @@ function HomeHeader() {
                         <Link to="/pet-boarding">Boarding</Link>
                       </li>
                       <li>
+                        <Link to="/pet-surrender">Surrender</Link>
+                      </li>
+                      <li>
                         <Link to="/contact-us">Contact</Link>
                       </li>
                     
@@ -154,6 +157,9 @@ function HomeHeader() {
               </li>
               <li>
                 <Link to="/pet-boarding" onClick={closeMobileMenu}>Boarding</Link>
+              </li>
+              <li>
+                <Link to="/pet-surrender" onClick={closeMobileMenu}>Surrender</Link>
               </li>
               <li>
                 <Link to="/contact-us" onClick={closeMobileMenu}>Contact</Link>

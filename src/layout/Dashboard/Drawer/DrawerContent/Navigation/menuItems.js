@@ -123,6 +123,11 @@ const getMenuItems = (userType) => {
       key: '/dashboard/admin/adopted-dogs',
       label: 'Adopted Dogs',
       icon: React.createElement(FaCheckCircle, { size: 20 })
+    },
+    {
+      key: '/dashboard/admin/surrender-requests',
+      label: 'Pet Surrenders',
+      icon: React.createElement(FaClipboardList, { size: 20 })
     }
   ];
 

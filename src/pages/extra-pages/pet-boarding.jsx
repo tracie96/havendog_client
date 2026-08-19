@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Button, Grid, Paper, Box, Snackbar, Alert, Avatar } from '@mui/material';
+import { Container, Typography, TextField, Button, Grid, Paper, Box, Snackbar, Alert, Avatar, MenuItem, Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { API_CONFIG } from 'config/api';
 import axios from 'axios';
@@ -79,6 +79,9 @@ const PetBoarding = () => {
     petBreed: '',
     allergies: '', // Optional
     medications: '', // Optional
+    lastVaccinated: '',
+    onTickMedicine: '',
+    dogSize: '',
     feedingSchedule: '', // Optional
     specialInstructions: '',
     emergencyContactName: '', // Optional
@@ -87,6 +90,11 @@ const PetBoarding = () => {
     endDate: '',
     veterinarianName: '', // Optional
     veterinarianPhone: '', // Optional
+    confirmedInformationAccurate: false,
+    agreedToBoardingTerms: false,
+    declarationOwnerName: '',
+    ownerSignature: '',
+    declarationDate: new Date().toISOString().split('T')[0],
   });
 
   const [petImages, setPetImages] = useState([]); // Optional pet images
@@ -128,6 +136,25 @@ const PetBoarding = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.confirmedInformationAccurate || !formData.agreedToBoardingTerms) {
+      setMessage({
+        open: true,
+        severity: 'error',
+        text: 'Please complete the Owner’s Declaration and agree to the Boarding Agreement before submitting.'
+      });
+      return;
+    }
+
+    if (!formData.declarationOwnerName.trim() || !formData.ownerSignature.trim() || !formData.declarationDate) {
+      setMessage({
+        open: true,
+        severity: 'error',
+        text: 'Please enter your name, signature, and date on the Owner’s Declaration.'
+      });
+      return;
+    }
+
     try {
       // Show loading message
       setMessage({
@@ -174,6 +201,9 @@ const PetBoarding = () => {
           breed: formData.petBreed,
           allergies: formData.allergies || undefined,
           medications: formData.medications || undefined,
+          lastVaccinated: formData.lastVaccinated,
+          onTickMedicine: formData.onTickMedicine,
+          dogSize: formData.dogSize,
           feedingInstructions: formData.feedingSchedule || undefined,
           specialInstructions: formData.specialInstructions || undefined
         },
@@ -193,7 +223,15 @@ const PetBoarding = () => {
           petImages: petImageUrls,
           vaccinationCard: vaccinationCardUrl,
           medicalRecords: medicalRecordsUrl
-        }
+        },
+        agreedToBoardingTerms: true,
+        confirmedInformationAccurate: true,
+        ownerDeclaration: {
+          ownerName: formData.declarationOwnerName.trim(),
+          signature: formData.ownerSignature.trim(),
+          date: formData.declarationDate
+        },
+        termsAgreedAt: new Date().toISOString()
       };
 
       const response = await axios.post(`${API_CONFIG.baseURL}/boarding`, submissionData);
@@ -208,6 +246,9 @@ const PetBoarding = () => {
           petBreed: '',
           allergies: '',
           medications: '',
+          lastVaccinated: '',
+          onTickMedicine: '',
+          dogSize: '',
           feedingSchedule: '',
           specialInstructions: '',
           emergencyContactName: '',
@@ -216,6 +257,11 @@ const PetBoarding = () => {
           endDate: '',
           veterinarianName: '',
           veterinarianPhone: '',
+          confirmedInformationAccurate: false,
+          agreedToBoardingTerms: false,
+          declarationOwnerName: '',
+          ownerSignature: '',
+          declarationDate: new Date().toISOString().split('T')[0],
         });
         setPetImages([]);
         setPetCard(null);
@@ -441,6 +487,52 @@ const PetBoarding = () => {
                 helperText="List any current medications if applicable"
               />
             </Grid>
+            <Grid item xs={12} sm={4}>
+              <PinkTextField
+                required
+                select
+                fullWidth
+                label="Last vaccinated"
+                name="lastVaccinated"
+                value={formData.lastVaccinated}
+                onChange={handleInputChange}
+                helperText="Is your pet currently up to date on vaccinations?"
+              >
+                <MenuItem value="yes">Yes</MenuItem>
+                <MenuItem value="no">No</MenuItem>
+              </PinkTextField>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <PinkTextField
+                required
+                select
+                fullWidth
+                label="On tick medicine"
+                name="onTickMedicine"
+                value={formData.onTickMedicine}
+                onChange={handleInputChange}
+                helperText="Is your pet currently on tick/flea prevention?"
+              >
+                <MenuItem value="yes">Yes</MenuItem>
+                <MenuItem value="no">No</MenuItem>
+              </PinkTextField>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <PinkTextField
+                required
+                select
+                fullWidth
+                label="Dog size"
+                name="dogSize"
+                value={formData.dogSize}
+                onChange={handleInputChange}
+                helperText="Select small, medium, or large"
+              >
+                <MenuItem value="small">Small</MenuItem>
+                <MenuItem value="medium">Medium</MenuItem>
+                <MenuItem value="large">Large</MenuItem>
+              </PinkTextField>
+            </Grid>
 
             <Grid item xs={12}>
               <PinkTextField
@@ -665,6 +757,171 @@ const PetBoarding = () => {
               <Typography variant="caption" display="block" gutterBottom>
                 Upload any additional medical records if available
               </Typography>
+            </Grid>
+
+            {/* Boarding Terms */}
+            <Grid item xs={12}>
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1,
+                  mt: 3
+                }}
+              >
+                G. Boarding Terms
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  maxHeight: 280,
+                  overflowY: 'auto',
+                  p: 2,
+                  mb: 1,
+                  border: '1px solid #f5d1e0',
+                  borderRadius: 2,
+                  backgroundColor: '#fffafc',
+                  color: '#444',
+                  lineHeight: 1.7
+                }}
+              >
+                <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1.5 }}>
+                  The Owner agrees that:
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  1. Boarding fees must be paid according to the agreed schedule.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  2. Any extension of the boarding period will attract additional charges.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  3. Veterinary expenses, medication, grooming or other special services are separate from boarding unless expressly stated otherwise.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  4. Haven Pet Home will provide reasonable care, food, water, shelter and supervision.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  5. Haven Pet Home may separate the pet from other animals where necessary for safety or health reasons.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  6. In the event of a medical emergency, Haven may seek veterinary attention and notify the Owner as soon as reasonably possible.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  7. The Owner must remain reachable throughout the boarding period.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  8. The pet must be collected on or before the agreed departure date unless an extension has been approved.
+                </Typography>
+                <Typography variant="body2" paragraph>
+                  9. All outstanding charges must be settled before the pet is released.
+                </Typography>
+                <Typography variant="body2">
+                  10. The Owner must disclose any history of aggression, biting, infectious disease or other risks.
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#a80c5c',
+                  borderBottom: '2px solid #f5d1e0',
+                  pb: 1,
+                  mt: 2
+                }}
+              >
+                H. Owner's Declaration
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                sx={{ alignItems: 'flex-start', mb: 1 }}
+                control={
+                  <Checkbox
+                    required
+                    checked={formData.confirmedInformationAccurate}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        confirmedInformationAccurate: e.target.checked
+                      }))
+                    }
+                    sx={{
+                      color: '#a80c5c',
+                      '&.Mui-checked': { color: '#a80c5c' },
+                      mt: -0.5
+                    }}
+                  />
+                }
+                label="I confirm that the information provided is accurate and that I have disclosed all known medical and behavioural issues concerning my pet."
+              />
+              <FormControlLabel
+                sx={{ alignItems: 'flex-start', mb: 2 }}
+                control={
+                  <Checkbox
+                    required
+                    checked={formData.agreedToBoardingTerms}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        agreedToBoardingTerms: e.target.checked
+                      }))
+                    }
+                    sx={{
+                      color: '#a80c5c',
+                      '&.Mui-checked': { color: '#a80c5c' },
+                      mt: -0.5
+                    }}
+                  />
+                }
+                label="I agree to the terms of this Boarding Agreement."
+              />
+              <FormHelperText sx={{ mb: 2 }}>
+                You must confirm both statements and sign below before submitting.
+              </FormHelperText>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <PinkTextField
+                required
+                fullWidth
+                label="Owner's Name"
+                name="declarationOwnerName"
+                value={formData.declarationOwnerName}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <PinkTextField
+                required
+                fullWidth
+                label="Signature"
+                name="ownerSignature"
+                value={formData.ownerSignature}
+                onChange={handleInputChange}
+                helperText="Type your full name as your electronic signature"
+                InputProps={{
+                  sx: { fontFamily: '"Segoe Script", "Comic Sans MS", cursive', fontSize: '1.15rem' }
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <PinkTextField
+                required
+                fullWidth
+                type="date"
+                label="Date"
+                name="declarationDate"
+                value={formData.declarationDate}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+              />
             </Grid>
 
             {/* Submit Button */}

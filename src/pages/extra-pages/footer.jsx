@@ -64,9 +64,9 @@ export default function HomeFooter() {
               <div className="footer_widget">
                 <h3 className="footer_title">Our Services</h3>
                 <ul className="links">
-             
                   <li><Link to="/up-for-adoption">Pet Adoption</Link></li>
-                
+                  <li><Link to="/pet-boarding">Pet Boarding</Link></li>
+                  <li><Link to="/pet-surrender">Pet Surrender</Link></li>
                 </ul>
               </div>
             </div>
