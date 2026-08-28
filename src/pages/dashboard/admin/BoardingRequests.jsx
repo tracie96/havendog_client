@@ -42,7 +42,11 @@ const BoardingRequests = () => {
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      message.success(`Boarding request ${status}`);
+      message.success(
+        status === 'approved'
+          ? 'Boarding request approved. Email notification sent to owner.'
+          : `Boarding request ${status}`
+      );
       setIsModalVisible(false);
       fetchRequests();
     } catch (error) {

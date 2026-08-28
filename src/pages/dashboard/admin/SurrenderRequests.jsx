@@ -42,7 +42,7 @@ const SurrenderRequests = () => {
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      message.success(`Surrender ${status}`);
+      message.success(status === 'accepted' ? 'Surrender accepted. Email notification sent to surrenderer.' : `Surrender ${status}`);
       setIsModalVisible(false);
       fetchRequests();
     } catch (error) {
@@ -187,6 +187,7 @@ const SurrenderRequests = () => {
               <Descriptions.Item label="Vaccinated">{yesNo(selected.medical?.vaccinated)}</Descriptions.Item>
               <Descriptions.Item label="Last vaccination">{selected.medical?.lastVaccinationDate || 'N/A'}</Descriptions.Item>
               <Descriptions.Item label="Rabies">{yesNo(selected.medical?.rabiesVaccinated)}</Descriptions.Item>
+              <Descriptions.Item label="On tick medicine">{yesNo(selected.medical?.onTickMedicine)}</Descriptions.Item>
               <Descriptions.Item label="Sterilized">{yesNo(selected.medical?.sterilized)}</Descriptions.Item>
               <Descriptions.Item label="Had litter">{yesNo(selected.medical?.hadLitter)}</Descriptions.Item>
               <Descriptions.Item label="Conditions">{selected.medical?.knownConditions || 'N/A'}</Descriptions.Item>

@@ -660,6 +660,23 @@ const PetBoarding = () => {
               />
             </Grid>
 
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderLeft: '4px solid #a80c5c',
+                  backgroundColor: '#fde8f0',
+                  borderRadius: 2
+                }}
+              >
+                <Typography variant="body2" sx={{ color: '#5c1a3d', lineHeight: 1.7 }}>
+                  <strong>If your boarding request is approved,</strong> you will be asked to bring your pet to the shelter
+                  with an <strong>updated vaccination card</strong> and proof of <strong>tick/flea medication</strong>
+                  (or bring the medication with you).
+                </Typography>
+              </Box>
+            </Grid>
+
             {/* Document Uploads */}
             <Grid item xs={12}>
               <Typography 
@@ -728,7 +745,7 @@ const PetBoarding = () => {
                 )}
               </Box>
               <Typography variant="caption" display="block" gutterBottom>
-                Upload your pet's vaccination records if available
+                Please upload your pet&apos;s most recent vaccination card. If approved, you will also need to bring an updated copy to the shelter.
               </Typography>
             </Grid>
             <Grid item xs={12}>

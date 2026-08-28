@@ -119,6 +119,7 @@ const emptyForm = {
   vaccinated: '',
   lastVaccinationDate: '',
   rabiesVaccinated: '',
+  onTickMedicine: '',
   sterilized: '',
   hadLitter: '',
   knownConditions: '',
@@ -273,6 +274,7 @@ const PetSurrender = () => {
           vaccinated: formData.vaccinated || undefined,
           lastVaccinationDate: formData.lastVaccinationDate || undefined,
           rabiesVaccinated: formData.rabiesVaccinated || undefined,
+          onTickMedicine: formData.onTickMedicine || undefined,
           sterilized: formData.sterilized || undefined,
           hadLitter: formData.sex === 'female' ? formData.hadLitter || undefined : undefined,
           knownConditions: formData.knownConditions || undefined,
@@ -527,6 +529,22 @@ const PetSurrender = () => {
             </Grid>
 
             <SectionTitle>D. Medical History</SectionTitle>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderLeft: '4px solid #a80c5c',
+                  backgroundColor: '#fde8f0',
+                  borderRadius: 2
+                }}
+              >
+                <Typography variant="body2" sx={{ color: '#5c1a3d', lineHeight: 1.7 }}>
+                  <strong>If your surrender is accepted,</strong> you will be asked to bring the animal to the shelter
+                  with an <strong>updated vaccination card</strong> and proof of <strong>tick/flea medication</strong>
+                  (or bring the medication with you).
+                </Typography>
+              </Box>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <RadioField
                 label="Is the pet vaccinated?"
@@ -556,6 +574,19 @@ const PetSurrender = () => {
                 label="Vaccinated against rabies?"
                 name="rabiesVaccinated"
                 value={formData.rabiesVaccinated}
+                onChange={handleInputChange}
+                options={[
+                  { value: 'yes', label: 'Yes' },
+                  { value: 'no', label: 'No' },
+                  { value: 'unknown', label: 'Unknown' }
+                ]}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <RadioField
+                label="On tick/flea medication?"
+                name="onTickMedicine"
+                value={formData.onTickMedicine}
                 onChange={handleInputChange}
                 options={[
                   { value: 'yes', label: 'Yes' },
