@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;600;700;800&display=swap');
+
+.pet-details-page {
+  --brand: #d81b60;
+  --brand-dark: #a80c5c;
+  --brand-light: #fde8f0;
+  --cream: #fff7f4;
+  --ink: #34121f;
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Nunito', 'Montserrat', sans-serif;
+  min-height: 60vh;
+  padding: 1.25rem 0 3.5rem;
+}
+
+.pet-details-page * {
+  box-sizing: border-box;
+}
+
+.pet-details-page .pet-details-wrap {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.15rem;
+}
+
+.pet-details-page .pet-details-back {
+  margin-bottom: 1.25rem;
+  border-radius: 999px !important;
+  border-color: #e5d0d8 !important;
+  color: var(--brand-dark) !important;
+  font-weight: 700 !important;
+  height: 2.5rem !important;
+}
+
+.pet-details-page .pet-details-back:hover {
+  border-color: var(--brand) !important;
+  color: var(--brand) !important;
+}
+
+.pet-details-page .pet-details-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 960px) {
+  .pet-details-page {
+    padding: 2rem 0 4rem;
+  }
+
+  .pet-details-page .pet-details-grid {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 2rem;
+    align-items: start;
+  }
+}
+
+.pet-details-page .pet-profile {
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.pet-details-page .pet-profile-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: #f3e4ea;
+}
+
+.pet-details-page .pet-profile-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pet-details-page .pet-profile-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: #52c41a;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+.pet-details-page .pet-profile-body {
+  padding: 1.35rem 1.25rem 1.5rem;
+}
+
+.pet-details-page .pet-profile-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+}
+
+.pet-details-page .pet-profile-name {
+  margin: 0.4rem 0 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: clamp(1.65rem, 4vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.pet-details-page .pet-profile-facts {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pet-details-page .pet-profile-facts li {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.pet-details-page .pet-profile-facts strong {
+  color: rgba(52, 18, 31, 0.55);
+  font-weight: 700;
+}
+
+.pet-details-page .pet-profile-desc {
+  margin: 1.15rem 0 0;
+  padding-top: 1.15rem;
+  border-top: 1px solid #f0d6e0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: rgba(52, 18, 31, 0.78);
+}
+
+.pet-details-page .pet-form-panel,
+.pet-details-page .pet-adopted-panel {
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.25rem;
+  padding: 1.35rem 1.2rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .pet-details-page .pet-form-panel,
+  .pet-details-page .pet-adopted-panel {
+    padding: 1.6rem 1.5rem 1.75rem;
+  }
+}
+
+.pet-details-page .pet-form-title {
+  margin: 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pet-details-page .pet-form-lead {
+  margin: 0.5rem 0 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(52, 18, 31, 0.65);
+}
+
+.pet-details-page .pet-foster-note {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  background: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(52, 18, 31, 0.8);
+}
+
+.pet-details-page .pet-adopted-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.pet-details-page .pet-adopted-icon {
+  font-size: 2.75rem;
+  color: #52c41a;
+}
+
+.pet-details-page .pet-adopted-panel h2 {
+  margin: 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.pet-details-page .pet-adopted-panel p {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(52, 18, 31, 0.65);
+}
+
+.pet-details-page .pet-adopted-cta {
+  margin-top: 0.5rem !important;
+  height: 2.75rem !important;
+  padding-inline: 1.5rem !important;
+  border-radius: 999px !important;
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  font-weight: 800 !important;
+}
+
+.pet-details-page .pet-adopted-cta:hover {
+  background: var(--brand-dark) !important;
+  border-color: var(--brand-dark) !important;
+}
+
+.pet-details-page .ant-form-item-label > label {
+  font-weight: 700 !important;
+  color: var(--ink) !important;
+}
+
+.pet-details-page .ant-collapse {
+  background: transparent;
+}
+
+.pet-details-page .ant-collapse-ghost > .ant-collapse-item {
+  border-bottom: 1px solid #f0d6e0;
+}
+
+.pet-details-page .ant-collapse-ghost > .ant-collapse-item:last-child {
+  border-bottom: none;
+}
+
+.pet-details-page .ant-collapse-header {
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  padding-inline: 0 !important;
+}
+
+.pet-details-page .ant-collapse-content-box {
+  padding-inline: 0 !important;
+}
+
+.pet-details-page .ant-input,
+.pet-details-page .ant-input-affix-wrapper,
+.pet-details-page .ant-select-selector,
+.pet-details-page .ant-input-number,
+.pet-details-page textarea.ant-input {
+  border-radius: 0.75rem !important;
+  border-color: #e8cfd9 !important;
+}
+
+.pet-details-page .ant-input:hover,
+.pet-details-page .ant-input-affix-wrapper:hover,
+.pet-details-page .ant-select:not(.ant-select-disabled):hover .ant-select-selector,
+.pet-details-page textarea.ant-input:hover {
+  border-color: var(--brand) !important;
+}
+
+.pet-details-page .ant-radio-wrapper,
+.pet-details-page .ant-checkbox-wrapper {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pet-details-page .ant-radio-checked .ant-radio-inner,
+.pet-details-page .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--brand) !important;
+  border-color: var(--brand) !important;
+}
+
+.pet-details-page .pet-submit-btn {
+  height: 3rem !important;
+  border-radius: 999px !important;
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  font-weight: 800 !important;
+  font-size: 1rem !important;
+}
+
+.pet-details-page .pet-submit-btn:hover {
+  background: var(--brand-dark) !important;
+  border-color: var(--brand-dark) !important;
+}
+
+.pet-details-page .pet-details-status {
+  min-height: 40vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 3rem 1.15rem;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Nunito', 'Montserrat', sans-serif;
+}
+
+.pet-details-page .pet-details-status h1 {
+  margin: 0 0 0.75rem;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: 1.75rem;
+}
+
+.pet-details-page .pet-details-status p {
+  margin: 0 0 1.25rem;
+  font-weight: 600;
+  color: rgba(52, 18, 31, 0.65);
+}
