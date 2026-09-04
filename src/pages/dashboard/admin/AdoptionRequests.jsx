@@ -72,6 +72,16 @@ const AdoptionRequests = () => {
       key: 'petName',
     },
     {
+      title: 'Type',
+      dataIndex: 'interestType',
+      key: 'interestType',
+      render: (type) => (
+        <Tag color={type === 'foster' ? 'blue' : 'purple'}>
+          {type === 'foster' ? 'FOSTER (2 weeks)' : 'ADOPTION'}
+        </Tag>
+      ),
+    },
+    {
       title: 'Pet Breed',
       dataIndex: ['petId', 'breed'],
       key: 'petBreed',
@@ -173,7 +183,7 @@ const AdoptionRequests = () => {
       </Card>
 
       <Modal
-        title="Adoption Application Details"
+        title={selectedRequest?.interestType === 'foster' ? 'Foster Interest Details' : 'Adoption Application Details'}
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
@@ -185,10 +195,41 @@ const AdoptionRequests = () => {
             <Descriptions title="Pet Information" bordered size="small" column={2}>
               <Descriptions.Item label="Name">{selectedRequest.petId?.name || 'N/A'}</Descriptions.Item>
               <Descriptions.Item label="Breed">{selectedRequest.petId?.breed || 'N/A'}</Descriptions.Item>
+              <Descriptions.Item label="Interest Type">
+                <Tag color={selectedRequest.interestType === 'foster' ? 'blue' : 'purple'}>
+                  {selectedRequest.interestType === 'foster' ? 'FOSTER (2 weeks)' : 'ADOPTION'}
+                </Tag>
+              </Descriptions.Item>
             </Descriptions>
 
             <Divider />
 
+            {selectedRequest.interestType === 'foster' ? (
+              <Descriptions title="Foster Contact Details" bordered size="small" column={1}>
+                <Descriptions.Item label="Full Name">
+                  {selectedRequest.fullName || selectedRequest.interestedUser?.name || 'N/A'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Phone Number">
+                  {selectedRequest.phoneNumber || selectedRequest.interestedUser?.phone || 'N/A'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Email Address">
+                  {selectedRequest.emailAddress || selectedRequest.interestedUser?.email || 'N/A'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Home Address">
+                  {selectedRequest.homeAddress || 'N/A'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Duration">2 weeks</Descriptions.Item>
+                <Descriptions.Item label="Date Submitted">
+                  {new Date(selectedRequest.createdAt).toLocaleString()}
+                </Descriptions.Item>
+                <Descriptions.Item label="Status">
+                  <Tag color={selectedRequest.status === 'pending' ? 'orange' : selectedRequest.status === 'approved' ? 'green' : 'red'}>
+                    {selectedRequest.status?.toUpperCase() || 'PENDING'}
+                  </Tag>
+                </Descriptions.Item>
+              </Descriptions>
+            ) : (
+              <>
             <Collapse defaultActiveKey={['1']} ghost>
               <Panel header="1️⃣ Basic Information" key="1">
                 <Descriptions bordered size="small" column={1}>
@@ -365,6 +406,8 @@ const AdoptionRequests = () => {
                 </Tag>
               </Descriptions.Item>
             </Descriptions>
+              </>
+            )}
           </div>
         )}
       </Modal>

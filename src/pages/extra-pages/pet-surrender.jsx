@@ -23,6 +23,8 @@ import { API_CONFIG } from 'config/api';
 import axios from 'axios';
 import { Pets, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import HomeHeader from 'menu-items/header';
+import HomeFooter from './footer';
 
 const PinkGradientBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(0deg, #a80c5c 0%, #a80c5c 99%)',
@@ -334,6 +336,8 @@ const PetSurrender = () => {
   };
 
   return (
+    <>
+      <HomeHeader />
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Snackbar
         open={message.open}
@@ -948,6 +952,8 @@ const PetSurrender = () => {
         </form>
       </PlayfulPaper>
     </Container>
+      <HomeFooter />
+    </>
   );
 };
 

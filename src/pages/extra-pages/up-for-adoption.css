@@ -1,0 +1,221 @@
+.adoption-page {
+  --brand: #d81b60;
+  --brand-dark: #a80c5c;
+  --brand-light: #fde8f0;
+  --cream: #fff7f4;
+  --ink: #34121f;
+
+  min-height: 60vh;
+  background: var(--cream);
+  color: var(--ink);
+  padding: 1.25rem 1.15rem 3rem;
+}
+
+.adoption-page .adoption-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.adoption-page .adoption-hero {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.adoption-page .adoption-hero h1 {
+  margin: 0 0 0.85rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.55rem, 5vw, 2.25rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.adoption-page .adoption-hero h1 .heart {
+  color: var(--brand);
+  margin-right: 0.35rem;
+}
+
+.adoption-page .adoption-tips-btn {
+  border-radius: 999px !important;
+  border-color: #e5d0d8 !important;
+  color: var(--brand-dark) !important;
+  font-weight: 600 !important;
+}
+
+.adoption-page .adoption-tabs {
+  max-width: 32rem;
+  margin: 0 auto 1.75rem;
+  text-align: center;
+}
+
+.adoption-page .adoption-tabs-hint {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-size: 0.875rem;
+  color: rgba(52, 18, 31, 0.55);
+}
+
+.adoption-page .adoption-tabs .ant-segmented {
+  padding: 4px;
+  background: #fff;
+  border: 1px solid #ecd6df;
+  border-radius: 12px;
+}
+
+.adoption-page .adoption-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 576px) {
+  .adoption-page .adoption-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .adoption-page {
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .adoption-page .adoption-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .adoption-page .adoption-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.adoption-page .pet-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.15rem !important;
+  border: 1px solid #f0d6e0 !important;
+  background: #fff;
+  box-shadow: 0 12px 28px -20px rgba(52, 18, 31, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adoption-page .pet-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px -22px rgba(216, 27, 96, 0.4);
+}
+
+.adoption-page .pet-card-cover {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--brand-light);
+}
+
+.adoption-page .pet-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.adoption-page .pet-card-cover.is-adopted img {
+  filter: grayscale(25%);
+}
+
+.adoption-page .pet-card-tag {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.adoption-page .pet-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.35rem;
+  padding: 1rem 1rem 1.1rem;
+}
+
+.adoption-page .pet-card-name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.adoption-page .pet-card-meta {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(52, 18, 31, 0.6);
+}
+
+.adoption-page .pet-card-desc {
+  margin: 0.25rem 0 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: rgba(52, 18, 31, 0.7);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.adoption-page .pet-card-btn {
+  margin-top: auto;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.adoption-page .pet-card-btn.primary {
+  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+  color: #fff;
+  box-shadow: 0 8px 16px -10px rgba(216, 27, 96, 0.7);
+}
+
+.adoption-page .pet-card-btn.secondary {
+  background: #fff;
+  color: var(--brand-dark);
+  border: 2px solid var(--brand);
+}
+
+.adoption-page .pet-card-btn:hover {
+  opacity: 0.92;
+}
+
+.adoption-page .adoption-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #fff;
+  border-radius: 1.15rem;
+  border: 1px solid #f0d6e0;
+}
+
+.adoption-page .adoption-empty h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.adoption-page .adoption-empty p {
+  margin: 0;
+  color: rgba(52, 18, 31, 0.6);
+}
+
+.adoption-page .adoption-note {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: rgba(52, 18, 31, 0.55);
+}

@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;600;700;800&display=swap');
+
+.about-page {
+  --brand: #d81b60;
+  --brand-dark: #a80c5c;
+  --brand-light: #fde8f0;
+  --cream: #fff7f4;
+  --ink: #34121f;
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Nunito', 'Montserrat', sans-serif;
+}
+
+.about-page * {
+  box-sizing: border-box;
+}
+
+.about-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.about-page .about-wrap {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.15rem;
+}
+
+.about-page .about-hero {
+  display: grid;
+  gap: 1.75rem;
+  padding: 1.75rem 0 2.5rem;
+}
+
+.about-page .about-hero-copy {
+  order: -1;
+}
+
+.about-page .about-hero-media {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.about-page .about-hero-media img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 1.15rem;
+  display: block;
+}
+
+.about-page .about-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+}
+
+.about-page .about-title {
+  margin: 0.6rem 0 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.about-page .about-title span {
+  color: var(--brand-dark);
+}
+
+.about-page .about-lead {
+  margin: 1rem 0 0;
+  max-width: 42rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: rgba(52, 18, 31, 0.72);
+}
+
+.about-page .about-section {
+  padding: 3rem 0;
+}
+
+.about-page .about-section + .about-section {
+  padding-top: 1rem;
+}
+
+.about-page .about-section-last {
+  padding-bottom: 4rem;
+}
+
+.about-page .about-section-title {
+  margin: 0 0 1.5rem;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  font-weight: 700;
+}
+
+.about-page .about-initiatives {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.about-page .about-initiative {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.about-page .about-initiative .check {
+  color: #22c55e;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.about-page .about-initiative strong {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.about-page .about-initiative p {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(52, 18, 31, 0.68);
+}
+
+.about-page .about-help {
+  border-radius: 1.75rem;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: #fff;
+  padding: 1.75rem 1.35rem;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.about-page .about-help .about-kicker {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.about-page .about-help .about-title {
+  color: #fff;
+  font-size: clamp(1.55rem, 5vw, 2.2rem);
+}
+
+.about-page .about-help .about-lead {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.about-page .about-help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.25rem;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--brand-dark);
+  padding: 0.75rem 1.4rem;
+  font-weight: 800;
+  box-shadow: 0 8px 20px -10px rgba(52, 18, 31, 0.35);
+}
+
+.about-page .about-help-btn:hover {
+  opacity: 0.95;
+}
+
+.about-page .about-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.about-page .about-stat {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 1.15rem;
+  padding: 1.15rem 1rem;
+  text-align: center;
+}
+
+.about-page .about-stat strong {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.about-page .about-stat span {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.about-page .about-founders {
+  display: grid;
+  gap: 2.25rem;
+}
+
+.about-page .about-founder {
+  display: grid;
+  gap: 1.5rem;
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.35rem;
+  padding: 1.35rem;
+}
+
+.about-page .about-founder img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 1rem;
+  display: block;
+}
+
+.about-page .about-founder-role {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+}
+
+.about-page .about-founder h3 {
+  margin: 0.4rem 0 0;
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.about-page .about-founder p {
+  margin: 0.85rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: rgba(52, 18, 31, 0.7);
+}
+
+.about-page .about-who {
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.5rem;
+  padding: 1.75rem 1.35rem;
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+}
+
+.about-page .about-who p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.65;
+  color: rgba(52, 18, 31, 0.72);
+}
+
+.about-page .about-values {
+  display: grid;
+  gap: 1rem;
+}
+
+.about-page .about-value {
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.25rem;
+  padding: 1.5rem 1.25rem;
+  text-align: left;
+}
+
+.about-page .about-value-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  background: var(--brand-light);
+  color: var(--brand-dark);
+  font-size: 1.5rem;
+}
+
+.about-page .about-value h3 {
+  margin: 1rem 0 0;
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.about-page .about-value p {
+  margin: 0.45rem 0 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(52, 18, 31, 0.65);
+}
+
+.about-page .about-values-head {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.about-page .about-values-head .about-section-title {
+  margin: 0.5rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .about-page .about-wrap {
+    padding: 0 1.5rem;
+  }
+
+  .about-page .about-section {
+    padding: 3.75rem 0;
+  }
+
+  .about-page .about-section + .about-section {
+    padding-top: 1.5rem;
+  }
+
+  .about-page .about-section-last {
+    padding-bottom: 5rem;
+  }
+
+  .about-page .about-who {
+    padding: 2.25rem 2rem;
+    gap: 1.15rem;
+  }
+
+  .about-page .about-hero {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: 2.5rem;
+    padding-top: 2.5rem;
+  }
+
+  .about-page .about-hero-copy {
+    order: 0;
+  }
+
+  .about-page .about-hero-media {
+    grid-template-columns: 1fr;
+  }
+
+  .about-page .about-hero-media img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .about-page .about-help {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    padding: 2.5rem;
+    gap: 2rem;
+  }
+
+  .about-page .about-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .about-page .about-founders {
+    gap: 2.75rem;
+  }
+
+  .about-page .about-founder {
+    grid-template-columns: 13.5rem 1fr;
+    align-items: start;
+    gap: 1.85rem;
+    padding: 1.75rem;
+  }
+
+  .about-page .about-values {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .about-page .about-value {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .about-page .about-values-head {
+    margin-bottom: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-page .about-hero-media {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-page .about-stats {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .about-page .about-values {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .about-page .about-initiatives {
+    grid-template-columns: 1fr 1fr;
+  }
+}

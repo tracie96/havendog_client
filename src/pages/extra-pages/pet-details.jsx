@@ -16,6 +16,8 @@ const PetDetails = () => {
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [form] = Form.useForm();
+  const interestType = Form.useWatch('interestType', form);
+  const isFoster = interestType === 'foster';
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -37,15 +39,33 @@ const PetDetails = () => {
 
   const handleSubmit = async (values) => {
     try {
-      await axios.post(`${API_CONFIG.baseURL}/interests`, {
+      const payload = {
         petId: id,
-        ...values
-      });
-      message.success('Expression of Interest submitted successfully! We will review your application and get back to you soon.');
+        interestType: values.interestType,
+        fullName: values.fullName,
+        phoneNumber: values.phoneNumber,
+        emailAddress: values.emailAddress,
+        homeAddress: values.homeAddress,
+        confirmInformationAccurate: values.confirmInformationAccurate,
+        petApplyingFor: pet?.name
+      };
+
+      if (values.interestType === 'foster') {
+        payload.fosterDuration = '2-weeks';
+      } else {
+        Object.assign(payload, values);
+      }
+
+      await axios.post(`${API_CONFIG.baseURL}/interests`, payload);
+      message.success(
+        values.interestType === 'foster'
+          ? 'Foster interest submitted successfully! We will review your request and get back to you soon.'
+          : 'Expression of Interest submitted successfully! We will review your application and get back to you soon.'
+      );
       form.resetFields();
     } catch (error) {
       console.error('Error submitting interest:', error);
-      message.error('Failed to submit interest');
+      message.error(error.response?.data?.message || 'Failed to submit interest');
     }
   };
 
@@ -119,13 +139,37 @@ const PetDetails = () => {
                 </Space>
               </Card>
             ) : (
-            <Card title="🐾 Expression of Interest - Adoption Application">
+            <Card title="🐾 Expression of Interest — Adoption or Foster">
               <Form
                 form={form}
                 layout="vertical"
                 onFinish={handleSubmit}
                 scrollToFirstError
+                initialValues={{ interestType: 'adoption' }}
               >
+                <Form.Item
+                  name="interestType"
+                  label="Are you interested in fostering or adoption?"
+                  rules={[{ required: true, message: 'Please choose foster or adoption!' }]}
+                  style={{ marginBottom: 24 }}
+                >
+                  <Radio.Group>
+                    <Space direction="vertical">
+                      <Radio value="adoption">Adoption — permanent forever home</Radio>
+                      <Radio value="foster">Foster — temporary care for 2 weeks</Radio>
+                    </Space>
+                  </Radio.Group>
+                </Form.Item>
+
+                {isFoster && (
+                  <div style={{ marginBottom: 16, padding: '12px 16px', background: '#fff7e6', borderRadius: 8, border: '1px solid #ffd591' }}>
+                    <Text>
+                      Foster is a short-term commitment of <strong>2 weeks</strong>. Please share your basic contact
+                      details and address below — we will follow up with next steps.
+                    </Text>
+                  </div>
+                )}
+
                 <Collapse defaultActiveKey={['1']} ghost>
                   {/* Section 1: Basic Information */}
                   <Panel header="1️⃣ Basic Information" key="1">
@@ -164,31 +208,37 @@ const PetDetails = () => {
                       <Input.TextArea rows={2} placeholder="Enter your address or area" />
                     </Form.Item>
 
-                    <Form.Item
-                      name="occupation"
-                      label="Occupation"
-                      rules={[{ required: true, message: 'Please input your occupation!' }]}
-                    >
-                      <Input placeholder="Enter your occupation" />
-                    </Form.Item>
+                    {!isFoster && (
+                      <>
+                        <Form.Item
+                          name="occupation"
+                          label="Occupation"
+                          rules={[{ required: true, message: 'Please input your occupation!' }]}
+                        >
+                          <Input placeholder="Enter your occupation" />
+                        </Form.Item>
 
-                    <Form.Item
-                      name="workSchedule"
-                      label="Work Schedule"
-                      rules={[{ required: true, message: 'Please select your work schedule!' }]}
-                    >
-                      <Select placeholder="Select your work schedule">
-                        <Select.Option value="9-5">9-5</Select.Option>
-                        <Select.Option value="remote">Remote</Select.Option>
-                        <Select.Option value="shift-work">Shift Work</Select.Option>
-                        <Select.Option value="flexible">Flexible</Select.Option>
-                        <Select.Option value="unemployed">Unemployed</Select.Option>
-                        <Select.Option value="retired">Retired</Select.Option>
-                        <Select.Option value="other">Other</Select.Option>
-                      </Select>
-                    </Form.Item>
+                        <Form.Item
+                          name="workSchedule"
+                          label="Work Schedule"
+                          rules={[{ required: true, message: 'Please select your work schedule!' }]}
+                        >
+                          <Select placeholder="Select your work schedule">
+                            <Select.Option value="9-5">9-5</Select.Option>
+                            <Select.Option value="remote">Remote</Select.Option>
+                            <Select.Option value="shift-work">Shift Work</Select.Option>
+                            <Select.Option value="flexible">Flexible</Select.Option>
+                            <Select.Option value="unemployed">Unemployed</Select.Option>
+                            <Select.Option value="retired">Retired</Select.Option>
+                            <Select.Option value="other">Other</Select.Option>
+                          </Select>
+                        </Form.Item>
+                      </>
+                    )}
                   </Panel>
 
+                  {!isFoster && (
+                    <>
                   {/* Section 2: Living Situation */}
                   <Panel header="2️⃣ Living Situation" key="2">
                     <Form.Item
@@ -566,13 +616,36 @@ const PetDetails = () => {
                       </Checkbox>
                     </Form.Item>
                   </Panel>
+                    </>
+                  )}
+
+                  {isFoster && (
+                    <Panel header="2️⃣ Confirmation" key="foster-confirm">
+                      <Form.Item
+                        name="confirmInformationAccurate"
+                        valuePropName="checked"
+                        rules={[
+                          {
+                            validator: (_, value) =>
+                              value
+                                ? Promise.resolve()
+                                : Promise.reject(new Error('You must confirm the information is accurate!'))
+                          }
+                        ]}
+                      >
+                        <Checkbox>
+                          I confirm the information provided is accurate and I am interested in fostering for 2 weeks.
+                        </Checkbox>
+                      </Form.Item>
+                    </Panel>
+                  )}
                 </Collapse>
 
                 <Divider />
 
                 <Form.Item>
                   <Button type="primary" htmlType="submit" block size="large">
-                    🐾 Submit Expression of Interest
+                    {isFoster ? '🐾 Submit Foster Interest' : '🐾 Submit Expression of Interest'}
                   </Button>
                 </Form.Item>
               </Form>

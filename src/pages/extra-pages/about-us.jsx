@@ -10,313 +10,222 @@ import { Link } from 'react-router-dom';
 import HomeFooter from './footer';
 import axios from 'axios';
 import { API_CONFIG } from '../../config/api';
+import './about-us.css';
+
+const INITIATIVES = [
+  {
+    title: 'Spay & Neuter Programs',
+    description: 'Controlling pet population through accessible sterilization services.'
+  },
+  {
+    title: 'Senior Programs',
+    description: 'Providing care and finding homes for older pets often overlooked in shelters.'
+  },
+  {
+    title: 'Indigenous Dog Programs',
+    description: 'Preserving and protecting native dog breeds and their habitats.'
+  },
+  {
+    title: 'Street Dog Program',
+    description: 'Improving the lives of stray dogs through feeding, medical care, and adoption efforts.'
+  },
+  {
+    title: 'Vaccination Program',
+    description: 'Preventing diseases in pets and strays through comprehensive vaccination drives.'
+  }
+];
+
+const VALUES = [
+  {
+    title: 'Compassion',
+    description: 'We treat every animal with kindness, empathy, and respect.'
+  },
+  {
+    title: 'Dedication',
+    description: 'We work tirelessly to rescue, rehabilitate, and rehome animals in need.'
+  },
+  {
+    title: 'Education',
+    description: 'We teach responsible pet ownership and the importance of animal welfare.'
+  },
+  {
+    title: 'Collaboration',
+    description: 'We partner with vets, shelters, and the community to expand our impact.'
+  }
+];
 
 const AboutUs = () => {
   const [adoptionData, setAdoptionData] = useState([]);
 
   useEffect(() => {
+    const fetchAdoptionData = async () => {
+      try {
+        const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
+        setAdoptionData(Array.isArray(response.data) ? response.data : []);
+      } catch (error) {
+        console.error('Error fetching adoption data:', error);
+      }
+    };
+
     fetchAdoptionData();
   }, []);
 
-  const fetchAdoptionData = async () => {
-    try {
-      const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
-      setAdoptionData(response.data);
-    } catch (error) {
-      console.error('Error fetching adoption data:', error);
-    }
-  };
-
-  // Helper function to get counts
-  const getPetCounts = () => {
-    const dogCount = adoptionData.length; // All pets from API are currently dogs
-    const catCount = 0; // Currently no cats in the API
-    const shelterCount = Array.from(new Set(adoptionData.map(pet => pet.location || ''))).length || 3;
-    
-    return { dogCount, catCount, shelterCount };
-  };
-  
-  const { dogCount, catCount, shelterCount } = getPetCounts();
+  const availablePets = adoptionData.filter(
+    (pet) => pet.status !== 'adopted' && !pet.isAdopted
+  );
+  const dogCount = availablePets.length;
+  const catCount = 0;
+  const shelterCount = 1;
 
   return (
     <>
       <HomeHeader />
-      <div className="pet_care_area">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-3 col-md-3">
-              <div className="pet_thumb">
-                <img src={PetCare} alt="Pet Care" />
-              </div>
-              <div className="pet_thumb">
-                <img src={PetCare_} alt="Pet Care" />
-              </div>
-            </div>
-            <div className="col-lg-8 offset-lg-1 col-md-8">
-              <div className="pet_info">
-                <div className="section_title">
-                  <h3>
-                    <span>Haven Pet Home and </span> <br />
-                    Animal Care Foundation
-                  </h3>
-                  <p>
-                    Our mission is to rescue, rehabilitate, and find new homes for animals in need. We are a compassionate and dedicated
-                    organization with a deep love for animals and a strong commitment to their well-being. Over the years, we have
-                    demonstrated our passion for animal welfare through various endeavors, including rescuing abandoned pets, fostering
-                    injured wildlife, and volunteering at local animal shelters. Our natural empathy and nurturing nature enable us to
-                    connect with animals on a profound level, understanding their needs and providing them with the care and compassion they
-                    deserve.
-                  </p>
-                  <h3>
-                    <span>Our Initiatives</span> <br />
-                  </h3>
-                  <div className="checklist" style={{ marginTop: 10 }}>
-                    <ul className="checkmark-list list-none p-0">
-                      {[
-                        {
-                          title: 'SPAY & NEUTER PROGRAMS',
-                          description: 'Controlling pet population through accessible sterilization services.',
-                          link: '/spay-neuter'
-                        },
-                        {
-                          title: 'SENIOR PROGRAMS',
-                          description: 'Providing care and finding homes for older pets often overlooked in shelters.',
-                          link: '/senior-programs'
-                        },
-                        {
-                          title: 'INDIGENOUS DOG PROGRAMS',
-                          description: 'Preserving and protecting native dog breeds and their habitats.',
-                          link: '/indigenous-dog-programs'
-                        },
-                        {
-                          title: 'STREET DOG PROGRAM',
-                          description: 'Improving the lives of stray dogs through feeding, medical care, and adoption efforts.',
-                          link: '/street-dog-program'
-                        },
-                        {
-                          title: 'VACCINATION PROGRAM',
-                          description: 'Preventing diseases in pets and strays through comprehensive vaccination drives.',
-                          link: '/vaccination-program'
-                        }
-                      ].map((item, index) => (
-                        <li key={index} className="flex items-start gap-3 mb-3 p-2 border-b border-gray-300">
-                          <CheckCircleFilled className="text-green-500 text-lg" />
-                          <strong className="block text-gray-900 " style={{ marginLeft: 10 }}>
-                            {item.title}:
-                          </strong>
-                          <br />
-                          <span className="text-gray-700">{item.description}</span>
-                       
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <main className="about-page">
+        <section className="about-wrap about-hero">
+          <div className="about-hero-media">
+            <img src={PetCare} alt="Dogs and cats at Haven Pet Home" />
+            <img src={PetCare_} alt="A rescued dog at Haven Pet Home" />
           </div>
-        </div>
-      </div>
-
-      <div className="adapt_area">
-        <div className="container">
-          <div className="row justify-content-between align-items-center">
-            <div className="col-lg-5">
-              <div className="adapt_help">
-                <div className="section_title">
-                  <h3>
-                    <span>We need your</span> help Adopt Us
-                  </h3>
-                  <p>
-                    Lorem ipsum dolor sit, consectetur adipiscing elit, sed do iusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Quis ipsum suspendisse ultrices.
-                  </p>
-                  <Link to="/contact-us" className="boxed-btn3">
-                    Contact Us
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="adapt_about">
-                <div className="row align-items-center">
-                  <div className="col-lg-6 col-md-6">
-                    <div className="single_adapt text-center">
-                      <MdOutlinePets color="#FF0080" fontSize={50} />
-                      <div className="adapt_content">
-                        <h3 className="counter">{catCount}</h3>
-                        <p>Cats Available</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="single_adapt text-center">
-                      <MdOutlinePets color="#FF0080" fontSize={50} />
-                      <div className="adapt_content">
-                        <h3>
-                          <span className="counter">{dogCount}</span>
-                        </h3>
-                        <p>Dogs Available</p>
-                      </div>
-                    </div>
-                    <div className="single_adapt text-center">
-                      <MdOutlinePets />
-                      <div className="adapt_content">
-                        <h3 className="counter">{shelterCount}</h3>
-                        <p>Shelters</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="container box_1170">
-        <div className="section-top-border">
-          <div className="row">
-            <div className="col-md-3">
-              <div className="thumb">
-                <img aria-hidden="true" loading="lazy" decoding="async" src={fahida} className="img-fluid" alt="Fahida Emetumah" />
-              </div>
-            </div>
-            <div className="col-md-9 mt-sm-20">
-              <div className="mt-4">
-                <p className="text-gray-400">Co-Founder</p>
-                <h2 className="text-2xl font-semibold">Meet Fahida</h2>
-              </div>
-              <p className="text-gray-300 mt-3">
-                Fahida is a compassionate and dedicated individual with a deep love for animals. Over the years, she has demonstrated her
-                passion for animal welfare through various endeavors, including rescuing abandoned pets, fostering injured wildlife, and
-                volunteering at local animal shelters.
-              </p>
-              <p className="text-gray-300 mt-3">
-                Her empathy and nurturing nature enable her to connect with animals on a profound level, understanding their needs and
-                providing them with the care they deserve. She is driven by a desire to make a positive impact in the lives of animals,
-                advocating for their rights and working tirelessly to create a better world for them.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="section-top-border text-right">
-          <div className="row">
-            <div className="col-md-9">
-              <div className="mt-4">
-                <p className="text-gray-400 text-right">Co-Founder</p>
-                <h2 className="text-2xl font-semibold text-right">Meet Tracy</h2>
-              </div>
-              <p className="text-gray-300 mt-3">
-                Tracy is a dedicated and passionate individual with a profound commitment to animal welfare. Throughout her career, she has
-                consistently demonstrated her love for animals through various initiatives, including organizing community-wide pet adoption
-                events, implementing educational programs on responsible pet ownership, and collaborating with veterinarians to provide
-                affordable care for pets in need.
-              </p>
-              <p className="text-gray-300 mt-3">
-                Her innovative approach to animal welfare and ability to build strong partnerships have been instrumental in expanding the
-                reach and impact of our organization. Tracy&apos;s leadership continues to drive our mission forward, inspiring others to create
-                a world where every animal is treated with kindness and respect.
-              </p>
-            </div>
-            <div className="col-md-3">
-              <div className="thumb">
-                <img aria-hidden="true" loading="lazy" decoding="async" src={tracy} className="img-fluid" alt="Tracy Anele" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="adapt_area">
-        <div className="container">
-          <div className="">
-            <h1 className="cs-title">Who We Are</h1>
-            <p>
-              Haven Pet Home and Animal Care Foundation is a non-profit organization dedicated to the rescue, rehabilitation, and adoption
-              of animals in need. We are a team of passionate individuals who share a deep love for animals and a commitment to their
-              well-being.
-            </p>
-            <p>
-              Our organization was founded on the belief that every animal deserves a loving home and a second chance at life. We work
-              tirelessly to provide medical care, shelter, and rehabilitation to abandoned, abused, or neglected animals, helping them heal
-              both physically and emotionally.
-            </p>
-            <p>
-              Our team consists of dedicated volunteers, veterinarians, and animal care professionals who work hand in hand to ensure the
-              highest level of care and attention for every animal that comes through our doors. We are committed to finding forever homes
-              for our rescued animals, carefully matching them with loving families who can provide them with the care and support they
-              need.
+          <div className="about-hero-copy">
+            <p className="about-kicker">About Us</p>
+            <h1 className="about-title">
+              <span>Haven Pet Home</span> and Animal Care Foundation
+            </h1>
+            <p className="about-lead">
+              Our mission is to rescue, rehabilitate, and find new homes for animals in need. We are a
+              compassionate organization with a deep love for animals and a strong commitment to their
+              well-being — through rescue, fostering, rehabilitation, and adoption.
             </p>
           </div>
-        </div>
-      </div>
-      <div className="service_area">
-        <div className="container">
-          <div className="row justify-content-center ">
-            <div className="col-lg-7 col-md-10">
-              <div className="section_title text-center mb-95">
-                <h3>Our Core Values</h3>
-              </div>
-            </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-lg-3 col-md-3">
-              <div className="single_service">
-                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div className="">
-                    <MdOutlinePets color="#FF0080" fontSize={50} />
-                  </div>
-                </div>
-                <div className="service_content text-center">
-                  <h3>Compassion</h3>
-                  <p>We treat every animal with kindness, empathy, and respect.</p>
-                </div>
-              </div>
-            </div>
+        </section>
 
-            <div className="col-lg-3 col-md-3">
-              <div className="single_service active">
-                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div className="">
-                    <MdOutlinePets color="#FF0080" fontSize={50} />
-                  </div>
-                </div>
-                <div className="service_content text-center">
-                  <h3>Dedication</h3>
-                  <p> We strive to educate the community about responsible pet ownership and the importance of animal welfare.</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-3">
-              <div className="single_service">
-                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div className="">
-                    <MdOutlinePets color="#FF0080" fontSize={50} />
-                  </div>
-                </div>
-                <div className="service_content text-center">
-                  <h3>Education</h3>
-                  <p>We work closely with other animal welfare organizations, veterinarians, and the community to achieve our goals.</p>
+        <section className="about-wrap about-section">
+          <h2 className="about-section-title">Our Initiatives</h2>
+          <div className="about-initiatives">
+            {INITIATIVES.map((item) => (
+              <div className="about-initiative" key={item.title}>
+                <CheckCircleFilled className="check" />
+                <div>
+                  <strong>{item.title}</strong>
+                  <p>{item.description}</p>
                 </div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="about-wrap about-section">
+          <div className="about-help">
+            <div>
+              <p className="about-kicker">Get Involved</p>
+              <h2 className="about-title">We need your help to give them a home</h2>
+              <p className="about-lead">
+                Every adoption, donation, and volunteer hour helps us rescue more animals and keep our
+                shelters running with care.
+              </p>
+              <Link to="/contact-us" className="about-help-btn">
+                Contact Us
+              </Link>
             </div>
-            <div className="col-lg-3 col-md-3">
-              <div className="single_service">
-                <div className=" service_icodn_bg_1 d-flex align-items-center justify-content-center">
-                  <div className="">
-                    <MdOutlinePets color="#FF0080" fontSize={50} />
-                  </div>
-                </div>
-                <div className="service_content text-center">
-                  <h3>Collaboration</h3>
-                  <p>We work closely with other animal welfare organizations, veterinarians, and the community to achieve our goals.</p>
-                </div>
+            <div className="about-stats">
+              <div className="about-stat">
+                <strong>{dogCount}</strong>
+                <span>Dogs Available</span>
+              </div>
+              <div className="about-stat">
+                <strong>{catCount}</strong>
+                <span>Cats Available</span>
+              </div>
+              <div className="about-stat">
+                <strong>{shelterCount}</strong>
+                <span>Shelters</span>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+
+        <section className="about-wrap about-section">
+          <h2 className="about-section-title">Our Founders</h2>
+          <div className="about-founders">
+            <article className="about-founder">
+              <div className="about-founder-media">
+                <img src={fahida} alt="Fahida Emetumah" loading="lazy" />
+              </div>
+              <div className="about-founder-copy">
+                <p className="about-founder-role">Co-Founder</p>
+                <h3>Meet Fahida</h3>
+                <p>
+                  Fahida is a compassionate and dedicated individual with a deep love for animals. Over
+                  the years, she has demonstrated her passion for animal welfare through rescuing
+                  abandoned pets, fostering injured wildlife, and volunteering at local animal shelters.
+                </p>
+                <p>
+                  Her empathy and nurturing nature help her connect with animals on a profound level,
+                  advocating for their rights and working tirelessly to create a better world for them.
+                </p>
+              </div>
+            </article>
+
+            <article className="about-founder">
+              <div className="about-founder-media">
+                <img src={tracy} alt="Tracy Anele" loading="lazy" />
+              </div>
+              <div className="about-founder-copy">
+                <p className="about-founder-role">Co-Founder</p>
+                <h3>Meet Tracy</h3>
+                <p>
+                  Tracy is a dedicated leader with a profound commitment to animal welfare. She has
+                  organized community pet adoption events, built educational programs on responsible pet
+                  ownership, and partnered with veterinarians to expand affordable care.
+                </p>
+                <p>
+                  Her leadership continues to drive our mission forward, inspiring others to create a
+                  world where every animal is treated with kindness and respect.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section className="about-wrap about-section">
+          <h2 className="about-section-title">Who We Are</h2>
+          <div className="about-who">
+            <p>
+              Haven Pet Home and Animal Care Foundation is a non-profit organization dedicated to the
+              rescue, rehabilitation, and adoption of animals in need. We are a team of passionate
+              people who share a deep love for animals and a commitment to their well-being.
+            </p>
+            <p>
+              We were founded on the belief that every animal deserves a loving home and a second
+              chance at life. We provide medical care, shelter, and rehabilitation to abandoned,
+              abused, or neglected animals, helping them heal physically and emotionally.
+            </p>
+            <p>
+              Our volunteers, veterinarians, and animal care professionals work together to ensure the
+              highest level of care for every animal — and carefully match each one with a forever
+              family.
+            </p>
+          </div>
+        </section>
+
+        <section className="about-wrap about-section about-section-last">
+          <div className="about-values-head">
+            <p className="about-kicker">What Guides Us</p>
+            <h2 className="about-section-title">Our Core Values</h2>
+          </div>
+          <div className="about-values">
+            {VALUES.map((value) => (
+              <div className="about-value" key={value.title}>
+                <div className="about-value-icon" aria-hidden="true">
+                  <MdOutlinePets />
+                </div>
+                <h3>{value.title}</h3>
+                <p>{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
       <HomeFooter />
     </>
   );

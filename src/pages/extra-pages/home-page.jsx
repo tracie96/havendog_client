@@ -1,345 +1,235 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'owl.carousel/dist/assets/owl.carousel.min.css';
-import 'font-awesome/css/font-awesome.min.css';
-import 'animate.css/animate.min.css';
-import './home.css';
-import HeaderImage from '../../assets/images/img/banner/dog.png';
-import HomeHeader from 'menu-items/header';
-import HomeFooter from './footer';
 import axios from 'axios';
-import {API_CONFIG} from '../../config/api';
+import { API_CONFIG } from '../../config/api';
+import heroPets from '../../assets/hero-pets.jpg';
+import HavenSiteHeader from 'components/HavenSiteHeader';
+import HavenSiteFooter from 'components/HavenSiteFooter';
+import './home-landing.css';
 
 function HomePage() {
   const [adoptionData, setAdoptionData] = useState([]);
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
+    const fetchAdoptionData = async () => {
+      try {
+        const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
+        const availablePets = response.data.filter(
+          (pet) => pet.status !== 'adopted' && !pet.isAdopted
+        );
+        setAdoptionData(availablePets);
+      } catch (error) {
+        console.error('Error fetching adoption data:', error);
+      }
+    };
+
     fetchAdoptionData();
   }, []);
 
-  const fetchAdoptionData = async () => {
-    try {
-      const response = await axios.get(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.adoptions}`);
-      // Filter out adopted pets - don't show pets with status "adopted" or isAdopted: true
-      const availablePets = response.data.filter(pet => 
-        pet.status !== 'adopted' && !pet.isAdopted
-      );
-      setAdoptionData(availablePets);
-    } catch (error) {
-      console.error('Error fetching adoption data:', error);
+  const dogCount = adoptionData.length;
+  const catCount = 0;
+  const shelterCount = 0;
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubscribed(true);
+      setEmail('');
     }
   };
 
-  // Helper function to get counts
-  const getPetCounts = () => {
-    const dogCount = adoptionData.length; // All pets from API are currently dogs (excluding adopted)
-    const catCount = 0; // Currently no cats in the API
-    const shelterCount = 0; // Set shelter count to 0
-    
-    return { dogCount, catCount, shelterCount };
-  };
-  
-  const { dogCount, catCount, shelterCount = 0 } = getPetCounts();
-
   return (
-    <>
-      <HomeHeader />
+    <div className="haven-home">
+      <HavenSiteHeader standalone={false} />
 
-      {/* slider_area_start */}
-      <div className="slider_area">
-        <div className="single_slider slider_bg_1 d-flex align-items-center">
-          <div className="container">
-            <div className="row">
-              <div className="col-12 col-lg-5 col-md-6">
-                <div className="slider_text">
-                  <h3 className="mb-3">
-                    Haven Pet Home and <br /> <span>Animal Care Foundation</span>
-                  </h3>
-                  <p className="mb-4">Rescue, Rehabilitate, Rehome: Giving Animals a Second Chance. Professional pet boarding services available.</p>
-                  <div className="d-flex flex-wrap gap-3">
-                    <a href="/up-for-adoption" className="boxed-btn4">
-                      Adopt Now
-                    </a>
-                    <a href="/pet-boarding" className="boxed-btn4">
-                      Board Your Pet
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-lg-7 col-md-6 d-none d-lg-block">
-                <div className="dog_thumb">
-                  <img src={HeaderImage} alt="Dog" className="img-fluid" />
-                </div>
-              </div>
+      <section className="hh-wrap hh-hero">
+        <div className="hh-hero-grid">
+          <div className="hh-hero-copy-block">
+            <span className="hh-eyebrow">Giving Animals a Second Chance</span>
+            <h1 className="hh-hero-title">
+              Your <span className="hh-chrome">One-Stop</span> Pet Care Destination
+            </h1>
+            <p className="hh-hero-copy hh-hero-copy-short">
+              Sitting, boarding, and adoption — compassionate care for your pets, all in one place.
+            </p>
+            <p className="hh-hero-copy hh-hero-copy-full">
+              At Haven Pet Home and Animal Care Foundation, we treat your animal companions with the
+              utmost care — from sitting services to adoption, all in one compassionate place.
+            </p>
+            <div className="hh-cta-row">
+              <Link to="/up-for-adoption" className="hh-btn hh-btn-solid hh-btn-lg">
+                Adopt Now
+              </Link>
+              <Link to="/pet-boarding" className="hh-btn hh-btn-outline hh-btn-lg">
+                Board Your Pet
+              </Link>
+            </div>
+            <div className="hh-rating">
+              <span className="hh-rating-dot" aria-hidden="true" />
+              100% Satisfaction Rating
+            </div>
+          </div>
+
+          <div className="hh-hero-media">
+            <div className="hh-hero-frame">
+              <img
+                src={heroPets}
+                alt="A happy golden retriever and tabby cat at Haven Pet Home shelter"
+                width={1080}
+                height={1200}
+                loading="eager"
+              />
+            </div>
+            <div className="hh-hero-badge">
+              <strong>24/7</strong>
+              <span>Compassionate Care</span>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="pet_care_area">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-5 col-md-6">
-              <div className="cs-image-group">
-                {/* Floating Box */}
-                <div className="cs-box">
-                  <img
-                    className="cs-blob"
-                    loading="lazy"
-                    decoding="async"
-                    src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Images/Graphics/blob-shape3.svg"
-                    alt="blob"
-                    width="254"
-                    height="238"
-                    aria-hidden="true"
-                  />
-                  <span className="cs-number" style={{ zIndex: 99999 }}>
-                    100%
-                  </span>
-                  <span className="cs-desc">Satisfaction Rating</span>
-                </div>
-                {/* Big Background Image */}
-                <div className="cs-picture hidden" data-effect="slide-in-right">
-                  {/* Mobile and Tablet Image */}
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    src="https://images.unsplash.com/photo-1575859225486-f377a3f867bf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBldCUyMHBpbmt8ZW58MHx8MHx8fDA%3D"
-                    alt="girl"
-                    width="542"
-                    height="720"
-                    aria-hidden="true"
-                  />
-                </div>
-                {/* Oval */}
-                <img
-                  className="cs-oval"
-                  loading="lazy"
-                  decoding="async"
-                  src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Images/Graphics/oval.svg"
-                  alt="oval"
-                  width="727"
-                  height="480"
-                  aria-hidden="true"
+      <section id="about" className="hh-wrap hh-section-card">
+        <div className="hh-about-grid">
+          <h2 className="hh-section-title">About Us</h2>
+          <p className="hh-section-copy">
+            Whether you&apos;re seeking pet sitting, veterinary recommendations, or exploring adoption,
+            our dedicated team provides comprehensive and compassionate solutions for your beloved
+            companions.
+          </p>
+        </div>
+        <div className="hh-checklist">
+          <div className="hh-check">
+            <span>✔</span>
+            <p>Experienced and trusted animal care professionals.</p>
+          </div>
+          <div className="hh-check">
+            <span>✔</span>
+            <p>Personalized services tailored to your pet&apos;s needs.</p>
+          </div>
+          <div className="hh-check">
+            <span>✔</span>
+            <p>Comprehensive animal care solutions, all in one place.</p>
+          </div>
+          <div className="hh-check">
+            <span>✔</span>
+            <p>Dedicated to promoting responsible pet ownership.</p>
+          </div>
+          <div className="hh-check">
+            <span>✔</span>
+            <p>Committed to the well-being of all animals.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="hh-wrap hh-services">
+        <p className="hh-kicker">Services for every dog</p>
+        <h2 className="hh-services-title">
+          Comprehensive Care for Your <span className="hh-chrome">All Animals</span>
+        </h2>
+        <div className="hh-service-grid">
+          <div className="hh-service">
+            <div className="hh-service-icon" aria-hidden="true">
+              🐕
+            </div>
+            <h3>Animal Sitting</h3>
+            <p>Safe, loving supervision while you&apos;re away.</p>
+          </div>
+          <div className="hh-service">
+            <div className="hh-service-icon" aria-hidden="true">
+              🩺
+            </div>
+            <h3>Veterinary Recommendations</h3>
+            <p>Trusted vet guidance for every pet.</p>
+          </div>
+          <div className="hh-service">
+            <div className="hh-service-icon" aria-hidden="true">
+              🏡
+            </div>
+            <h3>Pet Adoption</h3>
+            <p>Match rehabilitated pets with homes.</p>
+          </div>
+          <div className="hh-service">
+            <div className="hh-service-icon" aria-hidden="true">
+              📚
+            </div>
+            <h3>Pet Education</h3>
+            <p>Learn to care for your new companion.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="adopt" className="hh-wrap hh-adopt">
+        <div className="hh-adopt-panel">
+          <div className="hh-adopt-copy">
+            <p className="hh-kicker">Adopt From Us</p>
+            <h2>Give a loving home to an animal in need.</h2>
+            <p>
+              Our adoption process connects pets with caring families after thorough health checks
+              and rehabilitation. Each adoption helps us rescue more animals from challenging
+              situations.
+            </p>
+            <Link to="/up-for-adoption" className="hh-btn hh-btn-ghost hh-btn-lg hh-adopt-cta">
+              Adopt Now
+            </Link>
+          </div>
+          <div className="hh-stats">
+            <div className="hh-stat">
+              <strong>{dogCount}</strong>
+              <span>Pets Available</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="donate" className="hh-wrap hh-donate">
+        <div className="hh-donate-panel">
+          <p className="hh-kicker">Why go with Us?</p>
+          <h2>Every donation makes a difference.</h2>
+          <p>
+            We&apos;re dedicated 24/7 to ensuring your support reaches stray pets in need across Nigeria.
+          </p>
+          <div className="hh-donate-actions">
+            <Link to="/donate" className="hh-btn hh-btn-solid hh-btn-lg">
+              Donate
+            </Link>
+            <p>
+              Or call us at{' '}
+              <a href="tel:+2348109690608" className="hh-phone">
+                +234 810-969-0608
+              </a>
+            </p>
+          </div>
+
+          <div id="subscribe" className="hh-subscribe">
+            <p>Get notified when a pet is up for adoption</p>
+            {subscribed ? (
+              <p className="hh-subscribe-success">
+                You&apos;re subscribed! We&apos;ll notify you when a new pet is ready for a home.
+              </p>
+            ) : (
+              <form onSubmit={handleSubscribe} className="hh-subscribe-form">
+                <label htmlFor="haven-home-email" className="hh-sr-only">
+                  Email address
+                </label>
+                <input
+                  id="haven-home-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@email.com"
                 />
-              </div>
-            </div>
-            <div className="col-lg-6 offset-lg-1 col-md-6">
-              <div className="pet_info">
-                <div className="section_title">
-                  <h3>
-                    <span>Welcome to Your </span> <br />
-                    One-Stop Pet Care Destination
-                  </h3>
-                  <p>
-                    At Haven Pet Home and Animal Care Foundation, we understand the unique needs of our beloved animal companions. Whether
-                    you&apos;re seeking pet sitting services, veterinary recommendations, or exploring pet adoption options, our dedicated team
-                    is here to provide you with comprehensive and compassionate solutions. We promise to treat your animals with the utmost
-                    care, ensuring their well-being and happiness.
-                  </p>
-                  <a href="about.html" className="boxed-btn3">
-                    About Us
-                  </a>
-                </div>
-
-                <div className="checklist" style={{ marginTop: 10 }}>
-                  <ul className="checkmark-list">
-                    <li className="m-2">✔ Experienced and trusted animal care professionals.</li>
-                    <li className="m-2">✔ Personalized services tailored to your pet&apos;s needs.</li>
-                    <li className="m-2">✔ Comprehensive animal care solutions, all in one place.</li>
-                    <li className="m-2">✔ Dedicated to promoting responsible pet ownership.</li>
-                    <li className="m-2">✔ Committed to the well-being of all animals.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+                <button type="submit">Subscribe</button>
+              </form>
+            )}
           </div>
         </div>
-      </div>
-      {/* service_area_start */}
+      </section>
 
-      <div className="service_area">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-7 col-md-10">
-              <div className="section_title text-center mb-95">
-                <p>Services for every dog</p>
-                <h2>Comprehensive Care for Your All Animals.</h2>
-              </div>
-            </div>
-          </div>
-          <div className="row justify-content-center">
-            <div className="col-12">
-              <div className="row g-4">
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="cs-item hidden" data-effect="slideIn">
-                    <div href="/" className="cs-link">
-                      <h3 className="cs-h3">
-                        <span className="cs-span">Animal Sitting</span> Services
-                      </h3>
-                    </div>
-                    <div className="cs-background">
-                      <img
-                        decoding="async"
-                        src="https://images.pexels.com/photos/6994718/pexels-photo-6994718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="pet sitting"
-                        className="img-fluid"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="cs-item hidden" data-effect="slideIn">
-                    <div href="/" className="cs-link">
-                      <h3 className="cs-h3">
-                        <span className="cs-span">Veterinary</span> Recommendations
-                      </h3>
-                    </div>
-                    <div className="cs-background">
-                      <img
-                        decoding="async"
-                        src="https://images.pexels.com/photos/6259885/pexels-photo-6259885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="veterinary recommendations"
-                        className="img-fluid"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="cs-item hidden" data-effect="slideIn">
-                    <div href="/" className="cs-link">
-                      <h3 className="cs-h3">
-                        <span className="cs-span">Pet</span> Adoption
-                      </h3>
-                    </div>
-                    <div className="cs-background">
-                      <img
-                        decoding="async"
-                        src="https://images.unsplash.com/photo-1444212477490-ca407925329e?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="pet adoption"
-                        className="img-fluid"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6 col-sm-6">
-                  <div className="cs-item hidden" data-effect="slideIn">
-                    <div href="/" className="cs-link">
-                      <h3 className="cs-h3">
-                        <span className="cs-span">Pet</span> Education
-                      </h3>
-                    </div>
-                    <div className="cs-background">
-                      <img
-                        decoding="async"
-                        src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="pet education"
-                        className="img-fluid"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* service_area_end */}
-
-      {/* pet_care_area_end */}
-
-      {/* adapt_area_start */}
-      <div className="adapt_area">
-        <div className="container">
-          <div className="row justify-content-between align-items-center">
-            <div className="col-lg-5">
-              <div className="adapt_help">
-                <div className="section_title">
-                  <h3>
-                    <span>Adopt From </span>
-                    Us
-                  </h3>
-                  <p>
-                    Give a loving home to an animal in need. Our adoption process connects pets with caring families after thorough health checks and rehabilitation. Each adoption helps us rescue more animals from challenging situations.
-                  </p>
-                  <a href="/up-for-adoption" className="boxed-btn3">
-                    See Our Pets up for Adoption
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="adapt_about">
-                <div className="row align-items-center">
-                  <div className="col-lg-6 col-md-6">
-                    <div className="single_adapt text-center">
-                      <img src="img/adapt_icon/1.png" alt="" />
-                      <div className="adapt_content">
-                        <h3 className="counter">{dogCount}</h3>
-                        <p>Dogs Available</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="single_adapt text-center">
-                      <img src="img/adapt_icon/3.png" alt="" />
-                      <div className="adapt_content">
-                        <h3>
-                          <span className="counter">{catCount}</span>
-                        </h3>
-                        <p>Cats Available</p>
-                      </div>
-                    </div>
-                    <div className="single_adapt text-center">
-                      <img src="img/adapt_icon/2.png" alt="" />
-                      <div className="adapt_content">
-                        <h3>
-                          <span className="counter">{shelterCount}</span>
-                        </h3>
-                        <p>Shelters Available</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="contact_anipat slider_bg_1">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <div className="contact_text text-center">
-                <div className="section_title text-center">
-                  <h3>Why go with Us?</h3>
-                  <p>
-                    Every donation makes a difference, and we&apos;re dedicated 24/7 to ensuring your support reaches stray pets in need across
-                    Nigeria.
-                  </p>
-                </div>
-                <div className="contact_btn d-flex align-items-center justify-content-center">
-                  <Link to="/donate" className="boxed-btn4">
-                    Donate
-                  </Link>
-                  <p>
-                    Or call us at +234 810-969-0608
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <HomeFooter />
-    </>
+      <HavenSiteFooter standalone={false} />
+    </div>
   );
 }
 

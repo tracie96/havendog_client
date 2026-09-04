@@ -23,6 +23,8 @@ import {
   ArrowBack
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import HomeHeader from 'menu-items/header';
+import HomeFooter from './footer';
 
 const PinkGradientBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(0deg, #a80c5c 0%, #a80c5c 99%)',
@@ -129,6 +131,8 @@ const PetBoardingLanding = () => {
   };
 
   return (
+    <>
+      <HomeHeader />
     <Container maxWidth="lg" sx={{ py: 6 }}>
       {/* Navigation */}
       <Box sx={{ mb: 3 }}>
@@ -350,6 +354,8 @@ const PetBoardingLanding = () => {
         </PlayfulButton>
       </Box>
     </Container>
+      <HomeFooter />
+    </>
   );
 };
 

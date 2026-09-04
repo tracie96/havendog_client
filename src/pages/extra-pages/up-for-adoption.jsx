@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Typography, Button, Space, Spin, Modal, List, Tag, Segmented } from 'antd';
+import { Typography, Button, Space, Spin, Modal, List, Segmented } from 'antd';
 import { HeartOutlined, InfoCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import HomeHeader from 'menu-items/header';
+import HavenSiteHeader from 'components/HavenSiteHeader';
 import HomeFooter from './footer';
 import { useNavigate } from 'react-router-dom';
 import { API_CONFIG } from '../../config/api';
 import Loader from '../../components/Loader';
 import { formatPetAge } from '../../utils/formatPetAge';
+import './up-for-adoption.css';
 
 const { Title, Text } = Typography;
 
@@ -15,13 +16,15 @@ const UpForAdoption = () => {
   const [availablePets, setAvailablePets] = useState([]);
   const [adoptedPets, setAdoptedPets] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState('available');
   const navigate = useNavigate();
+
   const truncateText = (text, maxWords) => {
-    const words = text.split(' ');
+    if (!text || typeof text !== 'string') return '';
+    const words = text.trim().split(/\s+/);
     if (words.length > maxWords) {
-      return words.slice(0, maxWords).join(' ') + '...';
+      return `${words.slice(0, maxWords).join(' ')}...`;
     }
     return text;
   };
@@ -45,151 +48,149 @@ const UpForAdoption = () => {
 
     fetchPets();
   }, []);
+
   const handlePetClick = (petId) => {
     navigate(`/pet-details/${petId}`);
   };
 
   const renderPetCard = (pet, adopted = false) => (
-    <Col xs={24} sm={12} md={8} lg={6} key={pet._id}>
-      <Card
-        hoverable
-        cover={
-          <div style={{ position: 'relative' }}>
-            <img
-              alt={pet.name}
-              src={pet.imageUrl}
-              style={{
-                height: 400,
-                objectFit: 'cover',
-                ...(adopted && { filter: 'grayscale(25%)' })
-              }}
-            />
-            {adopted && (
-              <Tag
-                color="success"
-                icon={<CheckCircleOutlined />}
-                style={{ position: 'absolute', top: 12, right: 12, fontSize: 14, padding: '4px 12px' }}
-              >
-                Adopted
-              </Tag>
-            )}
-          </div>
+    <article
+      key={pet._id}
+      className="pet-card"
+      onClick={() => handlePetClick(pet._id)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handlePetClick(pet._id);
         }
-        onClick={() => handlePetClick(pet._id)}
-      >
-        <Card.Meta
-          title={pet.name}
-          description={
-            <Space direction="vertical" size="small">
-              <Text>{pet.breed}</Text>
-              <Text>Age: {formatPetAge(pet.age)}</Text>
-              <Text>{truncateText(pet.description, 30)}</Text>
-              <Button type={adopted ? 'default' : 'primary'} block>
-                {adopted ? 'View Pet' : 'Learn More'}
-              </Button>
-            </Space>
-          }
-        />
-      </Card>
-    </Col>
+      }}
+      role="button"
+      tabIndex={0}
+    >
+      <div className={`pet-card-cover${adopted ? ' is-adopted' : ''}`}>
+        <img alt={pet.name} src={pet.imageUrl} loading="lazy" />
+        {adopted && (
+          <span className="pet-card-tag">
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: '#52c41a',
+                color: '#fff',
+                borderRadius: 999,
+                padding: '4px 12px',
+                fontSize: 13,
+                fontWeight: 700
+              }}
+            >
+              <CheckCircleOutlined /> Adopted
+            </span>
+          </span>
+        )}
+      </div>
+      <div className="pet-card-body">
+        <h3 className="pet-card-name">{pet.name}</h3>
+        <p className="pet-card-meta">
+          {pet.breed || 'Mixed'} · Age: {formatPetAge(pet.age)}
+        </p>
+        <p className="pet-card-desc">{truncateText(pet.description, 28)}</p>
+        <button
+          type="button"
+          className={`pet-card-btn ${adopted ? 'secondary' : 'primary'}`}
+          onClick={(event) => {
+            event.stopPropagation();
+            handlePetClick(pet._id);
+          }}
+        >
+          {adopted ? 'View Pet' : 'Adopt Now'}
+        </button>
+      </div>
+    </article>
   );
 
   const renderPetGrid = (pets, adopted = false, emptyTitle, emptySubtitle) => {
     if (pets.length === 0) {
       return (
-        <div className="text-center py-8">
-          <Title level={3}>{emptyTitle}</Title>
-          <Text>{emptySubtitle}</Text>
+        <div className="adoption-empty">
+          <h2>{emptyTitle}</h2>
+          <p>{emptySubtitle}</p>
         </div>
       );
     }
 
-    return (
-      <Row gutter={[24, 24]}>
-        {pets.map((pet) => renderPetCard(pet, adopted))}
-      </Row>
-    );
+    return <div className="adoption-grid">{pets.map((pet) => renderPetCard(pet, adopted))}</div>;
   };
-
-  const adoptedTabContent = (
-    <>
-      {adoptedPets.length > 0 && (
-        <div className="text-center mb-4">
-          <Text type="secondary">
-            These wonderful pets have found their forever homes.
-          </Text>
-        </div>
-      )}
-      {renderPetGrid(
-        adoptedPets,
-        true,
-        'No adopted pets to show yet',
-        'Happy tails will appear here once pets find their homes.'
-      )}
-    </>
-  );
 
   const tipsForFutureParents = [
     {
       title: 'Neutering/Spaying',
-      description: 'Neutering or spaying your pet is required before final adoption. This helps control the pet population and provides health benefits including reduced risk of certain cancers and behavioral improvements.',
+      description:
+        'Neutering or spaying your pet is required before final adoption. This helps control the pet population and provides health benefits including reduced risk of certain cancers and behavioral improvements.'
     },
     {
       title: 'Veterinary Care',
-      description: 'Schedule a wellness check-up with a veterinarian within the first week of adoption. Ensure your pet is up-to-date on vaccinations and discuss a preventive care plan.',
+      description:
+        "Schedule a wellness check-up with a veterinarian within the first week of adoption. Ensure your pet is up-to-date on vaccinations and discuss a preventive care plan."
     },
     {
       title: 'Pet-Proofing Your Home',
-      description: 'Remove toxic plants, secure electrical cords, and ensure windows and doors are secure. Create a safe space where your pet can retreat when needed.',
+      description:
+        'Remove toxic plants, secure electrical cords, and ensure windows and doors are secure. Create a safe space where your pet can retreat when needed.'
     },
     {
       title: 'Nutrition & Feeding',
-      description: 'Provide high-quality pet food appropriate for your pet\'s age, size, and health needs. Establish a regular feeding schedule and avoid overfeeding.',
+      description:
+        "Provide high-quality pet food appropriate for your pet's age, size, and health needs. Establish a regular feeding schedule and avoid overfeeding."
     },
     {
       title: 'Exercise & Mental Stimulation',
-      description: 'Regular exercise is essential for physical and mental health. Provide toys, puzzles, and daily activities to keep your pet engaged and happy.',
+      description:
+        'Regular exercise is essential for physical and mental health. Provide toys, puzzles, and daily activities to keep your pet engaged and happy.'
     },
     {
       title: 'Training & Socialization',
-      description: 'Start training early with positive reinforcement. Socialize your pet gradually with people, other animals, and new environments to build confidence.',
+      description:
+        'Start training early with positive reinforcement. Socialize your pet gradually with people, other animals, and new environments to build confidence.'
     },
     {
       title: 'Identification & Microchipping',
-      description: 'Ensure your pet has proper identification tags and consider microchipping. Keep contact information updated in case your pet gets lost.',
+      description:
+        'Ensure your pet has proper identification tags and consider microchipping. Keep contact information updated in case your pet gets lost.'
     },
     {
       title: 'Grooming & Hygiene',
-      description: 'Establish a regular grooming routine including brushing, nail trimming, and dental care. This helps maintain health and strengthens your bond.',
+      description:
+        'Establish a regular grooming routine including brushing, nail trimming, and dental care. This helps maintain health and strengthens your bond.'
     },
     {
       title: 'Emergency Preparedness',
-      description: 'Have a pet first-aid kit ready and know the location of the nearest emergency veterinary clinic. Keep important documents and medical records accessible.',
+      description:
+        'Have a pet first-aid kit ready and know the location of the nearest emergency veterinary clinic. Keep important documents and medical records accessible.'
     },
     {
       title: 'Patience & Commitment',
-      description: 'Adjustment periods vary. Be patient as your pet adapts to their new home. Remember, adoption is a lifelong commitment that requires time, love, and resources.',
-    },
+      description:
+        'Adjustment periods vary. Be patient as your pet adapts to their new home. Remember, adoption is a lifelong commitment that requires time, love, and resources.'
+    }
   ];
 
   if (loading) {
     return (
       <>
-        <HomeHeader />
+        <HavenSiteHeader />
         <Loader />
-        <div className="p-4">
-          <div className="text-center mb-6">
-            <Title level={2}>
-              <HeartOutlined className="mr-2" />
-              Pets Up for Adoption
-            </Title>
-          </div>
-          <div className="container">
-            <div className="text-center py-8">
+        <div className="adoption-page">
+          <div className="adoption-inner">
+            <div className="adoption-hero">
+              <h1>
+                <HeartOutlined className="heart" />
+                Pets Up for Adoption
+              </h1>
+            </div>
+            <div className="adoption-empty">
               <Spin size="large" />
-              <div className="mt-4">
-                <Text>Loading adorable pets...</Text>
-              </div>
+              <p style={{ marginTop: 16 }}>Loading adorable pets...</p>
             </div>
           </div>
         </div>
@@ -199,28 +200,26 @@ const UpForAdoption = () => {
 
   return (
     <>
-      <HomeHeader />
-      <div className="p-4">
-        <div className="text-center mb-6">
-          <Title level={2}>
-            <HeartOutlined className="mr-2" />
-            Pets Up for Adoption
-          </Title>
-          <Button 
-            type="default" 
-            icon={<InfoCircleOutlined />} 
-            onClick={() => setModalVisible(true)}
-            style={{ marginBottom: '16px' }}
-          >
-            Tips for Future Parents
-          </Button>
-        </div>
+      <HavenSiteHeader />
+      <div className="adoption-page">
+        <div className="adoption-inner">
+          <div className="adoption-hero">
+            <h1>
+              <HeartOutlined className="heart" />
+              Pets Up for Adoption
+            </h1>
+            <Button
+              type="default"
+              className="adoption-tips-btn"
+              icon={<InfoCircleOutlined />}
+              onClick={() => setModalVisible(true)}
+            >
+              Tips for Future Parents
+            </Button>
+          </div>
 
-        <div className="container">
-          <div style={{ maxWidth: 520, margin: '0 auto 28px', textAlign: 'center' }}>
-            <Text type="secondary" style={{ display: 'block', marginBottom: 10, fontSize: 14 }}>
-              Tap to browse pets
-            </Text>
+          <div className="adoption-tabs">
+            <span className="adoption-tabs-hint">Tap to browse pets</span>
             <Segmented
               size="large"
               value={activeTab}
@@ -234,7 +233,7 @@ const UpForAdoption = () => {
                       <HeartOutlined />
                       <span>Available ({availablePets.length})</span>
                     </Space>
-                  ),
+                  )
                 },
                 {
                   value: 'adopted',
@@ -243,28 +242,37 @@ const UpForAdoption = () => {
                       <CheckCircleOutlined />
                       <span>Adopted ({adoptedPets.length})</span>
                     </Space>
-                  ),
-                },
+                  )
+                }
               ]}
-              style={{
-                padding: 4,
-                background: '#f5f5f5',
-                border: '1px solid #e0e0e0',
-                borderRadius: 12,
-              }}
             />
           </div>
 
-          {activeTab === 'available'
-            ? renderPetGrid(
-                availablePets,
-                false,
-                'No pets available for adoption at the moment',
-                'Check back later for new pets!'
-              )
-            : adoptedTabContent}
+          {activeTab === 'available' ? (
+            renderPetGrid(
+              availablePets,
+              false,
+              'No pets available for adoption at the moment',
+              'Check back later for new pets!'
+            )
+          ) : (
+            <>
+              {adoptedPets.length > 0 && (
+                <p className="adoption-note">
+                  These wonderful pets have found their forever homes.
+                </p>
+              )}
+              {renderPetGrid(
+                adoptedPets,
+                true,
+                'No adopted pets to show yet',
+                'Happy tails will appear here once pets find their homes.'
+              )}
+            </>
+          )}
         </div>
       </div>
+
       <Modal
         title={
           <Space>
@@ -282,13 +290,15 @@ const UpForAdoption = () => {
         width={700}
       >
         <div style={{ marginTop: '20px' }}>
-          <div style={{ 
-            backgroundColor: '#fff7e6', 
-            border: '2px solid #ffa940', 
-            borderRadius: '8px', 
-            padding: '20px', 
-            marginBottom: '24px' 
-          }}>
+          <div
+            style={{
+              backgroundColor: '#fff7e6',
+              border: '2px solid #ffa940',
+              borderRadius: '8px',
+              padding: '20px',
+              marginBottom: '24px'
+            }}
+          >
             <Title level={4} style={{ color: '#ff4d4f', marginBottom: '16px' }}>
               ⚠️ Mandatory Requirements:
             </Title>
@@ -313,7 +323,7 @@ const UpForAdoption = () => {
             <List
               itemLayout="vertical"
               dataSource={tipsForFutureParents}
-              renderItem={(item, index) => (
+              renderItem={(item) => (
                 <List.Item>
                   <List.Item.Meta
                     avatar={<CheckCircleOutlined style={{ color: '#52c41a', fontSize: '20px' }} />}

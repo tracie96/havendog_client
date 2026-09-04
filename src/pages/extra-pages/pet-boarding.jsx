@@ -5,6 +5,8 @@ import { API_CONFIG } from 'config/api';
 import axios from 'axios';
 import { Pets, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import HomeHeader from 'menu-items/header';
+import HomeFooter from './footer';
 
 const Input = styled('input')({
   display: 'none',
@@ -285,6 +287,8 @@ const PetBoarding = () => {
   };
 
   return (
+    <>
+      <HomeHeader />
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Snackbar 
         open={message.open} 
@@ -957,6 +961,8 @@ const PetBoarding = () => {
         </form>
       </PlayfulPaper>
     </Container>
+      <HomeFooter />
+    </>
   );
 };
 
