@@ -52,11 +52,11 @@ function HomePage() {
               Your <span className="hh-chrome">One-Stop</span> Pet Care Destination
             </h1>
             <p className="hh-hero-copy hh-hero-copy-short">
-              Sitting, boarding, and adoption — compassionate care for your pets, all in one place.
+              Rescue, boarding, and adoption compassionate care for your pets, all in one place.
             </p>
             <p className="hh-hero-copy hh-hero-copy-full">
               At Haven Pet Home and Animal Care Foundation, we treat your animal companions with the
-              utmost care — from sitting services to adoption, all in one compassionate place.
+              utmost care — from rescue services to adoption, all in one compassionate place.
             </p>
             <div className="hh-cta-row">
               <Link to="/up-for-adoption" className="hh-btn hh-btn-solid hh-btn-lg">
@@ -66,10 +66,7 @@ function HomePage() {
                 Board Your Pet
               </Link>
             </div>
-            <div className="hh-rating">
-              <span className="hh-rating-dot" aria-hidden="true" />
-              100% Satisfaction Rating
-            </div>
+            
           </div>
 
           <div className="hh-hero-media">
@@ -94,7 +91,7 @@ function HomePage() {
         <div className="hh-about-grid">
           <h2 className="hh-section-title">About Us</h2>
           <p className="hh-section-copy">
-            Whether you&apos;re seeking pet sitting, veterinary recommendations, or exploring adoption,
+            Whether you&apos;re seeking animal rescue, veterinary recommendations, or exploring adoption,
             our dedicated team provides comprehensive and compassionate solutions for your beloved
             companions.
           </p>
@@ -133,8 +130,8 @@ function HomePage() {
             <div className="hh-service-icon" aria-hidden="true">
               🐕
             </div>
-            <h3>Animal Sitting</h3>
-            <p>Safe, loving supervision while you&apos;re away.</p>
+            <h3>Animal Rescue</h3>
+            <p>Rescue animals from challenging situations and provide them with a safe, loving home.</p>
           </div>
           <div className="hh-service">
             <div className="hh-service-icon" aria-hidden="true">
