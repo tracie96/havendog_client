@@ -56,7 +56,7 @@ function HomePage() {
             </p>
             <p className="hh-hero-copy hh-hero-copy-full">
               At Haven Pet Home and Animal Care Foundation, we treat your animal companions with the
-              utmost care — from rescue services to adoption, all in one compassionate place.
+              utmost care, from rescue services to adoption, all in one compassionate place.
             </p>
             <div className="hh-cta-row">
               <Link to="/up-for-adoption" className="hh-btn hh-btn-solid hh-btn-lg">
