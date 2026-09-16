@@ -7,6 +7,7 @@ import { Pets, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
+import { uploadImageToCloudinary } from '../../utils/uploadToCloudinary';
 
 const Input = styled('input')({
   display: 'none',
@@ -168,20 +169,12 @@ const PetBoarding = () => {
       // Upload files to Cloudinary
       const uploadToCloudinary = async (file) => {
         if (!file) return null;
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'havendogs');
-
-        const response = await axios.post(
-          'https://api.cloudinary.com/v1_1/tracysoft/image/upload',
-          formData
-        );
-        return response.data.secure_url;
+        return uploadImageToCloudinary(file);
       };
 
       const uploadMultipleFiles = async (files) => {
         if (!files || files.length === 0) return null;
-        const uploadPromises = Array.from(files).map(file => uploadToCloudinary(file));
+        const uploadPromises = Array.from(files).map((file) => uploadToCloudinary(file));
         return Promise.all(uploadPromises);
       };
 

@@ -3,6 +3,7 @@ import { Card, Form, Input, InputNumber, Button, Upload, message, Typography } f
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { API_CONFIG } from '../../../config/api';
+import { uploadImageToCloudinary } from '../../../utils/uploadToCloudinary';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -13,13 +14,8 @@ const CreateAdoption = () => {
   const [imageUrl, setImageUrl] = useState('');
 
   const uploadToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'havendogs');
-
     try {
-      const response = await axios.post(`https://api.cloudinary.com/v1_1/tracysoft/image/upload`, formData);
-      return response.data.secure_url;
+      return await uploadImageToCloudinary(file);
     } catch (error) {
       message.error('Failed to upload image');
       throw error;
