@@ -215,6 +215,21 @@ const SurrenderRequests = () => {
               <Descriptions.Item label="Special care">{selected.care?.specialCare || 'N/A'}</Descriptions.Item>
             </Descriptions>
             <Divider />
+            <Descriptions title="Support" bordered size="small" column={1}>
+              <Descriptions.Item label="Choice">
+                {selected.contribution?.choice === 'tip'
+                  ? `Tip — ₦${Number(selected.contribution.amount || 0).toLocaleString()}`
+                  : selected.contribution?.choice === 'food'
+                    ? 'Will bring food'
+                    : 'N/A'}
+              </Descriptions.Item>
+              {selected.contribution?.choice === 'tip' && (
+                <Descriptions.Item label="Payment reference">
+                  {selected.contribution.paymentReference || 'N/A'}
+                </Descriptions.Item>
+              )}
+            </Descriptions>
+            <Divider />
             <Descriptions title="G. Declaration" bordered size="small" column={1}>
               <Descriptions.Item label="Name">{selected.declaration?.surrendererName}</Descriptions.Item>
               <Descriptions.Item label="Signature">{selected.declaration?.signature}</Descriptions.Item>

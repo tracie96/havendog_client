@@ -25,6 +25,9 @@ import { Pets, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
+import { PaystackButton } from 'react-paystack';
+
+const MIN_TIP_NAIRA = 1000;
 
 const PinkGradientBox = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(0deg, #a80c5c 0%, #a80c5c 99%)',
@@ -148,7 +151,9 @@ const emptyForm = {
   ownershipTransferConfirmed: false,
   surrendererName: '',
   signature: '',
-  declarationDate: new Date().toISOString().split('T')[0]
+  declarationDate: new Date().toISOString().split('T')[0],
+  contributionType: '',
+  tipAmount: '1000'
 };
 
 const SectionTitle = ({ children }) => (
@@ -188,7 +193,15 @@ const RadioField = ({ label, name, value, onChange, options, required }) => (
 const PetSurrender = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(emptyForm);
+  const [tipPayment, setTipPayment] = useState(null);
   const [message, setMessage] = useState({ open: false, severity: 'success', text: '' });
+  const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+  const tipAmount = Number(formData.tipAmount);
+  const tipReady =
+    formData.contributionType === 'tip' &&
+    formData.email.includes('@') &&
+    tipAmount >= MIN_TIP_NAIRA &&
+    Boolean(publicKey);
 
   const handleCloseMessage = (event, reason) => {
     if (reason === 'clickaway') return;
@@ -232,6 +245,24 @@ const PetSurrender = () => {
         open: true,
         severity: 'error',
         text: 'Please enter your name, signature, and date on the declaration.'
+      });
+      return;
+    }
+
+    if (formData.contributionType !== 'tip' && formData.contributionType !== 'food') {
+      setMessage({
+        open: true,
+        severity: 'error',
+        text: 'Please donate a tip of at least ₦1,000, or choose to bring food, before submitting.'
+      });
+      return;
+    }
+
+    if (formData.contributionType === 'tip' && (!tipPayment?.reference || tipPayment.amount < MIN_TIP_NAIRA)) {
+      setMessage({
+        open: true,
+        severity: 'error',
+        text: 'Please complete your tip donation of at least ₦1,000 before submitting the surrender form.'
       });
       return;
     }
@@ -310,13 +341,22 @@ const PetSurrender = () => {
           surrendererName: formData.surrendererName.trim(),
           signature: formData.signature.trim(),
           date: formData.declarationDate
-        }
+        },
+        contribution:
+          formData.contributionType === 'tip'
+            ? {
+                choice: 'tip',
+                amount: tipPayment.amount,
+                paymentReference: tipPayment.reference
+              }
+            : { choice: 'food' }
       };
 
       const response = await axios.post(`${API_CONFIG.baseURL}/surrenders`, payload);
 
       if (response.status === 200 || response.status === 201) {
         setFormData({ ...emptyForm, declarationDate: new Date().toISOString().split('T')[0] });
+        setTipPayment(null);
         setMessage({
           open: true,
           severity: 'success',
@@ -944,7 +984,143 @@ const PetSurrender = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <PlayfulButton type="submit" variant="contained" size="large" fullWidth sx={{ mt: 2, py: 2, fontSize: '1.2rem' }}>
+              <Box
+                sx={{
+                  mt: 2,
+                  p: 2.5,
+                  borderRadius: 3,
+                  border: '2px solid #f5d1e0',
+                  backgroundColor: '#fff7f4'
+                }}
+              >
+                <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#a80c5c', mb: 1 }}>
+                  Support the shelter
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#555', mb: 2 }}>
+                  Before you submit, please either leave a tip of at least ₦1,000, or let us know you will bring food.
+                </Typography>
+                <RadioGroup
+                  name="contributionType"
+                  value={formData.contributionType}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setFormData((prev) => ({ ...prev, contributionType: value }));
+                    if (value !== 'tip') setTipPayment(null);
+                  }}
+                >
+                  <FormControlLabel
+                    value="tip"
+                    control={<Radio sx={radioSx} />}
+                    label="I want to tip (from ₦1,000)"
+                  />
+                  <FormControlLabel
+                    value="food"
+                    control={<Radio sx={radioSx} />}
+                    label="I will bring food instead"
+                  />
+                </RadioGroup>
+
+                {formData.contributionType === 'tip' && (
+                  <Box sx={{ mt: 2 }}>
+                    <PinkTextField
+                      required
+                      fullWidth
+                      type="number"
+                      label="Tip amount (NGN)"
+                      name="tipAmount"
+                      value={formData.tipAmount}
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        setTipPayment(null);
+                      }}
+                      inputProps={{ min: MIN_TIP_NAIRA, step: 500 }}
+                      helperText={
+                        tipAmount > 0 && tipAmount < MIN_TIP_NAIRA
+                          ? 'Minimum tip is ₦1,000'
+                          : 'Uses the same Paystack donate checkout'
+                      }
+                      error={tipAmount > 0 && tipAmount < MIN_TIP_NAIRA}
+                    />
+                    {tipPayment?.reference ? (
+                      <Alert severity="success" sx={{ mt: 2 }}>
+                        Tip of ₦{tipPayment.amount.toLocaleString()} received. You can now submit the surrender form.
+                      </Alert>
+                    ) : tipReady ? (
+                      <Box sx={{ mt: 2 }}>
+                        <PaystackButton
+                          className="paystack-button"
+                          email={formData.email}
+                          amount={tipAmount * 100}
+                          publicKey={publicKey}
+                          text={`Donate ₦${tipAmount.toLocaleString()}`}
+                          metadata={{
+                            custom_fields: [
+                              {
+                                display_name: 'Purpose',
+                                variable_name: 'purpose',
+                                value: 'Pet surrender tip'
+                              }
+                            ]
+                          }}
+                          onSuccess={(response) => {
+                            setTipPayment({
+                              reference: response.reference || response.trxref,
+                              amount: tipAmount
+                            });
+                            setMessage({
+                              open: true,
+                              severity: 'success',
+                              text: 'Thank you for your tip. You can now submit the surrender form.'
+                            });
+                          }}
+                          onClose={() => {
+                            setMessage({
+                              open: true,
+                              severity: 'info',
+                              text: 'Donation was not completed. You can try again, or choose to bring food.'
+                            });
+                          }}
+                          style={{
+                            width: '100%',
+                            padding: '16px 24px',
+                            background: 'linear-gradient(0deg, #a80c5c 0%, #a80c5c 99%)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: 16,
+                            cursor: 'pointer',
+                            fontWeight: 700,
+                            fontSize: '1.05rem'
+                          }}
+                        />
+                      </Box>
+                    ) : (
+                      <FormHelperText sx={{ mt: 1 }}>
+                        Enter your email above and a tip of at least ₦1,000 to open the donate button.
+                      </FormHelperText>
+                    )}
+                  </Box>
+                )}
+
+                {formData.contributionType === 'food' && (
+                  <Alert severity="info" sx={{ mt: 2 }}>
+                    Please bring food for the shelter when you come in. You can submit the form now.
+                  </Alert>
+                )}
+              </Box>
+            </Grid>
+
+            <Grid item xs={12}>
+              <PlayfulButton
+                type="submit"
+                variant="contained"
+                size="large"
+                fullWidth
+                disabled={
+                  formData.contributionType === '' ||
+                  (formData.contributionType === 'tip' && !tipPayment?.reference)
+                }
+                sx={{ mt: 2, py: 2, fontSize: '1.2rem' }}
+              >
                 Submit Surrender Form
               </PlayfulButton>
             </Grid>
