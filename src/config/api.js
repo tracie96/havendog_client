@@ -1,8 +1,8 @@
 const isDevelopment = window.location.hostname === 'localhost' && window.location.port === '3001';
 
 const API_CONFIG = {
-  // baseURL: isDevelopment ? 'https://havendog-service.onrender.com/api' : 'https://havendog-service.onrender.com/api',
-  baseURL: isDevelopment ? 'http://localhost:5001/api' : 'http://localhost:5001/api',
+  baseURL: isDevelopment ? 'https://havendog-service.onrender.com/api' : 'https://havendog-service.onrender.com/api',
+  // baseURL: isDevelopment ? 'http://localhost:5001/api' : 'http://localhost:5001/api',
 
   timeout: 30000, // 30 seconds timeout for slow connections
   retryAttempts: 3,
