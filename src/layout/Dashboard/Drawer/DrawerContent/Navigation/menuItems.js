@@ -133,6 +133,11 @@ const getMenuItems = (userType) => {
       key: '/dashboard/admin/surrender-requests',
       label: 'Pet Surrenders',
       icon: React.createElement(FaClipboardList, { size: 20 })
+    },
+    {
+      key: '/dashboard/admin/virtual-adoption',
+      label: 'Virtual Adoption',
+      icon: React.createElement(FaHeart, { size: 20 })
     }
   ];
 

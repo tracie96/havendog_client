@@ -13,6 +13,7 @@ import AdoptionRequests from 'pages/extra-pages/adoption-requests';
 import PetBoardingLanding from 'pages/extra-pages/pet-boarding-landing';
 import PetBoarding from 'pages/extra-pages/pet-boarding';
 import PetSurrender from 'pages/extra-pages/pet-surrender';
+import VirtualAdoption from 'pages/extra-pages/virtual-adoption';
 
 const AuthLogin = Loadable(lazy(() => import('pages/authentication/login')));
 const AuthRegister = Loadable(lazy(() => import('pages/authentication/register')));
@@ -99,6 +100,10 @@ const AppRoutes = [
   {
     path: 'pet-surrender',
     element: <PetSurrender />
+  },
+  {
+    path: 'virtual-adoption',
+    element: <VirtualAdoption />
   }
 ];
 

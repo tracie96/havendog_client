@@ -1,63 +1,201 @@
-.breadcrumb_area {
-  position: relative;
-  padding: 120px 0 80px;
-  background: linear-gradient(135deg, #1a5f4a 0%, #2d8a6e 100%);
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;600;700;800&display=swap');
+
+.contact-page {
+  --brand: #d81b60;
+  --brand-dark: #a80c5c;
+  --brand-light: #fde8f0;
+  --cream: #fff7f4;
+  --ink: #34121f;
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Nunito', 'Montserrat', sans-serif;
+  padding: 1.5rem 0 3.5rem;
 }
 
-.breadcrumb_area .overlay_bg {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.15);
+.contact-page * {
+  box-sizing: border-box;
 }
 
-.breadcrumb_area .container {
-  position: relative;
-  z-index: 1;
+.contact-wrap {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.15rem;
 }
 
-.breadcrumb_content h2 {
-  color: #fff;
-  font-size: 42px;
-  font-weight: 700;
-  margin-bottom: 12px;
+.contact-hero {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto 1.75rem;
 }
 
-.breadcrumb_content p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 18px;
+.contact-kicker {
   margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
 }
 
-.contact_section {
-  background: #f8f9fa;
+.contact-hero h1 {
+  margin: 0.5rem 0 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.15;
 }
 
-.contact_info_box {
-  background: #fff;
-  border-radius: 8px;
-  height: 100%;
+.contact-hero h1 span {
+  color: var(--brand-dark);
 }
 
-.contact_info_box h4 {
-  font-size: 20px;
+.contact-hero p {
+  margin: 0.8rem 0 0;
   font-weight: 600;
-  margin-bottom: 12px;
+  line-height: 1.55;
+  color: rgba(52, 18, 31, 0.7);
 }
 
-.contact_info_box p {
-  margin-bottom: 4px;
-  color: #666;
+.contact-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
 }
 
-.contact_info_box a {
-  color: #1a5f4a;
+@media (min-width: 700px) {
+  .contact-cards {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.contact_form {
+@media (min-width: 1040px) {
+  .contact-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 100%;
+  padding: 1.2rem 1.1rem 1.15rem;
   background: #fff;
-  border-radius: 8px;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.15rem;
+  color: inherit;
+  text-decoration: none;
 }
 
-.contact_map iframe {
-  border-radius: 8px;
+a.contact-card:hover {
+  border-color: #e7b3c8;
+  box-shadow: 0 10px 24px rgba(168, 12, 92, 0.08);
+}
+
+.contact-card-icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin-bottom: 0.85rem;
+  border-radius: 0.8rem;
+  background: var(--brand-light);
+  color: var(--brand-dark);
+  font-size: 1.15rem;
+}
+
+.contact-card h2 {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(52, 18, 31, 0.5);
+}
+
+.contact-card p {
+  margin: 0.4rem 0 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.contact-card-hint {
+  margin-top: 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+.contact-lower {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .contact-lower {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+}
+
+.contact-map,
+.contact-form {
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.15rem;
+  overflow: hidden;
+}
+
+.contact-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 22rem;
+  border: 0;
+}
+
+.contact-form {
+  padding: 1.35rem 1.2rem 1.2rem;
+}
+
+.contact-form h2 {
+  margin: 0 0 1rem;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: 1.45rem;
+}
+
+.contact-page .ant-form-item-label > label {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.contact-page .ant-input,
+.contact-page textarea.ant-input {
+  border-radius: 0.75rem;
+  border-color: #e8cfd9;
+}
+
+.contact-page .ant-input:hover,
+.contact-page textarea.ant-input:hover,
+.contact-page .ant-input:focus,
+.contact-page textarea.ant-input:focus {
+  border-color: var(--brand);
+}
+
+.contact-submit {
+  height: 2.8rem !important;
+  padding-inline: 1.4rem !important;
+  border-radius: 999px !important;
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  font-weight: 800 !important;
+}
+
+.contact-submit:hover {
+  background: var(--brand-dark) !important;
+  border-color: var(--brand-dark) !important;
 }

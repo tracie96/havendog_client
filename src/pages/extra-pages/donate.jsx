@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PaystackButton } from 'react-paystack';
 import HomeHeader from 'menu-items/header';
 import HomeFooter from './footer';
-import { Stack, InputLabel, OutlinedInput, Button, Modal, Box, Typography, IconButton, Paper, Container } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CloseIcon from '@mui/icons-material/Close';
+import './donate.css';
+
+const SUGGESTED_AMOUNTS = [1000, 3000, 5000, 10000];
 
 const DonatePage = () => {
   const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
@@ -12,41 +12,35 @@ const DonatePage = () => {
   const [touched, setTouched] = useState({});
   const [errors, setErrors] = useState({});
   const [openModal, setOpenModal] = useState(false);
+  const amountRef = useRef(null);
+  const amountIsCustom = values.amount !== '' && !SUGGESTED_AMOUNTS.includes(Number(values.amount));
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  console.log('publicKey:', publicKey);
-
   const paystackProps = {
     email: values.email,
-    amount: values.amount * 100,
+    amount: Number(values.amount) * 100,
     publicKey,
-    text: 'Donate Now',
-    onSuccess: (response) => {
-      console.log('Payment successful:', response);
+    text: `Donate ₦${Number(values.amount).toLocaleString()}`,
+    onSuccess: () => {
       setOpenModal(true);
-      // Clear all form fields
       setValues({ email: '', amount: '', firstname: '', lastname: '' });
       setTouched({});
       setErrors({});
     },
-    onClose: () => {
-      console.log('Payment window closed');
-    }
+    onClose: () => {}
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
-    
-    // Basic validation
+
     if (name === 'email') {
-      setErrors({ ...errors, email: !value.includes('@') ? 'Please enter a valid email' : '' });
+      setErrors({ ...errors, email: value && !value.includes('@') ? 'Please enter a valid email' : '' });
     } else if (name === 'amount') {
-      setErrors({ ...errors, amount: value <= 0 ? 'Amount must be greater than 0' : '' });
+      setErrors({ ...errors, amount: value !== '' && Number(value) <= 0 ? 'Amount must be greater than 0' : '' });
     }
   };
 
@@ -54,316 +48,160 @@ const DonatePage = () => {
     setTouched({ ...touched, [e.target.name]: true });
   };
 
-  const isFormValid = () => {
-    return values.email && values.amount > 0 && !errors.email && !errors.amount;
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  const isFormValid = () => values.email && Number(values.amount) > 0 && !errors.email && !errors.amount;
 
   return (
     <>
       <HomeHeader />
-      <Container maxWidth="md" sx={{ py: 6 }}>
-        <Paper 
-          elevation={3} 
-          sx={{ 
-            p: 6, 
-            borderRadius: 3,
-            background: 'linear-gradient(145deg, #ffffff 0%, #fef7f7 100%)',
-            border: '2px solid #f5d1e0',
-            boxShadow: '0 8px 32px rgba(168, 12, 92, 0.1)'
-          }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography 
-              variant="h3" 
-              component="h1" 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 'bold',
-                background: 'linear-gradient(0deg, #a80c5c, #a80c5c)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                mb: 3
-              }}
-            >
-              🐾 Donate to Help Animals in Nigeria
-            </Typography>
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                color: 'text.secondary',
-                lineHeight: 1.6,
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}
-            >
-              Your generous contribution to Haven Pet Home and Animal Care Foundation will go directly toward our mission of 
-              <strong style={{ color: '#a80c5c' }}> rescuing stray pets all over Nigeria</strong>, providing them with medical care, food, and shelter. 
-              Your support helps us <strong style={{ color: '#a80c5c' }}>feed and take care of our shelter dogs</strong>, giving them a second chance at life 
-              while we work to find them loving forever homes.
-            </Typography>
-            <Box sx={{ mt: 3 }}>
-              <Button
-                component="a"
-                href="https://gofund.me/1275b0cb8"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="contained"
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  borderRadius: '999px',
-                  fontWeight: 'bold',
-                  fontSize: '16px',
-                  background: 'linear-gradient(0deg, #a80c5c 0%, #f5d1e0 99%)',
-                  boxShadow: '0 4px 15px rgba(168, 12, 92, 0.25)',
-                  '&:hover': {
-                    background: 'linear-gradient(0deg, #8a0a4a 0%, #e8c1d0 99%)',
-                    boxShadow: '0 6px 18px rgba(138, 10, 74, 0.35)'
-                  }
-                }}
-              >
-                Support Us On GoFundMe
-              </Button>
-            </Box>
-          </Box>
-          <Stack spacing={3}>
-            <Stack direction="row" spacing={2}>
-              <Stack spacing={1} flex={1}>
-                <InputLabel 
-                  htmlFor="first-name" 
-                  sx={{ 
-                    textAlign: 'left',
-                    color: '#a80c5c',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  First Name
-                </InputLabel>
-                <OutlinedInput
-                  id="first-name"
-                  type="text"
-                  value={values.firstname}
-                  name="firstname"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="Enter first name"
-                  fullWidth
-                  error={Boolean(touched.firstname && errors.firstname)}
-                  sx={{
-                    borderRadius: 2,
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#a80c5c',
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#a80c5c',
-                      borderWidth: 2,
-                    },
-                  }}
-                />
-              </Stack>
-              <Stack spacing={1} flex={1}>
-                <InputLabel 
-                  htmlFor="last-name" 
-                  sx={{ 
-                    textAlign: 'left',
-                    color: '#a80c5c',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Last Name
-                </InputLabel>
-                <OutlinedInput
-                  id="last-name"
-                  type="text"
-                  value={values.lastname}
-                  name="lastname"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="Enter last name"
-                  fullWidth
-                  error={Boolean(touched.lastname && errors.lastname)}
-                  sx={{
-                    borderRadius: 2,
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#a80c5c',
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#a80c5c',
-                      borderWidth: 2,
-                    },
-                  }}
-                />
-              </Stack>
-            </Stack>
-            <Stack spacing={1}>
-              <InputLabel 
-                htmlFor="email-login" 
-                sx={{ 
-                  textAlign: 'left',
-                  color: '#a80c5c',
-                  fontWeight: 'bold'
-                }}
-              >
-                Email Address
-              </InputLabel>
-              <OutlinedInput
-                id="email-login"
-                type="email"
-                value={values.email}
-                name="email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                placeholder="Enter email address"
-                fullWidth
-                error={Boolean(touched.email && errors.email)}
-                sx={{
-                  borderRadius: 2,
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#a80c5c',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#a80c5c',
-                    borderWidth: 2,
-                  },
-                }}
-              />
-            </Stack>
-            <Stack spacing={1}>
-              <InputLabel 
-                htmlFor="amount" 
-                sx={{ 
-                  textAlign: 'left',
-                  color: '#a80c5c',
-                  fontWeight: 'bold'
-                }}
-              >
-                Donation Amount (NGN)
-              </InputLabel>
-              <OutlinedInput
-                id="amount"
-                type="number"
-                value={values.amount}
-                name="amount"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                placeholder="Enter donation amount"
-                fullWidth
-                error={Boolean(touched.amount && errors.amount)}
-                sx={{
-                  borderRadius: 2,
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#a80c5c',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#a80c5c',
-                    borderWidth: 2,
-                  },
-                }}
-              />
-            </Stack>
+      <main className="donate-page">
+        <div className="donate-wrap">
+          <div className="donate-hero">
+            <p className="donate-kicker">Support the shelter</p>
+            <h1>
+              Help animals across <span>Nigeria</span>
+            </h1>
+            <p>
+              Your gift goes to Haven Pet Home and Animal Care Foundation: rescue, medical care, food, and shelter
+              while we find forever homes.
+            </p>
+          </div>
 
-            {isFormValid() ? (
-              <PaystackButton
-                className="paystack-button"
-                {...paystackProps}
-                style={{
-                  padding: '15px 30px',
-                  background: 'linear-gradient(0deg, #a80c5c 0%, #f5d1e0 99%)',
-                  color: 'white',
-                  border: 'none',
-                  cursor: 'pointer',
-                  width: '100%',
-                  borderRadius: '12px',
-                  fontSize: '18px',
-                  fontWeight: 'bold',
-                  boxShadow: '0 4px 15px rgba(168, 12, 92, 0.4)',
-                  transition: 'all 0.3s ease'
-                }}
-              />
-            ) : (
-              <Button 
-                variant="contained" 
-                disabled 
-                fullWidth
-                sx={{
-                  padding: '15px 30px',
-                  borderRadius: '12px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  backgroundColor: '#e0e0e0',
-                  color: '#9e9e9e'
-                }}
-              >
-                Please enter valid email and amount
-              </Button>
-            )}
-          </Stack>
-        </Paper>
-      </Container>
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="donation-success-modal"
-        aria-describedby="donation-success-message"
-      >
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-          borderRadius: 2,
-          textAlign: 'center'
-        }}>
-          <IconButton
-            onClick={handleCloseModal}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <CheckCircleIcon 
-            sx={{ 
-              fontSize: 60,
-              mb: 2,
-              color: '#a80c5c'
-            }} 
-          />
-          <Typography variant="h5" component="h2" gutterBottom>
-            Thank You!
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Your generous donation has been received successfully.
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Your support helps us continue our mission of helping animals in need.
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={handleCloseModal}
-            sx={{ 
-              mt: 3,
-              background: 'linear-gradient(0deg, #a80c5c 0%, #f5d1e0 99%)',
-              '&:hover': {
-                background: 'linear-gradient(0deg, #8a0a4a 0%, #e8c1d0 99%)',
-              }
-            }}
-          >
-            Close
-          </Button>
-        </Box>
-      </Modal>
+          <div className="donate-layout">
+            <div>
+              <div className="donate-points">
+                <article className="donate-point">
+                  <h2>Rescue</h2>
+                  <p>Pull stray and surrendered animals off the street and into care.</p>
+                </article>
+                <article className="donate-point">
+                  <h2>Feed and treat</h2>
+                  <p>Cover daily food, vaccinations, and veterinary care at the shelter.</p>
+                </article>
+                <article className="donate-point">
+                  <h2>Rehome</h2>
+                  <p>Give each animal time and support until a family is ready.</p>
+                </article>
+              </div>
+              <a className="donate-gofund" href="https://gofund.me/1275b0cb8" target="_blank" rel="noopener noreferrer">
+                Or click here to support us on GoFundMe
+              </a>
+            </div>
+
+            <form className="donate-form" onSubmit={(event) => event.preventDefault()}>
+              <h2>Make a donation</h2>
+              <p>Pay securely with Paystack. Any amount helps.</p>
+
+              <div className="donate-fields">
+                <div className="donate-names">
+                  <label htmlFor="first-name">
+                    First name
+                    <input
+                      id="first-name"
+                      type="text"
+                      name="firstname"
+                      value={values.firstname}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Ada"
+                    />
+                  </label>
+                  <label htmlFor="last-name">
+                    Last name
+                    <input
+                      id="last-name"
+                      type="text"
+                      name="lastname"
+                      value={values.lastname}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      placeholder="Okafor"
+                    />
+                  </label>
+                </div>
+
+                <label htmlFor="email-login">
+                  Email address
+                  <input
+                    id="email-login"
+                    type="email"
+                    name="email"
+                    value={values.email}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="you@email.com"
+                  />
+                  {touched.email && errors.email && <span className="donate-error">{errors.email}</span>}
+                </label>
+
+                <label htmlFor="amount">
+                  Amount (NGN)
+                  <input
+                    id="amount"
+                    type="number"
+                    min="1"
+                    name="amount"
+                    value={values.amount}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    placeholder="Any amount"
+                    ref={amountRef}
+                  />
+                  <span className="donate-amounts">
+                    {SUGGESTED_AMOUNTS.map((amount) => (
+                      <button
+                        key={amount}
+                        type="button"
+                        className={Number(values.amount) === amount ? 'is-active' : ''}
+                        onClick={() => {
+                          setValues((current) => ({ ...current, amount: String(amount) }));
+                          setErrors((current) => ({ ...current, amount: '' }));
+                        }}
+                      >
+                        ₦{amount.toLocaleString()}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      className={amountIsCustom ? 'is-active' : ''}
+                      onClick={() => {
+                        if (SUGGESTED_AMOUNTS.includes(Number(values.amount))) {
+                          setValues((current) => ({ ...current, amount: '' }));
+                        }
+                        setErrors((current) => ({ ...current, amount: '' }));
+                        amountRef.current?.focus();
+                      }}
+                    >
+                      Or more
+                    </button>
+                  </span>
+                  <span className="donate-hint">These are suggestions. You can type any amount.</span>
+                  {touched.amount && errors.amount && <span className="donate-error">{errors.amount}</span>}
+                </label>
+
+                {isFormValid() ? (
+                  <PaystackButton className="donate-pay" {...paystackProps} />
+                ) : (
+                  <button type="button" className="donate-pay-disabled" disabled>
+                    Enter a valid email and amount
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      {openModal && (
+        <div className="donate-modal" role="dialog" aria-modal="true" aria-labelledby="donation-success-modal">
+          <div className="donate-modal-card">
+            <h2 id="donation-success-modal">Thank you</h2>
+            <p>Your donation was received. It helps us keep feeding, treating, and rehoming animals in our care.</p>
+            <button type="button" onClick={() => setOpenModal(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
       <HomeFooter />
     </>
   );

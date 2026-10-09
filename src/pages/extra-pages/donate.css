@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;600;700;800&display=swap');
+
+.donate-page {
+  --brand: #d81b60;
+  --brand-dark: #a80c5c;
+  --brand-light: #fde8f0;
+  --cream: #fff7f4;
+  --ink: #34121f;
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Nunito', 'Montserrat', sans-serif;
+  padding: 1.5rem 0 3.5rem;
+}
+
+.donate-page * {
+  box-sizing: border-box;
+}
+
+.donate-wrap {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.15rem;
+}
+
+.donate-hero {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto 1.75rem;
+}
+
+.donate-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-dark);
+}
+
+.donate-hero h1 {
+  margin: 0.5rem 0 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: clamp(1.8rem, 5vw, 2.7rem);
+  line-height: 1.15;
+}
+
+.donate-hero h1 span {
+  color: var(--brand-dark);
+}
+
+.donate-hero p {
+  margin: 0.85rem 0 0;
+  font-weight: 600;
+  line-height: 1.6;
+  color: rgba(52, 18, 31, 0.72);
+}
+
+.donate-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .donate-layout {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: start;
+  }
+}
+
+.donate-points {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.donate-point {
+  padding: 1.05rem 1.1rem;
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.05rem;
+}
+
+.donate-point h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.donate-point p {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(52, 18, 31, 0.68);
+}
+
+.donate-gofund {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.4rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid #e7b3c8;
+  color: var(--brand-dark);
+  font-weight: 800;
+  text-decoration: none;
+  background: #fff;
+}
+
+.donate-gofund:hover {
+  background: var(--brand-light);
+}
+
+.donate-form {
+  background: #fff;
+  border: 1px solid #f0d6e0;
+  border-radius: 1.2rem;
+  padding: 1.35rem 1.2rem 1.4rem;
+}
+
+.donate-form h2 {
+  margin: 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: 1.45rem;
+}
+
+.donate-form > p {
+  margin: 0.4rem 0 1rem;
+  font-weight: 600;
+  color: rgba(52, 18, 31, 0.65);
+}
+
+.donate-fields {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 640px) {
+  .donate-names {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+  }
+}
+
+.donate-fields label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.donate-fields input {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid #e8cfd9;
+  border-radius: 0.75rem;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+}
+
+.donate-fields input:focus {
+  outline: 2px solid rgba(216, 27, 96, 0.25);
+  border-color: var(--brand);
+}
+
+.donate-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+}
+
+.donate-amounts button {
+  border: 1px solid #e8cfd9;
+  background: #fff;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.donate-amounts button.is-active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.donate-hint {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(52, 18, 31, 0.55);
+}
+
+.donate-error {
+  display: block;
+  margin-top: 0.3rem;
+  color: #b42318;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.donate-pay,
+.donate-pay-disabled {
+  width: 100%;
+  margin-top: 0.35rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.9rem 1rem;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.donate-pay {
+  background: var(--brand);
+  color: #fff;
+}
+
+.donate-pay:hover {
+  background: var(--brand-dark);
+}
+
+.donate-pay-disabled {
+  background: #f3e4ea;
+  color: rgba(52, 18, 31, 0.45);
+  cursor: not-allowed;
+}
+
+.donate-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(52, 18, 31, 0.45);
+}
+
+.donate-modal-card {
+  width: min(100%, 26rem);
+  background: #fff;
+  border-radius: 1.2rem;
+  padding: 1.6rem 1.3rem 1.4rem;
+  text-align: center;
+}
+
+.donate-modal-card h2 {
+  margin: 0.4rem 0 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+}
+
+.donate-modal-card p {
+  margin: 0.55rem 0 0;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(52, 18, 31, 0.7);
+}
+
+.donate-modal-card button {
+  margin-top: 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 800;
+  padding: 0.75rem 1.4rem;
+  cursor: pointer;
+}

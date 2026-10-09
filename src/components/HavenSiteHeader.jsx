@@ -6,9 +6,9 @@ import '../pages/extra-pages/home-landing.css';
 export const HAVEN_NAV_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/about-us', label: 'About' },
-  { to: '/blog', label: 'Blog' },
   { to: '/donate', label: 'Donate' },
   { to: '/up-for-adoption', label: 'Adopt Now' },
+  { to: '/virtual-adoption', label: 'Virtual Adopt' },
   { to: '/pet-boarding', label: 'Boarding' },
   { to: '/pet-surrender', label: 'Surrender' },
   { to: '/contact-us', label: 'Contact' }

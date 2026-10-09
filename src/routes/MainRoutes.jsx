@@ -24,6 +24,7 @@ const Boarders = Loadable(lazy(() => import('pages/dashboard/admin/Boarders')));
 const BoardingRequests = Loadable(lazy(() => import('pages/dashboard/admin/BoardingRequests')));
 const AdoptedDogs = Loadable(lazy(() => import('pages/dashboard/admin/AdoptedDogs')));
 const SurrenderRequests = Loadable(lazy(() => import('pages/dashboard/admin/SurrenderRequests')));
+const VirtualAdoptionAdmin = Loadable(lazy(() => import('pages/dashboard/admin/VirtualAdoption')));
 
 
 // render - sample page
@@ -121,6 +122,10 @@ const MainRoutes = {
         {
           path: 'surrender-requests',
           element: <SurrenderRequests />
+        },
+        {
+          path: 'virtual-adoption',
+          element: <VirtualAdoptionAdmin />
         }
       ]
     }

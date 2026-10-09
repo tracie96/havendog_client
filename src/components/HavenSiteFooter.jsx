@@ -37,6 +37,7 @@ function HavenSiteFooter({ standalone = true }) {
           <p className="hh-footer-heading">Services</p>
           <div className="hh-footer-links">
             <Link to="/up-for-adoption">Adopt Now</Link>
+            <Link to="/virtual-adoption">Virtual Adoption</Link>
             <Link to="/pet-boarding">Pet Boarding</Link>
             <Link to="/pet-surrender">Pet Surrender</Link>
           </div>
