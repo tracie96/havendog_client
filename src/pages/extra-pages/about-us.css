@@ -213,6 +213,10 @@
   gap: 2.25rem;
 }
 
+.about-page #meet-fahida {
+  scroll-margin-top: 6.5rem;
+}
+
 .about-page .about-founder {
   display: grid;
   gap: 1.5rem;

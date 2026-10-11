@@ -6,7 +6,7 @@ import tracy from '../../assets/images/users/tracysprofile.jpg';
 import { MdOutlinePets } from 'react-icons/md';
 import HomeHeader from 'menu-items/header';
 import { CheckCircleFilled } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import HomeFooter from './footer';
 import axios from 'axios';
 import { API_CONFIG } from '../../config/api';
@@ -56,6 +56,7 @@ const VALUES = [
 
 const AboutUs = () => {
   const [adoptionData, setAdoptionData] = useState([]);
+  const { hash } = useLocation();
 
   useEffect(() => {
     const fetchAdoptionData = async () => {
@@ -69,6 +70,14 @@ const AboutUs = () => {
 
     fetchAdoptionData();
   }, []);
+
+  useEffect(() => {
+    if (hash !== '#meet-fahida') return undefined;
+    const timer = window.setTimeout(() => {
+      document.getElementById('meet-fahida')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [hash]);
 
   const availablePets = adoptionData.filter(
     (pet) => pet.status !== 'adopted' && !pet.isAdopted
@@ -147,7 +156,7 @@ const AboutUs = () => {
         <section className="about-wrap about-section">
           <h2 className="about-section-title">Our Founders</h2>
           <div className="about-founders">
-            <article className="about-founder">
+            <article className="about-founder" id="meet-fahida">
               <div className="about-founder-media">
                 <img src={fahida} alt="Fahida Emetumah" loading="lazy" />
               </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/img/logo.svg';
+import BirthdayCelebration from './BirthdayCelebration';
 import '../pages/extra-pages/home-landing.css';
 
 export const HAVEN_NAV_LINKS = [
@@ -48,6 +49,7 @@ function HavenSiteHeader({ standalone = true }) {
 
   const content = (
     <>
+      <BirthdayCelebration />
       <div className="hh-topbar">
         <div className="hh-topbar-inner">
           <a href="tel:+2348109690608" className="hh-topbar-phone">

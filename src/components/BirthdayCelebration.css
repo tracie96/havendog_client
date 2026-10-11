@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@600;700;800&display=swap');
+
+.bday-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 182, 214, 0.55), transparent 32%),
+    radial-gradient(circle at 80% 80%, rgba(216, 27, 96, 0.28), transparent 36%),
+    rgba(52, 18, 31, 0.55);
+  overflow: hidden;
+}
+
+.bday-confetti {
+  position: absolute;
+  top: -12%;
+  width: 0.7rem;
+  height: 1.05rem;
+  border-radius: 2px;
+  animation: bday-fall 4.8s linear infinite;
+  pointer-events: none;
+}
+
+.bday-card {
+  position: relative;
+  width: min(100%, 40rem);
+  max-height: min(92vh, 44rem);
+  overflow: auto;
+  padding: 1.6rem 1.35rem 1.45rem;
+  text-align: center;
+  color: #34121f;
+  background: linear-gradient(180deg, #fff 0%, #fff4f8 100%);
+  border: 1px solid #f3c2d6;
+  border-radius: 1.6rem;
+  box-shadow: 0 24px 70px rgba(168, 12, 92, 0.28);
+  font-family: 'Nunito', 'Montserrat', sans-serif;
+}
+
+.bday-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: #fde8f0;
+  color: #a80c5c;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bday-kicker {
+  margin: 0.2rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #a80c5c;
+}
+
+.bday-card h2 {
+  margin: 0.35rem 0 0;
+  font-family: 'Fraunces', 'Montserrat', serif;
+  font-size: clamp(2rem, 6vw, 3.1rem);
+  line-height: 1.05;
+  color: #a80c5c;
+}
+
+.bday-card h2 span {
+  display: block;
+  color: #34121f;
+}
+
+.bday-photo-wrap {
+  width: 9.5rem;
+  height: 9.5rem;
+  margin: 1.1rem auto 0.9rem;
+  padding: 0.28rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d81b60, #f7b3cc);
+  box-shadow: 0 12px 30px rgba(216, 27, 96, 0.28);
+}
+
+.bday-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
+  display: block;
+  background: #fff;
+}
+
+.bday-role {
+  margin: 0;
+  font-weight: 800;
+  color: #a80c5c;
+}
+
+.bday-card p {
+  margin: 0.7rem auto 0;
+  max-width: 32rem;
+  font-weight: 650;
+  line-height: 1.55;
+  color: rgba(52, 18, 31, 0.78);
+}
+
+.bday-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.15rem;
+}
+
+.bday-actions a,
+.bday-actions button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1.15rem;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bday-actions a {
+  background: #d81b60;
+  color: #fff;
+}
+
+.bday-actions button {
+  background: #fde8f0;
+  color: #a80c5c;
+}
+
+@keyframes bday-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(220deg);
+    opacity: 0.85;
+  }
+}
