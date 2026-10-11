@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import fahida from '../assets/images/users/fahidaspassport.jpg';
 import './BirthdayCelebration.css';
 
-const STORAGE_KEY = 'fahida-birthday-2026-seen';
 const CONFETTI = ['#d81b60', '#f48fb1', '#a80c5c', '#fff', '#f7b3cc', '#ffd6e7'];
 
 const isBirthdayToday = () => {
@@ -14,13 +13,10 @@ const isBirthdayToday = () => {
 function BirthdayCelebration() {
   const [open, setOpen] = useState(false);
 
-  const close = () => {
-    sessionStorage.setItem(STORAGE_KEY, '1');
-    setOpen(false);
-  };
+  const close = () => setOpen(false);
 
   useEffect(() => {
-    if (!isBirthdayToday() || sessionStorage.getItem(STORAGE_KEY)) return;
+    if (!isBirthdayToday()) return;
     setOpen(true);
   }, []);
 

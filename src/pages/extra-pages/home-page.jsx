@@ -5,6 +5,7 @@ import { API_CONFIG } from '../../config/api';
 import heroPets from '../../assets/hero-pets.jpg';
 import HavenSiteHeader from 'components/HavenSiteHeader';
 import HavenSiteFooter from 'components/HavenSiteFooter';
+import BirthdayCelebration from 'components/BirthdayCelebration';
 import './home-landing.css';
 
 function HomePage() {
@@ -42,6 +43,7 @@ function HomePage() {
 
   return (
     <div className="haven-home">
+      <BirthdayCelebration />
       <HavenSiteHeader standalone={false} />
 
       <section className="hh-wrap hh-hero">
